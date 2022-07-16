@@ -6,20 +6,34 @@ import { Provider } from 'react-redux';
 import { AuthContextProvider } from './store/authContext';
 import './index.css';
 import '@fontsource/mulish';
-import * as ReactDOM from 'react-dom/client';
 import DiningRoomTheme from './themes/DiningRoomTheme.js';
 
-const container = document.getElementById('root');
-const root = ReactDOM.createRoot(container);
+// Esta forma de render produce flickering en los markers del mapa cuando se hace drag
 
-root.render(
+//import * as ReactDOM from 'react-dom/client';
+
+// const container = document.getElementById('root');
+// const root = ReactDOM.createRoot(container);
+
+// root.render(
+//   <AuthContextProvider>
+//       <Provider store={ store } >
+//         <ChakraProvider theme={ DiningRoomTheme }>
+//             <App />
+//         </ChakraProvider>
+//       </Provider>
+//   </AuthContextProvider>
+// );
+
+import ReactDOM from 'react-dom';
+
+ReactDOM.render(
   <AuthContextProvider>
-      <Provider store={ store } >
-        <ChakraProvider theme={ DiningRoomTheme }>
-            <App />
-        </ChakraProvider>
-      </Provider>
-  </AuthContextProvider>
+    <Provider store={store}>
+      <ChakraProvider theme={DiningRoomTheme}>
+        <App />
+      </ChakraProvider>
+    </Provider>
+  </AuthContextProvider>,
+  document.querySelector('#root')
 );
-
-
