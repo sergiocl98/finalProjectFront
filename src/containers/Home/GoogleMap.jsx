@@ -129,7 +129,7 @@ const GoogleMap = ({ setSelectedSite }) => {
               bounds.nw.lat,
             ]);
           }}
-          onClick={(e) => setSelectedSite(undefined)}
+          onClick={e => setSelectedSite(undefined)}
           defaultZoom={15}
           bootstrapURLKeys={{ key: apikey }}
           options={mapStyles}
@@ -168,15 +168,17 @@ const GoogleMap = ({ setSelectedSite }) => {
               />
             );
           })}
-          {zoom > 12 && <Marker
-            key="user"
-            lat={userLocation.lat}
-            lng={userLocation.lng}
-            name="Your location"
-            setCenter={setCenter}
-            setZoom={setZoom}
-            icon="user"
-          />}
+          {zoom > 12 && (
+            <Marker
+              key="user"
+              lat={userLocation.lat}
+              lng={userLocation.lng}
+              name="Your location"
+              setCenter={setCenter}
+              setZoom={setZoom}
+              icon="user"
+            />
+          )}
         </GoogleMapReact>
       )}
     </>

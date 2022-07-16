@@ -2,6 +2,16 @@ import { Box, Button, Collapse, Flex, Heading, Text } from '@chakra-ui/react';
 import { NavigationArrow } from 'phosphor-react';
 import React, { useEffect, useState } from 'react';
 
+import { NavLink } from 'react-router-dom';
+
+
+const handleGetDirections = (siteData) => {
+  //link para visitar ese sitio en google maps
+  window.open(
+    `https://www.google.com/maps/dir//${siteData.coords.lat},${siteData.coords.lng}/?travelmode=walking`,
+    '_blank'
+  );
+};
 const getSiteData = id => {
   return {
     id: 0,
@@ -22,13 +32,7 @@ const Tarjeta = ({ setSelectedSite, selectedSite }) => {
     setSiteData(() => getSiteData(selectedSite));
   }, [selectedSite]);
 
-  const handleGetDirections = e => {
-    //link para visitar ese sitio en google maps
-    window.open(
-      `https://www.google.com/maps/dir//${siteData.coords.lat},${siteData.coords.lng}/?travelmode=walking`,
-      '_blank'
-    );
-  };
+
 
   const handleBooking = e => {
     console.log('Redirecting to booking');
@@ -47,7 +51,11 @@ const Tarjeta = ({ setSelectedSite, selectedSite }) => {
           </Button>
         </Flex>
         <Box display="inline-block" cursor={'pointer'}>
-          <Flex w={'auto'} alignItems="center" onClick={handleGetDirections}>
+          <Flex
+            w={'auto'}
+            alignItems="center"
+            onClick={() => handleGetDirections(siteData)}
+          >
             <Text>{siteData.address}</Text>
             <NavigationArrow size={32} weight="fill" />
           </Flex>
@@ -61,8 +69,8 @@ const Tarjeta = ({ setSelectedSite, selectedSite }) => {
         </Text>
         <Flex justifyContent={'space-between'}>
           <Button
-            as={'a'}
-            href={`/detail/${siteData.id}`}
+            as={NavLink}
+            to={`/detail/${siteData.id}`}
             bgColor="brand.secondary"
             color="white"
           >

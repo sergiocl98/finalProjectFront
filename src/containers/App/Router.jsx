@@ -1,13 +1,13 @@
 import { Box } from '@chakra-ui/react';
 import React from 'react';
 import { Routes, Route, Navigate, } from 'react-router-dom';
-import { useToggle } from '../../hooks/useToggle';
 import userService from '../../services/userService';
 import HandleRoute from './HandleRoute';
 import Layout from '../Layout/Layout';
 import Login from '../Login/Login.jsx';
 import Home from '../Home/Home';
 import Profile from '../Profile/Profile';
+import Detail from '../Detail/Detail';
 
 const RoleRoute = ({ component: ComponentRouter, roles }) => {
   const userRoles = userService.getRoles();
@@ -28,6 +28,7 @@ const WrapperRoutesLayout = () => {
           {/* Loans routes */}
           {/* <Route path='/loans' element={ <RoleRoute component={ <Loans /> } roles={ [] } /> } /> */}
           <Route path='/profile' element={ <RoleRoute component={ <Profile /> } roles={ [] } /> } />
+          <Route path='/detail/:id' element={ <RoleRoute component={ <Detail /> } roles={ [] } /> } />
 
 
           {/* Default routes */}

@@ -8,11 +8,6 @@ import HeaderPage from '../../components/HeaderPage/HeaderPage';
 
 const Home = () => {
   const [selectedSite, setSelectedSite] = useState(undefined);
-  /**
-   * Gets the physical user location to center the map
-   * If the user denies permission uses the first point
-   * in the array of markers
-   */
 
   return (
     <Grid 
