@@ -66,7 +66,7 @@ const MARKERS = [
 ];
 
 // Google maps API KEY
-const apikey = "AIzaSyBX0TpEhck6NtN8fwQ17TzYHjN_gaD6DPA";//process.env.REACT_APP_API_KEY || '';
+const apikey = "";//process.env.REACT_APP_API_KEY || '';
 
 // GeoJSON points
 const GeoJSONPoints = parseToGeoJSON(MARKERS);
