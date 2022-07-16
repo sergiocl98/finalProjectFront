@@ -66,7 +66,7 @@ const MARKERS = [
 ];
 
 // Google maps API KEY
-const apikey = "";//process.env.REACT_APP_API_KEY || '';
+const apikey = "AIzaSyBX0TpEhck6NtN8fwQ17TzYHjN_gaD6DPA";//process.env.REACT_APP_API_KEY || '';
 
 // GeoJSON points
 const GeoJSONPoints = parseToGeoJSON(MARKERS);
@@ -80,7 +80,7 @@ const GoogleMap = () => {
     points: GeoJSONPoints,
     bounds,
     zoom,
-    options: { radius: 150, maxZoom: 20 },
+    options: { radius: 50, maxZoom: 20 },
   });
 
   const [userPermission, setUserPermission] = useState('pending'); // controls whether the user has accepted location permissions
@@ -136,6 +136,15 @@ const GoogleMap = () => {
           center={center}
           zoom={zoom}
         >
+        <Marker
+          key="user"
+          lat={userLocation.lat}
+          lng={userLocation.lng}
+          name="Your location"
+          setCenter={setCenter}
+          setZoom={setZoom}
+          icon="user"
+        />
           {clusters.map(cluster => {
             const [longitude, latitude] = cluster.geometry.coordinates;
             const { cluster: isCluster, point_count: pointCount } =
@@ -149,6 +158,7 @@ const GoogleMap = () => {
                   name={pointCount}
                   setCenter={setCenter}
                   setZoom={() => setZoom(oldZoom => oldZoom + 1)}
+                  icon="cluster"
                 />
               );
             }
@@ -160,6 +170,7 @@ const GoogleMap = () => {
                 name={cluster.properties.name}
                 setCenter={setCenter}
                 setZoom={setZoom}
+                icon="restaurant"
               />
             );
           })}
