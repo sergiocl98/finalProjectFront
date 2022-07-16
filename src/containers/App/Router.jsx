@@ -7,6 +7,7 @@ import HandleRoute from './HandleRoute';
 import Layout from '../Layout/Layout';
 import Login from '../Login/Login.jsx';
 import Home from '../Home/Home';
+import Profile from '../Profile/Profile';
 
 const RoleRoute = ({ component: ComponentRouter, roles }) => {
   const userRoles = userService.getRoles();
@@ -15,18 +16,18 @@ const RoleRoute = ({ component: ComponentRouter, roles }) => {
 };
 
 const WrapperRoutesLayout = () => {
-  const [ sidebarShow, setSidebarShow ] = useToggle(true);
   
   return (
     <div>
-      <Layout sidebarShow={ sidebarShow } setSidebarShow={ setSidebarShow } />
-      <Box pl={ sidebarShow ? '270px' : {base:'20px', sm:'110px'} } pr='30px' pt='90px' pb='40px' w='100%' minH='100vh' h='calc(100vh - 130px)' transition='padding-left 0.3s' bg='background' overflowX='hidden'>
+      <Layout  />
+      <Box pl='30px' pr='30px' pt='90px' pb='40px' w='100%' minH='100vh' h='calc(100vh - 130px)' transition='padding-left 0.3s' bg='background' overflowX='hidden'>
         <Routes>
           {/* Ho route */}
           <Route path='/home' element={ <Home /> } />
           
           {/* Loans routes */}
           {/* <Route path='/loans' element={ <RoleRoute component={ <Loans /> } roles={ [] } /> } /> */}
+          <Route path='/profile' element={ <RoleRoute component={ <Profile /> } roles={ [] } /> } />
 
 
           {/* Default routes */}
