@@ -20,7 +20,7 @@ const WrapperRoutesLayout = () => {
   return (
     <div>
       <Layout  />
-      <Box pl='30px' pr='30px' pt='90px' pb='40px' w='100%' minH='100vh' h='calc(100vh - 130px)' transition='padding-left 0.3s' bg='background' overflow='hidden'>
+      <Box pl='30px' pr='30px' pt='90px' pb='40px' w='100%' minH='100vh' h='calc(100vh - 130px)' transition='padding-left 0.3s' bg='background' overflowX='hidden'>
         <Routes>
           {/* Ho route */}
           <Route path='/home' element={ <Home /> } />

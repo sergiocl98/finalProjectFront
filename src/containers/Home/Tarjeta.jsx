@@ -1,18 +1,27 @@
 import { Box, Button, Collapse, Flex, Heading, Text } from '@chakra-ui/react';
 import { NavigationArrow } from 'phosphor-react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-const Tarjeta = ({ showCard, siteData }) => {
-  siteData = {
+const getSiteData = id => {
+  return {
     id: 0,
     name: 'Awesome Restaurant',
-    adress: 'Awesome Street',
+    address: 'Awesome Street',
     coords: {
       lat: 38.34,
       lng: -0.49,
     },
     availableTables: 3,
   };
+};
+
+const Tarjeta = ({ setSelectedSite, selectedSite }) => {
+  const [siteData, setSiteData] = useState({});
+
+  useEffect(() => {
+    setSiteData(() => getSiteData(selectedSite));
+  }, [selectedSite]);
+
   const handleGetDirections = e => {
     //link para visitar ese sitio en google maps
     window.open(
@@ -22,20 +31,32 @@ const Tarjeta = ({ showCard, siteData }) => {
   };
 
   const handleBooking = e => {
-    console.log('!');
+    console.log('Redirecting to booking');
   };
 
   return (
-    <Collapse in={showCard} startingHeight={0}>
-      <Box overflow={'hidden'}>
-        <Heading>{siteData.name}</Heading>
-        <Flex alignItems="center" onClick={handleGetDirections}>
-          <Text>{siteData.adress}</Text>
-          <NavigationArrow size={32} weight="fill" />
+    <Collapse id="tarjeta" in={selectedSite !== undefined} startingHeight={0}>
+      <Box overflow={'hidden'} mt="1rem" mb="1rem">
+        <Flex justifyContent={'space-between'}>
+          <Heading>{siteData.name}</Heading>
+          <Button
+            bgColor="brand.primary"
+            onClick={e => setSelectedSite(undefined)}
+          >
+            X
+          </Button>
         </Flex>
+        <Box display="inline-block" cursor={'pointer'}>
+          <Flex w={'auto'} alignItems="center" onClick={handleGetDirections}>
+            <Text>{siteData.address}</Text>
+            <NavigationArrow size={32} weight="fill" />
+          </Flex>
+        </Box>
         <Text mb="2rem" mt="1rem">
           {siteData.availableTables > 0
-            ? `We have ${siteData.availableTables} free table${siteData.availableTables > 1 ? 's' : ''}!`
+            ? `We have ${siteData.availableTables} free table${
+                siteData.availableTables > 1 ? 's' : ''
+              }!`
             : 'Sorry, here is no tables available'}
         </Text>
         <Flex justifyContent={'space-between'}>
