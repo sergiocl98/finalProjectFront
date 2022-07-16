@@ -15,7 +15,7 @@ const getSiteData = id => {
   };
 };
 
-const Tarjeta = ({ selectedSite }) => {
+const Tarjeta = ({ setSelectedSite, selectedSite }) => {
   const [siteData, setSiteData] = useState({});
 
   useEffect(() => {
@@ -31,17 +31,27 @@ const Tarjeta = ({ selectedSite }) => {
   };
 
   const handleBooking = e => {
-    console.log('!');
+    console.log('Redirecting to booking');
   };
 
   return (
-    <Collapse in={selectedSite !== null} startingHeight={0}>
-      <Box overflow={'hidden'}>
-        <Heading>{siteData.name}</Heading>
-        <Flex alignItems="center" onClick={handleGetDirections}>
-          <Text>{siteData.address}</Text>
-          <NavigationArrow size={32} weight="fill" />
+    <Collapse id="tarjeta" in={selectedSite !== undefined} startingHeight={0}>
+      <Box overflow={'hidden'} mt="1rem" mb="1rem">
+        <Flex justifyContent={'space-between'}>
+          <Heading>{siteData.name}</Heading>
+          <Button
+            bgColor="brand.primary"
+            onClick={e => setSelectedSite(undefined)}
+          >
+            X
+          </Button>
         </Flex>
+        <Box display="inline-block" cursor={'pointer'}>
+          <Flex w={'auto'} alignItems="center" onClick={handleGetDirections}>
+            <Text>{siteData.address}</Text>
+            <NavigationArrow size={32} weight="fill" />
+          </Flex>
+        </Box>
         <Text mb="2rem" mt="1rem">
           {siteData.availableTables > 0
             ? `We have ${siteData.availableTables} free table${

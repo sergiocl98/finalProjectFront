@@ -129,7 +129,7 @@ const GoogleMap = ({ setSelectedSite }) => {
               bounds.nw.lat,
             ]);
           }}
-          onClick={(e) => setSelectedSite(null)}
+          onClick={(e) => setSelectedSite(undefined)}
           defaultZoom={15}
           bootstrapURLKeys={{ key: apikey }}
           options={mapStyles}

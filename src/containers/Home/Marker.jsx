@@ -44,12 +44,9 @@ const Marker = ({
     setCenter({ lat, lng });
     setZoom(() => 20);
     setTimeout(() => setCenter({}), 1000);
-    if (id) setSelectedSite(id);
-    // link para visitar ese sitio en google maps
-    // window.open(
-    //   `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`,
-    //   "_blank"
-    // );
+    if (id !== undefined) {
+      setSelectedSite(id);
+    }
     e.stopPropagation();
   };
   return (
@@ -67,12 +64,14 @@ const Marker = ({
     >
       <Popover>
         <PopoverTrigger>{renderIcon(icon, name)}</PopoverTrigger>
-        <PopoverContent>
-          <PopoverArrow />
-          <PopoverCloseButton />
-          <PopoverHeader>{name}</PopoverHeader>
-          {/* <PopoverBody>Are you sure you want to have that milkshake?</PopoverBody> */}
-        </PopoverContent>
+        {id !== undefined && (
+          <PopoverContent onClick={e => e.stopPropagation()}>
+            <PopoverArrow />
+            <PopoverCloseButton />
+            <PopoverHeader>{name}</PopoverHeader>
+            {/* <PopoverBody>Are you sure you want to have that milkshake?</PopoverBody> */}
+          </PopoverContent>
+        )}
       </Popover>
     </Box>
   );
