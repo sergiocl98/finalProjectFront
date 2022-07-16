@@ -66,12 +66,12 @@ const MARKERS = [
 ];
 
 // Google maps API KEY
-const apikey = "";//process.env.REACT_APP_API_KEY || '';
+const apikey = ''; //process.env.REACT_APP_API_KEY || '';
 
 // GeoJSON points
 const GeoJSONPoints = parseToGeoJSON(MARKERS);
 
-const GoogleMap = () => {
+const GoogleMap = ({ setSelectedSite }) => {
   const [bounds, setBounds] = useState(null);
   const [zoom, setZoom] = useState(15);
   const [center, setCenter] = useState({});
@@ -129,6 +129,7 @@ const GoogleMap = () => {
               bounds.nw.lat,
             ]);
           }}
+          onClick={(e) => setSelectedSite(null)}
           defaultZoom={15}
           bootstrapURLKeys={{ key: apikey }}
           options={mapStyles}
@@ -136,15 +137,6 @@ const GoogleMap = () => {
           center={center}
           zoom={zoom}
         >
-        <Marker
-          key="user"
-          lat={userLocation.lat}
-          lng={userLocation.lng}
-          name="Your location"
-          setCenter={setCenter}
-          setZoom={setZoom}
-          icon="user"
-        />
           {clusters.map(cluster => {
             const [longitude, latitude] = cluster.geometry.coordinates;
             const { cluster: isCluster, point_count: pointCount } =
@@ -164,6 +156,7 @@ const GoogleMap = () => {
             }
             return (
               <Marker
+                id={cluster.properties.id}
                 key={cluster.properties.id}
                 lat={latitude}
                 lng={longitude}
@@ -171,9 +164,19 @@ const GoogleMap = () => {
                 setCenter={setCenter}
                 setZoom={setZoom}
                 icon="restaurant"
+                setSelectedSite={setSelectedSite}
               />
             );
           })}
+          {zoom > 12 && <Marker
+            key="user"
+            lat={userLocation.lat}
+            lng={userLocation.lng}
+            name="Your location"
+            setCenter={setCenter}
+            setZoom={setZoom}
+            icon="user"
+          />}
         </GoogleMapReact>
       )}
     </>

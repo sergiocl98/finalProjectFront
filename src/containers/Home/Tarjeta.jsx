@@ -1,18 +1,27 @@
 import { Box, Button, Collapse, Flex, Heading, Text } from '@chakra-ui/react';
 import { NavigationArrow } from 'phosphor-react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-const Tarjeta = ({ showCard, siteData }) => {
-  siteData = {
+const getSiteData = id => {
+  return {
     id: 0,
     name: 'Awesome Restaurant',
-    adress: 'Awesome Street',
+    address: 'Awesome Street',
     coords: {
       lat: 38.34,
       lng: -0.49,
     },
     availableTables: 3,
   };
+};
+
+const Tarjeta = ({ selectedSite }) => {
+  const [siteData, setSiteData] = useState({});
+
+  useEffect(() => {
+    setSiteData(() => getSiteData(selectedSite));
+  }, [selectedSite]);
+
   const handleGetDirections = e => {
     //link para visitar ese sitio en google maps
     window.open(
@@ -26,16 +35,18 @@ const Tarjeta = ({ showCard, siteData }) => {
   };
 
   return (
-    <Collapse in={showCard} startingHeight={0}>
+    <Collapse in={selectedSite !== null} startingHeight={0}>
       <Box overflow={'hidden'}>
         <Heading>{siteData.name}</Heading>
         <Flex alignItems="center" onClick={handleGetDirections}>
-          <Text>{siteData.adress}</Text>
+          <Text>{siteData.address}</Text>
           <NavigationArrow size={32} weight="fill" />
         </Flex>
         <Text mb="2rem" mt="1rem">
           {siteData.availableTables > 0
-            ? `We have ${siteData.availableTables} free table${siteData.availableTables > 1 ? 's' : ''}!`
+            ? `We have ${siteData.availableTables} free table${
+                siteData.availableTables > 1 ? 's' : ''
+              }!`
             : 'Sorry, here is no tables available'}
         </Text>
         <Flex justifyContent={'space-between'}>
