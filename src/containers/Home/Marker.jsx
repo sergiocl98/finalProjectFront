@@ -7,6 +7,11 @@ const Marker = ({ name, lat, lng, $hover, setCenter, setZoom }) => {
     setCenter({ lat, lng });
     setZoom(() => 20);
     setTimeout(() => setCenter({}), 1000);
+    // link para visitar ese sitio en google maps
+    // window.open(
+    //   `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`,
+    //   "_blank"
+    // );
     e.stopPropagation();
   };
   return (
