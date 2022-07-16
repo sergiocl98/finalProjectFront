@@ -1,11 +1,13 @@
 import React from 'react';
 
-import { Box } from '@chakra-ui/react';
+import { Box, Button } from '@chakra-ui/react';
 
 import GoogleMap from './GoogleMap';
 import Tarjeta from './Tarjeta';
+import { useToggle } from '../../hooks/useToggle';
 
 const Home = () => {
+  const [showCard, toggleShowCard] = useToggle();
   /**
    * Gets the physical user location to center the map
    * If the user denies permission uses the first point
@@ -17,7 +19,8 @@ const Home = () => {
       <Box gridRow="1/2">
         <GoogleMap />
       </Box>
-      <Tarjeta />
+      <Button onClick={toggleShowCard}>Show Card</Button>
+      <Tarjeta showCard={showCard} />
     </Box>
   );
 };
