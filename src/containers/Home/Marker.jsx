@@ -1,7 +1,22 @@
-import { Box } from '@chakra-ui/react';
+import { Box, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger,Tag, TagLabel } from '@chakra-ui/react';
+import { MapPin, Person } from 'phosphor-react';
 import React from 'react';
 
-const Marker = ({ name, lat, lng, $hover, setCenter, setZoom }) => {
+const renderIcon = (icon, name) => {
+  const ICONS={
+    user: <Person size={48} color="#ffc800" weight="fill" />,
+    restaurant: <MapPin size={48} color="#ff0000" weight="fill" />,
+    cluster: <Tag size='lg' colorScheme="red" borderRadius='full'>
+              <TagLabel>{name}</TagLabel>
+              <MapPin size={32} color="#ff0000" weight="fill" />
+            </Tag>
+  }
+
+  return ICONS[icon];
+}
+
+
+const Marker = ({ name, lat, lng, $hover, setCenter, setZoom, icon }) => {
   const handleClick = e => {
     e.preventDefault();
     setCenter({ lat, lng });
@@ -25,15 +40,22 @@ const Marker = ({ name, lat, lng, $hover, setCenter, setZoom }) => {
       w="4rem"
       transform="translate(-50%, -50%)"
       borderRadius="50%"
-      color="white"
-      bgColor={$hover ? 'brand.primary' : 'brand.secondary'}
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
       cursor="pointer"
     >
-      {name}
+      <Popover>
+      <PopoverTrigger>
+        {renderIcon(icon, name)}
+      </PopoverTrigger>
+      <PopoverContent>
+        <PopoverArrow />
+        <PopoverCloseButton />
+        <PopoverHeader>{name}</PopoverHeader>
+        {/* <PopoverBody>Are you sure you want to have that milkshake?</PopoverBody> */}
+      </PopoverContent>
+    </Popover>
     </Box>
+
+    
   );
 };
 
