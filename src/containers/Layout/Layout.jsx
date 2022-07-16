@@ -1,6 +1,5 @@
 import React from 'react';
 import Topbar from './Topbar/Topbar';
-import Sidebar from './Sidebar/Sidebar';
 import { Box, Fade } from '@chakra-ui/react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
@@ -12,12 +11,11 @@ const withRouter = Component => props => {
   return <Component location={ location } match={ match } history={ history } { ...props } />;
 };
 
-const Layout = ({sidebarShow, setSidebarShow}) => {
+const Layout = () => {
   return (
     <Box data-testid='layout'>
       <Fade in={ true }>
-        <Topbar changeSidebarVisibility={ setSidebarShow } />
-        <Sidebar sidebarShow={ sidebarShow } />
+        <Topbar />
       </Fade>
     </Box>
   );
