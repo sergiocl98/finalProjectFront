@@ -1,19 +1,77 @@
-import { Avatar, Box, Text } from '@chakra-ui/react'
+import { Avatar, Box, Fade, Grid, Tab, Tabs, TabList, TabPanel, TabPanels, Text } from '@chakra-ui/react'
 import React from 'react'
+import { useEffect } from 'react';
+import { useState } from 'react';
+import HeaderPage from '../../components/HeaderPage/HeaderPage';
 import userService from '../../services/userService'
+import ProfileTabOne from './ProfileTabOne';
 
 const Profile = () => {
 
     const user = userService.getUser();
+    const [tabIndex, setTabIndex] = useState(0);
+    const [maxTabIndex, setMaxTabIndex] = useState(0);
+    const [optionsTabs, setOptionsTabs] = useState([
+    {
+      idx: 0,
+      number: '01',
+      title: 'General information',
+    },
+    {
+      idx: 1,
+      number: '02',
+      title: 'Last ordereds',
+    },
+  ]);
+
+  useEffect(()=>{
+    if (maxTabIndex < tabIndex) setMaxTabIndex(tabIndex);
+  },[tabIndex]);
 
   return (
-    <Box w='100%' h='100%' bgColor='white' borderRadius='20px' p='20px'>
-        <Avatar size='2xl' name={user?.name} src={user?.image} m='50px' />
+    <Box data-testid='container_loans_form' h='calc(100vh - 130px)'>
+      <Fade in={ true } style={ { height:'100%'} }>
+        <HeaderPage
+          title={ "My profile" } 
+          description={ "Interact with your data profile" }
+          hasGoBack 
+          urlBack={ '/home' }
+        />
+      
+        <Grid templateColumns='auto' gap='2%' h='calc(100% - 25px)'>
+          <Box bgColor='white' minH='100%' h='100%'>
+            <Tabs isFitted  isLazy variant='information' index={ tabIndex } onChange={ (index) => setTabIndex(index) } position='relative' h='100%'>
+              <TabList justifyContent='space-between'>
+                {
+                  optionsTabs.map((option, index) => {
+                    return (
+                      <Tab key={ index } p='15px'  _hover={ { cursor: 'pointer' } }>
+                        <Text fontSize='16px' color={ tabIndex === option.idx ? 'brand.primary' : 'brand.gray2' } mr='10px'>
+                          { option.number }
+                        </Text>
+                        <Text fontSize='12px' color='brand.gray2'>
+                          { option.title }
+                        </Text>
+                      </Tab>
+                    );
+                  })
+                }
+              </TabList>
 
-        <Text> Perfil </Text>
-
+              <TabPanels h='calc(100% - 65px)'>
+                <TabPanel h='100%' p='0px'>
+                  <ProfileTabOne/>
+                </TabPanel>
+                <TabPanel h='100%' p='0px'>
+                  <ProfileTabOne/>
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
+          </Box>
+        </Grid>
+      </Fade>
     </Box>
-  )
-}
+  );
+};
 
 export default Profile
