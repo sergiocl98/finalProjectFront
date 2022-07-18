@@ -16,7 +16,6 @@ const SiteList = ({
   visibleSiteList,
   selectedSite,
   setSelectedSite,
-  calculateDistancesToViewCenter,
 }) => {
   const [inputValue, setInputValue] = useState('');
 
@@ -38,10 +37,7 @@ const SiteList = ({
       {selectedSite !== undefined ? (
         <Card
           id={selectedSite}
-          siteData={
-            siteList.find(site => site.properties.id === selectedSite)
-              .properties
-          }
+          siteData={siteList.find(site => site.properties.id === selectedSite)}
           handleSelectSite={handleSelectSite}
         />
       ) : (
@@ -63,9 +59,7 @@ const SiteList = ({
               onInput={handleInput}
             ></Input>
           </InputGroup>
-          <Button w="100%" onClick={calculateDistancesToViewCenter}>
-            Update Near Places
-          </Button>
+        
           {inputValue !== '' ? (
             <ScrollList
               listItems={siteList}

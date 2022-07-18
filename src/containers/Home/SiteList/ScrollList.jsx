@@ -14,7 +14,7 @@ const ScrollList = ({ listItems, filter = '', handleSelectSite }) => {
         .map(site => (
           <ListItem key={site.properties.id}>
             <Card
-              siteData={site.properties}
+              siteData={site}
               handleSelectSite={handleSelectSite}
               canClose={false}
             />

@@ -118,6 +118,7 @@ const Home = () => {
     const newSiteList = parseToGeoJSON(sites, viewCenter).sort(
       (a, b) => a.properties.distToViewCenter - b.properties.distToViewCenter
     );
+
     setSiteList(() => newSiteList);
 
     setVisibleSiteList(() =>
@@ -129,7 +130,7 @@ const Home = () => {
 
   useEffect(() => {
     calculateDistancesToViewCenter();
-  }, [userLocation, sites]);
+  }, [viewCenter, userLocation, sites]);
 
   return (
     <Grid
@@ -168,7 +169,8 @@ const Home = () => {
           <GoogleMap
             selectedSite={selectedSite}
             setSelectedSite={setSelectedSite}
-            siteList={visibleSiteList}
+            visibleSiteList={visibleSiteList}
+            siteList={siteList}
             zoom={zoom}
             setZoom={setZoom}
             bounds={bounds}
@@ -195,7 +197,6 @@ const Home = () => {
           visibleSiteList={visibleSiteList}
           selectedSite={selectedSite}
           setSelectedSite={setSelectedSite}
-          calculateDistancesToViewCenter={calculateDistancesToViewCenter}
         />
       </GridItem>
     </Grid>

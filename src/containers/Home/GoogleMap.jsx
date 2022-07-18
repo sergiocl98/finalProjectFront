@@ -42,6 +42,7 @@ const GoogleMap = ({
   selectedSite,
   setSelectedSite,
   siteList,
+  visibleSiteList,
   zoom,
   bounds,
   userLocation,
@@ -53,7 +54,7 @@ const GoogleMap = ({
   setViewCenter,
 }) => {
   const { clusters } = useSupercluster({
-    points: siteList,
+    points: visibleSiteList,
     bounds,
     zoom,
     options: { radius: 50, maxZoom: 20 },
@@ -93,6 +94,10 @@ const GoogleMap = ({
     if (!selectedSiteData) return;
 
     setCenter({
+      lng: selectedSiteData.geometry.coordinates[0],
+      lat: selectedSiteData.geometry.coordinates[1],
+    });
+    setViewCenter({
       lng: selectedSiteData.geometry.coordinates[0],
       lat: selectedSiteData.geometry.coordinates[1],
     });
