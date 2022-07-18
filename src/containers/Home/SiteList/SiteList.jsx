@@ -1,17 +1,23 @@
 import React, { useState } from 'react';
-import Tarjeta from './Tarjeta';
+import Card from './Card';
 import {
   Box,
+  Button,
   Input,
   InputGroup,
   InputLeftElement,
   InputRightElement,
-  List,
-  ListItem,
 } from '@chakra-ui/react';
 import { MagnifyingGlass, X } from 'phosphor-react';
+import ScrollList from './ScrollList';
 
-const SiteList = ({ siteList, selectedSite, setSelectedSite }) => {
+const SiteList = ({
+  siteList,
+  visibleSiteList,
+  selectedSite,
+  setSelectedSite,
+  calculateDistancesToViewCenter,
+}) => {
   const [inputValue, setInputValue] = useState('');
 
   const handleInput = e => {
@@ -30,7 +36,7 @@ const SiteList = ({ siteList, selectedSite, setSelectedSite }) => {
   return (
     <Box h="100%">
       {selectedSite !== undefined ? (
-        <Tarjeta
+        <Card
           id={selectedSite}
           siteData={
             siteList.find(site => site.properties.id === selectedSite)
@@ -57,31 +63,21 @@ const SiteList = ({ siteList, selectedSite, setSelectedSite }) => {
               onInput={handleInput}
             ></Input>
           </InputGroup>
-          <List h="100%" overflowY={'scroll'}>
-            {siteList
-              .filter(
-                site =>
-                  site.properties.name
-                    .toLowerCase()
-                    .includes(inputValue.toLowerCase()) ||
-                  site.properties.address
-                    .toLowerCase()
-                    .includes(inputValue.toLowerCase())
-              )
-              .sort((a, b) => {
-                return a.properties.distToUser - b.properties.distToUser;
-              })
-              .slice(0, 50)
-              .map(site => (
-                <ListItem key={site.properties.id}>
-                  <Tarjeta
-                    siteData={site.properties}
-                    handleSelectSite={handleSelectSite}
-                    canClose={false}
-                  />
-                </ListItem>
-              ))}
-          </List>
+          <Button w="100%" onClick={calculateDistancesToViewCenter}>
+            Update Near Places
+          </Button>
+          {inputValue !== '' ? (
+            <ScrollList
+              listItems={siteList}
+              filter={inputValue}
+              handleSelectSite={handleSelectSite}
+            />
+          ) : (
+            <ScrollList
+              listItems={visibleSiteList}
+              handleSelectSite={handleSelectSite}
+            />
+          )}
         </>
       )}
     </Box>

@@ -12,7 +12,7 @@ const handleGetDirections = siteData => {
   );
 };
 
-const Tarjeta = ({ siteData, handleSelectSite, canClose = true }) => {
+const Card = ({ siteData, handleSelectSite, canClose = true }) => {
   const handleBooking = e => {
     console.log('Redirecting to booking');
   };
@@ -67,4 +67,4 @@ const Tarjeta = ({ siteData, handleSelectSite, canClose = true }) => {
   );
 };
 
-export default Tarjeta;
+export default Card;

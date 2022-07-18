@@ -4,51 +4,52 @@ import { Box, Grid, GridItem } from '@chakra-ui/react';
 
 import GoogleMap from './GoogleMap';
 import HeaderPage from '../../components/HeaderPage/HeaderPage';
-import SiteList from './SiteList';
+import SiteList from './SiteList/SiteList';
+import sites from './data.js';
 
 // Points to draw, should be substituted by the retrieved from the API
-const sites = [
-  {
-    id: 0,
-    address: 'Madrid',
-    name: 'Sitio Genial',
-    availableTables: 1,
-    lat: 40.41,
-    lng: -3.71,
-  },
-  {
-    id: 1,
-    address: 'Vigo',
-    name: 'El sitio',
-    availableTables: 3,
-    lat: 42.23,
-    lng: -8.71,
-  },
-  {
-    id: 2,
-    address: 'Alicante',
-    name: 'El centro',
-    availableTables: 2,
-    lat: 38.34,
-    lng: -0.49,
-  },
-  {
-    id: 3,
-    address: 'Alicante',
-    name: 'El local',
-    availableTables: 0,
-    lat: 38.36,
-    lng: -0.49,
-  },
-  {
-    id: 4,
-    address: 'Alicante',
-    name: 'La uni',
-    availableTables: 4,
-    lat: 38.38,
-    lng: -0.51,
-  },
-];
+// const sites = [
+//   {
+//     id: 0,
+//     address: 'Madrid',
+//     name: 'Sitio Genial',
+//     availableTables: 1,
+//     lat: 40.41,
+//     lng: -3.71,
+//   },
+//   {
+//     id: 1,
+//     address: 'Vigo',
+//     name: 'El sitio',
+//     availableTables: 3,
+//     lat: 42.23,
+//     lng: -8.71,
+//   },
+//   {
+//     id: 2,
+//     address: 'Alicante',
+//     name: 'El centro',
+//     availableTables: 2,
+//     lat: 38.34,
+//     lng: -0.49,
+//   },
+//   {
+//     id: 3,
+//     address: 'Alicante',
+//     name: 'El local',
+//     availableTables: 0,
+//     lat: 38.36,
+//     lng: -0.49,
+//   },
+//   {
+//     id: 4,
+//     address: 'Alicante',
+//     name: 'La uni',
+//     availableTables: 4,
+//     lat: 38.38,
+//     lng: -0.51,
+//   },
+// ];
 
 /**
  * Converts an array of objects with name, lat and lng properties into an array
@@ -57,7 +58,7 @@ const sites = [
  * @param {*} arr Array of markers with properties name, lat and lng
  * @returns Array of GeoJSON elements from the provided points
  */
-const parseToGeoJSON = (arr, userLocation) => {
+const parseToGeoJSON = (arr, viewCenter) => {
   return arr.map(point => {
     return {
       type: 'Feature',
@@ -67,9 +68,9 @@ const parseToGeoJSON = (arr, userLocation) => {
         address: point.address,
         availableTables: point.availableTables,
         cluster: false,
-        distToUser: calculateDistanceBetweenCoords(
+        distToViewCenter: calculateDistanceBetweenCoords(
           { lng: point.lng, lat: point.lat },
-          userLocation
+          viewCenter
         ),
       },
       geometry: { type: 'Point', coordinates: [point.lng, point.lat] },
@@ -105,12 +106,29 @@ const Home = () => {
   const [siteList, setSiteList] = useState(parseToGeoJSON(sites, userLocation));
   const [selectedSite, setSelectedSite] = useState(undefined);
 
+  const [visibleSiteList, setVisibleSiteList] = useState([]);
+
   // map variables
   const [bounds, setBounds] = useState(null);
   const [zoom, setZoom] = useState(15);
+  const [center, setCenter] = useState({});
+  const [viewCenter, setViewCenter] = useState({});
+
+  const calculateDistancesToViewCenter = () => {
+    const newSiteList = parseToGeoJSON(sites, viewCenter).sort(
+      (a, b) => a.properties.distToViewCenter - b.properties.distToViewCenter
+    );
+    setSiteList(() => newSiteList);
+
+    setVisibleSiteList(() =>
+      newSiteList
+        .filter(site => site.properties.distToViewCenter <= 1000)
+        .slice(0, 25)
+    );
+  };
 
   useEffect(() => {
-    setSiteList(parseToGeoJSON(sites, userLocation));
+    calculateDistancesToViewCenter();
   }, [userLocation, sites]);
 
   return (
@@ -146,17 +164,20 @@ const Home = () => {
           md: 'calc(100vh - 225px)',
         }}
       >
-        <Box gridRow="2/3" h="100%">
+        <Box gridRow="2/3" h="100%" pos="relative">
           <GoogleMap
             selectedSite={selectedSite}
             setSelectedSite={setSelectedSite}
-            siteList={siteList}
+            siteList={visibleSiteList}
             zoom={zoom}
             setZoom={setZoom}
             bounds={bounds}
             setBounds={setBounds}
             userLocation={userLocation}
             setUserLocation={setUserLocation}
+            center={center}
+            setCenter={setCenter}
+            setViewCenter={setViewCenter}
           />
         </Box>
       </GridItem>
@@ -171,8 +192,10 @@ const Home = () => {
         <SiteList
           gridRow="1/2"
           siteList={siteList}
+          visibleSiteList={visibleSiteList}
           selectedSite={selectedSite}
           setSelectedSite={setSelectedSite}
+          calculateDistancesToViewCenter={calculateDistancesToViewCenter}
         />
       </GridItem>
     </Grid>
