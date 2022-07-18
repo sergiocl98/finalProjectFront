@@ -28,22 +28,9 @@ const renderIcon = (icon, name) => {
   return ICONS[icon];
 };
 
-const Marker = ({
-  id,
-  name,
-  lat,
-  lng,
-  $hover,
-  setCenter,
-  setZoom,
-  icon,
-  setSelectedSite,
-}) => {
+const Marker = ({ id, name, lat, lng, icon, setSelectedSite }) => {
   const handleClick = e => {
     e.preventDefault();
-    setCenter({ lat, lng });
-    setZoom(() => 20);
-    setTimeout(() => setCenter({}), 1000);
     if (id !== undefined) {
       setSelectedSite(id);
     }
