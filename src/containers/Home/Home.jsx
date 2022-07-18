@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { Box, Button, Grid, GridItem } from '@chakra-ui/react';
+import { Box, Grid, GridItem } from '@chakra-ui/react';
 
 import GoogleMap from './GoogleMap';
 import HeaderPage from '../../components/HeaderPage/HeaderPage';
@@ -8,11 +8,46 @@ import SiteList from './SiteList';
 
 // Points to draw, should be substituted by the retrieved from the API
 const sites = [
-  { id: 0, name: 'Madrid', lat: 40.41, lng: -3.71 },
-  { id: 1, name: 'Vigo', lat: 42.23, lng: -8.71 },
-  { id: 2, name: 'El centro', lat: 38.34, lng: -0.49 },
-  { id: 3, name: 'El local', lat: 38.36, lng: -0.49 },
-  { id: 4, name: 'La uni', lat: 38.38, lng: -0.51 },
+  {
+    id: 0,
+    address: 'Madrid',
+    name: 'Sitio Genial',
+    availableTables: 1,
+    lat: 40.41,
+    lng: -3.71,
+  },
+  {
+    id: 1,
+    address: 'Vigo',
+    name: 'El sitio',
+    availableTables: 3,
+    lat: 42.23,
+    lng: -8.71,
+  },
+  {
+    id: 2,
+    address: 'Alicante',
+    name: 'El centro',
+    availableTables: 2,
+    lat: 38.34,
+    lng: -0.49,
+  },
+  {
+    id: 3,
+    address: 'Alicante',
+    name: 'El local',
+    availableTables: 0,
+    lat: 38.36,
+    lng: -0.49,
+  },
+  {
+    id: 4,
+    address: 'Alicante',
+    name: 'La uni',
+    availableTables: 4,
+    lat: 38.38,
+    lng: -0.51,
+  },
 ];
 
 /**
@@ -22,25 +57,33 @@ const sites = [
  * @param {*} arr Array of markers with properties name, lat and lng
  * @returns Array of GeoJSON elements from the provided points
  */
-const parseToGeoJSON = arr => {
+const parseToGeoJSON = (arr, userLocation) => {
   return arr.map(point => {
     return {
       type: 'Feature',
       properties: {
-        cluster: false,
-        name: point.name,
         id: point.id,
+        name: point.name,
+        address: point.address,
+        availableTables: point.availableTables,
+        cluster: false,
+        distToUser: calculateDistanceBetweenCoords(
+          { lng: point.lng, lat: point.lat },
+          userLocation
+        ),
       },
       geometry: { type: 'Point', coordinates: [point.lng, point.lat] },
     };
   });
 };
 
-// GeoJSON points
-const GeoJSONPoints = parseToGeoJSON(sites);
-
-// sort sites by proximity
-const calculateDistaceBetweenCoords = (p1, p2) => {
+/**
+ * Calculates the distance betweent two coordinates in the format {lat:<float>, lng:<float>}
+ * @param {*} p1 coordinate 1
+ * @param {*} p2 coordinate 2
+ * @returns distance in meters
+ */
+const calculateDistanceBetweenCoords = (p1, p2) => {
   const R = 6371e3; // metres
   const φ1 = (p1.lat * Math.PI) / 180; // φ, λ in radians
   const φ2 = (p2.lat * Math.PI) / 180;
@@ -57,12 +100,18 @@ const calculateDistaceBetweenCoords = (p1, p2) => {
 };
 
 const Home = () => {
-  const [siteList, setSiteList] = useState(sites);
+  const [userLocation, setUserLocation] = useState({}); // initial center of the map, there should be stored in;
+
+  const [siteList, setSiteList] = useState(parseToGeoJSON(sites, userLocation));
   const [selectedSite, setSelectedSite] = useState(undefined);
 
   // map variables
   const [bounds, setBounds] = useState(null);
   const [zoom, setZoom] = useState(15);
+
+  useEffect(() => {
+    setSiteList(parseToGeoJSON(sites, userLocation));
+  }, [userLocation, sites]);
 
   return (
     <Grid
@@ -101,11 +150,13 @@ const Home = () => {
           <GoogleMap
             selectedSite={selectedSite}
             setSelectedSite={setSelectedSite}
-            GeoJSONPoints={GeoJSONPoints}
+            siteList={siteList}
             zoom={zoom}
             setZoom={setZoom}
             bounds={bounds}
             setBounds={setBounds}
+            userLocation={userLocation}
+            setUserLocation={setUserLocation}
           />
         </Box>
       </GridItem>

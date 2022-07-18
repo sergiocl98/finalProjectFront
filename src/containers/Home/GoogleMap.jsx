@@ -41,23 +41,24 @@ const apikey = ''; //process.env.REACT_APP_API_KEY || '';
 const GoogleMap = ({
   selectedSite,
   setSelectedSite,
-  GeoJSONPoints,
+  siteList,
   zoom,
   setZoom,
   bounds,
   setBounds,
+  userLocation,
+  setUserLocation,
 }) => {
   const [center, setCenter] = useState({});
 
   const { clusters } = useSupercluster({
-    points: GeoJSONPoints,
+    points: siteList,
     bounds,
     zoom,
     options: { radius: 50, maxZoom: 20 },
   });
 
   const [userPermission, setUserPermission] = useState('pending'); // controls whether the user has accepted location permissions
-  const [userLocation, setUserLocation] = useState({}); // initial center of the map, there should be stored in;
 
   const handleLocationPermission = e => {
     navigator.geolocation.getCurrentPosition(
@@ -80,9 +81,9 @@ const GoogleMap = ({
   };
 
   useEffect(() => {
-    console.log(GeoJSONPoints);
     if (selectedSite === undefined) return;
-    const selectedSiteData = GeoJSONPoints.find(
+
+    const selectedSiteData = siteList.find(
       p => p.properties.id === selectedSite
     );
 

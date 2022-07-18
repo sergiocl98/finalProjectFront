@@ -1,6 +1,6 @@
-import { Box, Button, Collapse, Flex, Heading, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Heading, Text } from '@chakra-ui/react';
 import { NavigationArrow } from 'phosphor-react';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import { NavLink } from 'react-router-dom';
 
@@ -11,43 +11,20 @@ const handleGetDirections = siteData => {
     '_blank'
   );
 };
-const getSiteData = id => {
-  return {
-    id: 0,
-    name: 'Awesome Restaurant',
-    address: 'Awesome Street',
-    coords: {
-      lat: 38.34,
-      lng: -0.49,
-    },
-    availableTables: 3,
-  };
-};
 
-const Tarjeta = ({ id, setSelectedSite, canClose = true }) => {
-  const [siteData, setSiteData] = useState({});
-
-  useEffect(() => {
-    setSiteData(() => getSiteData(id));
-  }, [id]);
-
+const Tarjeta = ({ siteData, handleSelectSite, canClose = true }) => {
   const handleBooking = e => {
     console.log('Redirecting to booking');
-  };
-
-  const handleTitleClick = () => {
-    setSelectedSite(id);
   };
 
   return (
     <Box overflow={'hidden'} mt="1rem" mb="1rem">
       <Flex justifyContent={'space-between'}>
-        <Heading onClick={handleTitleClick}>{siteData.name}</Heading>
+        <Heading onClick={() => handleSelectSite(siteData.id)}>
+          {siteData.name}
+        </Heading>
         {canClose && (
-          <Button
-            bgColor="brand.primary"
-            onClick={e => setSelectedSite(undefined)}
-          >
+          <Button bgColor="brand.primary" onClick={e => handleSelectSite()}>
             X
           </Button>
         )}
@@ -67,7 +44,7 @@ const Tarjeta = ({ id, setSelectedSite, canClose = true }) => {
           ? `We have ${siteData.availableTables} free table${
               siteData.availableTables > 1 ? 's' : ''
             }!`
-          : 'Sorry, here is no tables available'}
+          : 'Sorry, there are no tables available'}
       </Text>
       <Flex justifyContent={'space-between'}>
         <Button
