@@ -4,8 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 import { NavLink } from 'react-router-dom';
 
-
-const handleGetDirections = (siteData) => {
+const handleGetDirections = siteData => {
   //link para visitar ese sitio en google maps
   window.open(
     `https://www.google.com/maps/dir//${siteData.coords.lat},${siteData.coords.lng}/?travelmode=walking`,
@@ -25,67 +24,69 @@ const getSiteData = id => {
   };
 };
 
-const Tarjeta = ({ setSelectedSite, selectedSite }) => {
+const Tarjeta = ({ id, setSelectedSite, canClose = true }) => {
   const [siteData, setSiteData] = useState({});
 
   useEffect(() => {
-    setSiteData(() => getSiteData(selectedSite));
-  }, [selectedSite]);
-
-
+    setSiteData(() => getSiteData(id));
+  }, [id]);
 
   const handleBooking = e => {
     console.log('Redirecting to booking');
   };
 
+  const handleTitleClick = () => {
+    setSelectedSite(id);
+  };
+
   return (
-    <Collapse id="tarjeta" in={selectedSite !== undefined} startingHeight={0}>
-      <Box overflow={'hidden'} mt="1rem" mb="1rem">
-        <Flex justifyContent={'space-between'}>
-          <Heading>{siteData.name}</Heading>
+    <Box overflow={'hidden'} mt="1rem" mb="1rem">
+      <Flex justifyContent={'space-between'}>
+        <Heading onClick={handleTitleClick}>{siteData.name}</Heading>
+        {canClose && (
           <Button
             bgColor="brand.primary"
             onClick={e => setSelectedSite(undefined)}
           >
             X
           </Button>
-        </Flex>
-        <Box display="inline-block" cursor={'pointer'}>
-          <Flex
-            w={'auto'}
-            alignItems="center"
-            onClick={() => handleGetDirections(siteData)}
-          >
-            <Text>{siteData.address}</Text>
-            <NavigationArrow size={32} weight="fill" />
-          </Flex>
-        </Box>
-        <Text mb="2rem" mt="1rem">
-          {siteData.availableTables > 0
-            ? `We have ${siteData.availableTables} free table${
-                siteData.availableTables > 1 ? 's' : ''
-              }!`
-            : 'Sorry, here is no tables available'}
-        </Text>
-        <Flex justifyContent={'space-between'}>
-          <Button
-            as={NavLink}
-            to={`/detail/${siteData.id}`}
-            bgColor="brand.secondary"
-            color="white"
-          >
-            More Info
-          </Button>
-          <Button
-            onClick={handleBooking}
-            bgColor="brand.primary"
-            isDisabled={siteData.availableTables < 1}
-          >
-            Book a table
-          </Button>
+        )}
+      </Flex>
+      <Box display="inline-block" cursor={'pointer'}>
+        <Flex
+          w={'auto'}
+          alignItems="center"
+          onClick={() => handleGetDirections(siteData)}
+        >
+          <Text>{siteData.address}</Text>
+          <NavigationArrow size={32} weight="fill" />
         </Flex>
       </Box>
-    </Collapse>
+      <Text mb="2rem" mt="1rem">
+        {siteData.availableTables > 0
+          ? `We have ${siteData.availableTables} free table${
+              siteData.availableTables > 1 ? 's' : ''
+            }!`
+          : 'Sorry, here is no tables available'}
+      </Text>
+      <Flex justifyContent={'space-between'}>
+        <Button
+          as={NavLink}
+          to={`/detail/${siteData.id}`}
+          bgColor="brand.secondary"
+          color="white"
+        >
+          More Info
+        </Button>
+        <Button
+          onClick={handleBooking}
+          bgColor="brand.primary"
+          isDisabled={siteData.availableTables < 1}
+        >
+          Book a table
+        </Button>
+      </Flex>
+    </Box>
   );
 };
 

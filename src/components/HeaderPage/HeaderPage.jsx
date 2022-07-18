@@ -18,7 +18,8 @@ const HeaderPage = ({
 
 
   return (
-    <Flex data-testid='header_container' justifyContent='space-between' alignItems='center' mb='20px'>
+    <Flex h="50px" data-testid='header_container' justifyContent='space-between' alignItems='center'
+    >
       <Box>
         <Box color='brand.primary' textStyle='h3' fontSize='20px'> { title } </Box>
         <Box color='brand.gray3' fontSize='14px'> { description } </Box>
