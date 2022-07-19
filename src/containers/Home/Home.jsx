@@ -7,49 +7,8 @@ import HeaderPage from '../../components/HeaderPage/HeaderPage';
 import SiteList from './SiteList/SiteList';
 import sites from './data.js';
 
-// Points to draw, should be substituted by the retrieved from the API
-// const sites = [
-//   {
-//     id: 0,
-//     address: 'Madrid',
-//     name: 'Sitio Genial',
-//     availableTables: 1,
-//     lat: 40.41,
-//     lng: -3.71,
-//   },
-//   {
-//     id: 1,
-//     address: 'Vigo',
-//     name: 'El sitio',
-//     availableTables: 3,
-//     lat: 42.23,
-//     lng: -8.71,
-//   },
-//   {
-//     id: 2,
-//     address: 'Alicante',
-//     name: 'El centro',
-//     availableTables: 2,
-//     lat: 38.34,
-//     lng: -0.49,
-//   },
-//   {
-//     id: 3,
-//     address: 'Alicante',
-//     name: 'El local',
-//     availableTables: 0,
-//     lat: 38.36,
-//     lng: -0.49,
-//   },
-//   {
-//     id: 4,
-//     address: 'Alicante',
-//     name: 'La uni',
-//     availableTables: 4,
-//     lat: 38.38,
-//     lng: -0.51,
-//   },
-// ];
+import { useSelector, useDispatch } from 'react-redux';
+import { setViewCenter as xxx } from '../../store/slices/mapsSlice';
 
 /**
  * Converts an array of objects with name, lat and lng properties into an array
@@ -101,6 +60,12 @@ const calculateDistanceBetweenCoords = (p1, p2) => {
 };
 
 const Home = () => {
+
+  // const dispatch = useDispatch();
+  // dispatch(setViewCenter({ lat: 0, lng: 0 }));
+  // const myList = useSelector(state => state.maps.visibleSiteList);
+  // console.log(myList);
+
   const [userLocation, setUserLocation] = useState({}); // initial center of the map, there should be stored in;
 
   const [siteList, setSiteList] = useState(parseToGeoJSON(sites, userLocation));
