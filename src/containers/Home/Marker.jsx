@@ -44,7 +44,7 @@ const Marker = ({ id, name, lat, lng, icon, setSelectedSite }) => {
       onClick={handleClick}
       zIndex={'10'}
       h="4rem"
-      w="4rem"
+      w="6rem"
       transform="translate(-50%, -50%)"
       borderRadius="50%"
       cursor="pointer"

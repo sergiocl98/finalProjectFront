@@ -42,17 +42,19 @@ const GoogleMap = ({
   selectedSite,
   setSelectedSite,
   siteList,
+  visibleSiteList,
   zoom,
-  setZoom,
   bounds,
-  setBounds,
   userLocation,
+  center,
+  setZoom,
+  setBounds,
   setUserLocation,
+  setCenter,
+  setViewCenter,
 }) => {
-  const [center, setCenter] = useState({});
-
   const { clusters } = useSupercluster({
-    points: siteList,
+    points: visibleSiteList,
     bounds,
     zoom,
     options: { radius: 50, maxZoom: 20 },
@@ -69,12 +71,14 @@ const GoogleMap = ({
         };
         setUserLocation(newCenter);
         setCenter(newCenter);
+        setViewCenter(newCenter);
 
         setUserPermission('granted');
       },
       () => {
         setUserLocation({ lat: 40.41, lng: -3.71 });
         setCenter({ lat: 40.41, lng: -3.71 });
+        setViewCenter({ lat: 40.41, lng: -3.71 });
         setUserPermission('denied');
       }
     );
@@ -87,7 +91,13 @@ const GoogleMap = ({
       p => p.properties.id === selectedSite
     );
 
+    if (!selectedSiteData) return;
+
     setCenter({
+      lng: selectedSiteData.geometry.coordinates[0],
+      lat: selectedSiteData.geometry.coordinates[1],
+    });
+    setViewCenter({
       lng: selectedSiteData.geometry.coordinates[0],
       lat: selectedSiteData.geometry.coordinates[1],
     });
@@ -110,7 +120,7 @@ const GoogleMap = ({
         </Button>
       ) : (
         <GoogleMapReact
-          onChange={({ zoom, bounds }) => {
+          onChange={({ zoom, bounds, center }) => {
             setZoom(zoom);
             setBounds([
               bounds.nw.lng,
@@ -118,6 +128,7 @@ const GoogleMap = ({
               bounds.se.lng,
               bounds.nw.lat,
             ]);
+            setViewCenter(center);
           }}
           onClick={e => setSelectedSite(undefined)}
           defaultZoom={15}

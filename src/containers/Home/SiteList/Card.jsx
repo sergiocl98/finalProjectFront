@@ -4,15 +4,15 @@ import React from 'react';
 
 import { NavLink } from 'react-router-dom';
 
-const handleGetDirections = siteData => {
+const handleGetDirections = coords => {
   //link para visitar ese sitio en google maps
   window.open(
-    `https://www.google.com/maps/dir//${siteData.coords.lat},${siteData.coords.lng}/?travelmode=walking`,
+    `https://www.google.com/maps/dir//${coords[1]},${coords[0]}/?travelmode=walking`,
     '_blank'
   );
 };
 
-const Tarjeta = ({ siteData, handleSelectSite, canClose = true }) => {
+const Card = ({ siteData, handleSelectSite, canClose = true }) => {
   const handleBooking = e => {
     console.log('Redirecting to booking');
   };
@@ -20,8 +20,12 @@ const Tarjeta = ({ siteData, handleSelectSite, canClose = true }) => {
   return (
     <Box overflow={'hidden'} mt="1rem" mb="1rem">
       <Flex justifyContent={'space-between'}>
-        <Heading onClick={() => handleSelectSite(siteData.id)}>
-          {siteData.name}
+        <Heading
+          onClick={() => {
+            handleSelectSite(siteData.properties.id);
+          }}
+        >
+          {siteData.properties.name}
         </Heading>
         {canClose && (
           <Button bgColor="brand.primary" onClick={e => handleSelectSite()}>
@@ -33,16 +37,16 @@ const Tarjeta = ({ siteData, handleSelectSite, canClose = true }) => {
         <Flex
           w={'auto'}
           alignItems="center"
-          onClick={() => handleGetDirections(siteData)}
+          onClick={() => handleGetDirections(siteData.geometry.coordinates)}
         >
-          <Text>{siteData.address}</Text>
+          <Text>{siteData.properties.address}</Text>
           <NavigationArrow size={32} weight="fill" />
         </Flex>
       </Box>
       <Text mb="2rem" mt="1rem">
-        {siteData.availableTables > 0
-          ? `We have ${siteData.availableTables} free table${
-              siteData.availableTables > 1 ? 's' : ''
+        {siteData.properties.availableTables > 0
+          ? `We have ${siteData.properties.availableTables} free table${
+              siteData.properties.availableTables > 1 ? 's' : ''
             }!`
           : 'Sorry, there are no tables available'}
       </Text>
@@ -67,4 +71,4 @@ const Tarjeta = ({ siteData, handleSelectSite, canClose = true }) => {
   );
 };
 
-export default Tarjeta;
+export default Card;
