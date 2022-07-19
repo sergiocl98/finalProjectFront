@@ -46,14 +46,14 @@ const apikey = ''; //process.env.REACT_APP_API_KEY || '';
 
 const GoogleMap = () => {
   const dispatch = useDispatch();
-  const userPermission = useSelector(state => state.maps.userPermission);
-  const visibleSiteList = useSelector(state => state.maps.visibleSiteList);
-  const center = useSelector(state => state.maps.center);
-  const userLocation = useSelector(state => state.maps.userLocation);
-  const zoom = useSelector(state => state.maps.zoom);
-  const bounds = useSelector(state => state.maps.bounds);
-
-  //const [userPermission, setUserPermission] = useState('pending'); // controls whether the user has accepted location permissions
+  const {
+    userPermission,
+    visibleSiteList,
+    center,
+    userLocation,
+    zoom,
+    bounds,
+  } = useSelector(state => state.maps);
 
   const { clusters } = useSupercluster({
     points: visibleSiteList,
@@ -112,7 +112,7 @@ const GoogleMap = () => {
           }}
           onClick={e => dispatch(setSelectedSite(undefined))}
           defaultZoom={15}
-          bootstrapURLKeys={{ key: apikey,v:"3.31" }}
+          bootstrapURLKeys={{ key: apikey, v: '3.31' }}
           options={mapStyles}
           defaultCenter={userLocation}
           center={center}
@@ -141,7 +141,6 @@ const GoogleMap = () => {
                 lng={longitude}
                 name={cluster.properties.name}
                 icon="restaurant"
-
               />
             );
           })}

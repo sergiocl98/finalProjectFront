@@ -13,9 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedSite } from '../../../store/slices/mapsSlice';
 
 const SiteList = () => {
-  const siteList = useSelector(state => state.maps.siteList);
-  const visibleSiteList = useSelector(state => state.maps.visibleSiteList);
-  const selectedSite = useSelector(state => state.maps.selectedSite);
+  const {siteList, visibleSiteList,selectedSite} = useSelector(state => state.maps);
 
   const [inputValue, setInputValue] = useState('');
 
