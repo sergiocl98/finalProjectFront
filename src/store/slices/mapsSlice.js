@@ -97,7 +97,6 @@ export const mapsSlice = createSlice({
       state.selectedSite = action.payload;
       if (action.payload === undefined) {
         state.selectedSite = undefined;
-        state.center = {};
       }
 
       const selectedSiteData = state.siteList.find(
