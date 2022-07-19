@@ -37,7 +37,7 @@ const SiteList = () => {
       {selectedSite !== undefined ? (
         <Card
           id={selectedSite}
-          siteData={siteList.find(site => site.properties.id === selectedSite)}
+          siteData={siteList.find(site => site.properties._id === selectedSite)}
           handleSelectSite={handleSelectSite}
         />
       ) : (

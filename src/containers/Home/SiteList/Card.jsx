@@ -22,7 +22,7 @@ const Card = ({ siteData, handleSelectSite, canClose = true }) => {
       <Flex justifyContent={'space-between'}>
         <Heading
           onClick={() => {
-            handleSelectSite(siteData.properties.id);
+            handleSelectSite(siteData.properties._id);
           }}
         >
           {siteData.properties.name}
@@ -53,7 +53,7 @@ const Card = ({ siteData, handleSelectSite, canClose = true }) => {
       <Flex justifyContent={'space-between'}>
         <Button
           as={NavLink}
-          to={`/detail/${siteData.id}`}
+          to={`/detail/${siteData._id}`}
           bgColor="brand.secondary"
           color="white"
         >

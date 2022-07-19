@@ -135,8 +135,8 @@ const GoogleMap = () => {
             }
             return (
               <Marker
-                id={cluster.properties.id}
-                key={cluster.properties.id}
+                id={cluster.properties._id}
+                key={cluster.properties._id}
                 lat={latitude}
                 lng={longitude}
                 name={cluster.properties.name}

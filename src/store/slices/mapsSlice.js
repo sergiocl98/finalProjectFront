@@ -10,20 +10,27 @@ import sites from './data';
  */
 const parseToGeoJSON = (arr, viewCenter) => {
   return arr.map(point => {
+    console.log(point);
     return {
       type: 'Feature',
       properties: {
-        id: point.id,
+        _id: point._id,
         name: point.name,
+        description: point.description,
         address: point.address,
+        totalTables: point.totalTables,
+        busyTables: point.busyTables,
         availableTables: point.availableTables,
         cluster: false,
         distToViewCenter: calculateDistanceBetweenCoords(
-          { lng: point.lng, lat: point.lat },
+          { lng: point.coords.lng, lat: point.coords.lat },
           viewCenter
         ),
       },
-      geometry: { type: 'Point', coordinates: [point.lng, point.lat] },
+      geometry: {
+        type: 'Point',
+        coordinates: [point.coords.lng, point.coords.lat],
+      },
     };
   });
 };
@@ -73,13 +80,9 @@ const getVisibleSites = state => {
     .slice(0, 25);
 };
 
-const parsedSites = parseToGeoJSON(sites, {});
-
 const initialState = {
-  siteList: parsedSites,
-  visibleSiteList: parsedSites
-    .filter(site => site.properties.distToViewCenter <= 1000)
-    .slice(0, 25),
+  siteList: [],
+  visibleSiteList: [],
   userLocation: {},
   userPermission: 'pending',
   selectedSite: undefined,
@@ -93,6 +96,13 @@ export const mapsSlice = createSlice({
   name: 'maps',
   initialState,
   reducers: {
+    setSites(state, action) {
+      const parsed = parseToGeoJSON(action.payload);
+      state.siteList = parsed;
+      state.visibleSiteList = parsed
+        .filter(site => site.properties.distToViewCenter <= 1000)
+        .slice(0, 25);
+    },
     setSelectedSite(state, action) {
       state.selectedSite = action.payload;
       if (action.payload === undefined) {
@@ -101,7 +111,7 @@ export const mapsSlice = createSlice({
       }
 
       const selectedSiteData = state.siteList.find(
-        p => p.properties.id === action.payload
+        p => p.properties._id === action.payload
       );
 
       if (!selectedSiteData) return;
@@ -148,6 +158,7 @@ export const mapsSlice = createSlice({
 });
 
 export const {
+  setSites,
   setLocationPermission,
   setMapView,
   increaseZoom,
