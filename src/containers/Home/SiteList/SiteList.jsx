@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Card from './Card';
 import {
   Box,
-  Button,
   Input,
   InputGroup,
   InputLeftElement,
@@ -10,14 +9,17 @@ import {
 } from '@chakra-ui/react';
 import { MagnifyingGlass, X } from 'phosphor-react';
 import ScrollList from './ScrollList';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSelectedSite } from '../../../store/slices/mapsSlice';
 
-const SiteList = ({
-  siteList,
-  visibleSiteList,
-  selectedSite,
-  setSelectedSite,
-}) => {
+const SiteList = () => {
+  const siteList = useSelector(state => state.maps.siteList);
+  const visibleSiteList = useSelector(state => state.maps.visibleSiteList);
+  const selectedSite = useSelector(state => state.maps.selectedSite);
+
   const [inputValue, setInputValue] = useState('');
+
+  const dispatch = useDispatch();
 
   const handleInput = e => {
     setInputValue(e.target.value);
@@ -28,7 +30,7 @@ const SiteList = ({
   };
 
   const handleSelectSite = (id = undefined) => {
-    setSelectedSite(id);
+    dispatch(setSelectedSite(id));
     setInputValue('');
   };
 
@@ -59,7 +61,7 @@ const SiteList = ({
               onInput={handleInput}
             ></Input>
           </InputGroup>
-        
+
           {inputValue !== '' ? (
             <ScrollList
               listItems={siteList}

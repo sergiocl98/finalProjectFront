@@ -1,10 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import GoogleMapReact from 'google-map-react';
 import Marker from './Marker';
 import { Button } from '@chakra-ui/react';
 
 import useSupercluster from 'use-supercluster';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  setLocationPermission,
+  setMapView,
+  setSelectedSite,
+} from '../../store/slices/mapsSlice';
 
 const mapStyles = {
   styles: [
@@ -38,21 +44,17 @@ const mapStyles = {
 // Google maps API KEY
 const apikey = ''; //process.env.REACT_APP_API_KEY || '';
 
-const GoogleMap = ({
-  selectedSite,
-  setSelectedSite,
-  siteList,
-  visibleSiteList,
-  zoom,
-  bounds,
-  userLocation,
-  center,
-  setZoom,
-  setBounds,
-  setUserLocation,
-  setCenter,
-  setViewCenter,
-}) => {
+const GoogleMap = () => {
+  const dispatch = useDispatch();
+  const userPermission = useSelector(state => state.maps.userPermission);
+  const visibleSiteList = useSelector(state => state.maps.visibleSiteList);
+  const center = useSelector(state => state.maps.center);
+  const userLocation = useSelector(state => state.maps.userLocation);
+  const zoom = useSelector(state => state.maps.zoom);
+  const bounds = useSelector(state => state.maps.bounds);
+
+  //const [userPermission, setUserPermission] = useState('pending'); // controls whether the user has accepted location permissions
+
   const { clusters } = useSupercluster({
     points: visibleSiteList,
     bounds,
@@ -60,51 +62,30 @@ const GoogleMap = ({
     options: { radius: 50, maxZoom: 20 },
   });
 
-  const [userPermission, setUserPermission] = useState('pending'); // controls whether the user has accepted location permissions
-
   const handleLocationPermission = e => {
     navigator.geolocation.getCurrentPosition(
       data => {
-        const newCenter = {
-          lat: data.coords.latitude,
-          lng: data.coords.longitude,
+        const payload = {
+          newCenter: {
+            lat: data.coords.latitude,
+            lng: data.coords.longitude,
+          },
+          permission: 'granded',
         };
-        setUserLocation(newCenter);
-        setCenter(newCenter);
-        setViewCenter(newCenter);
-
-        setUserPermission('granted');
+        dispatch(setLocationPermission(payload));
       },
       () => {
-        setUserLocation({ lat: 40.41, lng: -3.71 });
-        setCenter({ lat: 40.41, lng: -3.71 });
-        setViewCenter({ lat: 40.41, lng: -3.71 });
-        setUserPermission('denied');
+        const payload = {
+          newCenter: {
+            lat: NaN,
+            lng: NaN,
+          },
+          permission: 'denied',
+        };
+        dispatch(setLocationPermission(payload));
       }
     );
   };
-
-  useEffect(() => {
-    if (selectedSite === undefined) return;
-
-    const selectedSiteData = siteList.find(
-      p => p.properties.id === selectedSite
-    );
-
-    if (!selectedSiteData) return;
-
-    setCenter({
-      lng: selectedSiteData.geometry.coordinates[0],
-      lat: selectedSiteData.geometry.coordinates[1],
-    });
-    setViewCenter({
-      lng: selectedSiteData.geometry.coordinates[0],
-      lat: selectedSiteData.geometry.coordinates[1],
-    });
-    setTimeout(() => setCenter({}), 1000);
-
-    setZoom(() => 20);
-  }, [selectedSite]);
 
   return (
     <>
@@ -121,16 +102,15 @@ const GoogleMap = ({
       ) : (
         <GoogleMapReact
           onChange={({ zoom, bounds, center }) => {
-            setZoom(zoom);
-            setBounds([
-              bounds.nw.lng,
-              bounds.se.lat,
-              bounds.se.lng,
-              bounds.nw.lat,
-            ]);
-            setViewCenter(center);
+            dispatch(
+              setMapView({
+                zoom,
+                bounds,
+                center,
+              })
+            );
           }}
-          onClick={e => setSelectedSite(undefined)}
+          onClick={e => dispatch(setSelectedSite(undefined))}
           defaultZoom={15}
           bootstrapURLKeys={{ key: apikey }}
           options={mapStyles}
@@ -149,8 +129,6 @@ const GoogleMap = ({
                   lat={latitude}
                   lng={longitude}
                   name={pointCount}
-                  setCenter={setCenter}
-                  setZoom={() => setZoom(oldZoom => oldZoom + 1)}
                   icon="cluster"
                 />
               );
@@ -162,10 +140,7 @@ const GoogleMap = ({
                 lat={latitude}
                 lng={longitude}
                 name={cluster.properties.name}
-                setCenter={setCenter}
-                setZoom={setZoom}
                 icon="restaurant"
-                setSelectedSite={setSelectedSite}
               />
             );
           })}
@@ -175,8 +150,6 @@ const GoogleMap = ({
               lat={userLocation.lat}
               lng={userLocation.lng}
               name="Your location"
-              setCenter={setCenter}
-              setZoom={setZoom}
               icon="user"
             />
           )}

@@ -12,6 +12,14 @@ import {
 } from '@chakra-ui/react';
 import { MapPin, Person } from 'phosphor-react';
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  increaseZoom,
+  moveCameraToPoint,
+  selectSite,
+  setMapView,
+  setSelectedSite,
+} from '../../store/slices/mapsSlice';
 
 const renderIcon = (icon, name) => {
   const ICONS = {
@@ -28,11 +36,22 @@ const renderIcon = (icon, name) => {
   return ICONS[icon];
 };
 
-const Marker = ({ id, name, lat, lng, icon, setSelectedSite }) => {
+const Marker = ({ id, name, lat, lng, icon }) => {
+  const dispatch = useDispatch();
+
   const handleClick = e => {
     e.preventDefault();
     if (id !== undefined) {
-      setSelectedSite(id);
+      dispatch(setSelectedSite(id));
+      setTimeout(() => dispatch(setSelectedSite(undefined)), 1000);
+    } else {
+      dispatch(
+        moveCameraToPoint({
+          lat,
+          lng,
+        })
+      );
+      dispatch(increaseZoom(1));
     }
     e.stopPropagation();
   };

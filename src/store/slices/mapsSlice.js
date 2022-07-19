@@ -67,6 +67,9 @@ const getVisibleSites = state => {
         properties: { ...site.properties, distToViewCenter: d },
       };
     })
+    .sort((a, b) => {
+      return a.properties.distToViewCenter - b.properties.distToViewCenter;
+    })
     .slice(0, 25);
 };
 
@@ -79,7 +82,7 @@ const initialState = {
     .slice(0, 25),
   userLocation: {},
   userPermission: 'pending',
-  selectedSite: null,
+  selectedSite: undefined,
   zoom: 15,
   bounds: null,
   center: {},
@@ -90,53 +93,65 @@ export const mapsSlice = createSlice({
   name: 'maps',
   initialState,
   reducers: {
-    test(state, action) {
-      console.log('Wiii');
-    },
-    setViewCenter(state, action) {
-      state.viewCenter = action.payload;
-      state.visibleSiteList = getVisibleSites(state);
-    },
     setSelectedSite(state, action) {
       state.selectedSite = action.payload;
-      //center y view center
+      if (action.payload === undefined) {
+        state.selectedSite = undefined;
+        state.center = {};
+      }
 
-      if (action.payload === undefined) return;
-
-      const selectedSiteData = state.siteList.fin(
-        p => p.properties.ikd === action.payload
+      const selectedSiteData = state.siteList.find(
+        p => p.properties.id === action.payload
       );
+
+      if (!selectedSiteData) return;
+
       const coords = {
         lng: selectedSiteData.geometry.coordinates[0],
         lat: selectedSiteData.geometry.coordinates[1],
       };
 
+      state.zoom = 15;
       state.center = coords;
       state.viewCenter = coords;
-      setTimeout(() => (state.center = {}), 1000);
+      state.zoom = 20;
     },
     setLocationPermission(state, action) {
-      navigator.geolocation.getCurrentPosition(
-        data => {
-          const newCenter = {
-            lat: data.coords.latitude,
-            lng: data.coords.longitude,
-          };
-          state.userLocation = newCenter;
-          state.center = newCenter;
-          state.viewCenter = newCenter;
-          state.userPermission = 'granded';
-        },
-        () => {
-          state.userLocation = { lat: 40.41, lng: -3.71 };
-          state.center = { lat: 40.41, lng: -3.71 };
-          state.viewCenter = { lat: 40.41, lng: -3.71 };
-          state.userPermission = 'denied';
-        }
-      );
+      const { newCenter, permission } = action.payload;
+
+      state.userLocation = newCenter;
+      state.center = newCenter;
+      state.viewCenter = newCenter;
+      state.userPermission = permission;
+    },
+    setMapView(state, action) {
+      const { zoom, bounds, center } = action.payload;
+      if (zoom) state.zoom = zoom;
+      if (bounds)
+        state.bounds = [
+          bounds.nw.lng,
+          bounds.se.lat,
+          bounds.se.lng,
+          bounds.nw.lat,
+        ];
+      if (center) state.viewCenter = center;
+
+      state.visibleSiteList = getVisibleSites(state);
+    },
+    moveCameraToPoint(state, action) {
+      state.center = action.payload;
+    },
+    increaseZoom(state, action) {
+      state.zoom += action.payload;
     },
   },
 });
 
-export const { setViewCenter } = mapsSlice.actions;
+export const {
+  setLocationPermission,
+  setMapView,
+  increaseZoom,
+  setSelectedSite,
+  moveCameraToPoint,
+} = mapsSlice.actions;
 export const selectActions = mapsSlice.actions;
