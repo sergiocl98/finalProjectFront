@@ -112,7 +112,7 @@ const GoogleMap = () => {
           }}
           onClick={e => dispatch(setSelectedSite(undefined))}
           defaultZoom={15}
-          bootstrapURLKeys={{ key: apikey }}
+          bootstrapURLKeys={{ key: apikey,v:"3.31" }}
           options={mapStyles}
           defaultCenter={userLocation}
           center={center}
@@ -141,6 +141,7 @@ const GoogleMap = () => {
                 lng={longitude}
                 name={cluster.properties.name}
                 icon="restaurant"
+
               />
             );
           })}
