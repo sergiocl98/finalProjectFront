@@ -5,6 +5,7 @@ import { useState } from 'react';
 import HeaderPage from '../../components/HeaderPage/HeaderPage';
 import userService from '../../services/userService'
 import ProfileTabOne from './ProfileTabOne';
+import { useForm } from 'react-hook-form';
 
 const Profile = () => {
 
@@ -27,6 +28,18 @@ const Profile = () => {
   useEffect(()=>{
     if (maxTabIndex < tabIndex) setMaxTabIndex(tabIndex);
   },[tabIndex]);
+
+  const { 
+    control,
+    getValues,
+    setValue,
+    watch,
+    formState: { errors },
+    clearErrors
+  } = useForm({
+    mode:'onChange',
+    defaultValues:{}
+  });
 
   return (
     <Box data-testid='container_loans_form' h='calc(100vh - 130px)'>
@@ -60,10 +73,30 @@ const Profile = () => {
 
               <TabPanels h='calc(100% - 65px)'>
                 <TabPanel h='100%' p='0px'>
-                  <ProfileTabOne/>
+                  <ProfileTabOne
+                    control={ control }
+                    setValue= { setValue }
+                    getValues= { getValues }
+                    watch= { watch }
+                    errors= { errors }
+                    index={ tabIndex }
+                    setIndex={ setTabIndex }
+                    optionsTabs={ optionsTabs }
+                    setOptionsTabs={ setOptionsTabs }
+                  />
                 </TabPanel>
                 <TabPanel h='100%' p='0px'>
-                  <ProfileTabOne/>
+                  <ProfileTabOne
+                    control={ control }
+                    setValue= { setValue }
+                    getValues= { getValues }
+                    watch= { watch }
+                    errors= { errors }
+                    index={ tabIndex }
+                    setIndex={ setTabIndex }
+                    optionsTabs={ optionsTabs }
+                    setOptionsTabs={ setOptionsTabs }
+                  />
                 </TabPanel>
               </TabPanels>
             </Tabs>
