@@ -1,12 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Box, Grid, GridItem } from '@chakra-ui/react';
 
 import GoogleMap from './GoogleMap';
 import HeaderPage from '../../components/HeaderPage/HeaderPage';
 import SiteList from './SiteList/SiteList';
+import localService from '../../services/localService';
+import { useDispatch } from 'react-redux';
+import { setSites } from '../../store/slices/mapsSlice';
+
+const getLocals = async dispatcherFunction => {
+  const res = await localService.getLocals();
+  dispatcherFunction(res);
+};
 
 const Home = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    getLocals(v => dispatch(setSites(v)));
+  }, []);
+
   return (
     <Grid
       templateAreas={{

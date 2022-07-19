@@ -42,7 +42,7 @@ const mapStyles = {
 };
 
 // Google maps API KEY
-const apikey = ''; //process.env.REACT_APP_API_KEY || '';
+const apikey = process.env.REACT_APP_API_KEY || '';
 
 const GoogleMap = () => {
   const dispatch = useDispatch();
@@ -135,8 +135,8 @@ const GoogleMap = () => {
             }
             return (
               <Marker
-                id={cluster.properties.id}
-                key={cluster.properties.id}
+                id={cluster.properties._id}
+                key={cluster.properties._id}
                 lat={latitude}
                 lng={longitude}
                 name={cluster.properties.name}

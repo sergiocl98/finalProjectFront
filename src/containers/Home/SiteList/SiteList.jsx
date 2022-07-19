@@ -13,7 +13,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedSite } from '../../../store/slices/mapsSlice';
 
 const SiteList = () => {
-  const {siteList, visibleSiteList,selectedSite} = useSelector(state => state.maps);
+  const { siteList, visibleSiteList, selectedSite, userPermission } =
+    useSelector(state => state.maps);
 
   const [inputValue, setInputValue] = useState('');
 
@@ -33,48 +34,54 @@ const SiteList = () => {
   };
 
   return (
-    <Box h="100%">
-      {selectedSite !== undefined ? (
-        <Card
-          id={selectedSite}
-          siteData={siteList.find(site => site.properties.id === selectedSite)}
-          handleSelectSite={handleSelectSite}
-        />
-      ) : (
-        <>
-          <InputGroup>
-            <InputLeftElement
-              pointerEvents={'none'}
-              children={<MagnifyingGlass size={24} />}
-            ></InputLeftElement>
-            {inputValue !== '' && (
-              <InputRightElement
-                onClick={handleInputReset}
-                children={<X size={24} />}
-              ></InputRightElement>
-            )}
-            <Input
-              placeholder="Search for a place"
-              value={inputValue}
-              onInput={handleInput}
-            ></Input>
-          </InputGroup>
-
-          {inputValue !== '' ? (
-            <ScrollList
-              listItems={siteList}
-              filter={inputValue}
+    <>
+      {userPermission !== 'pending' && (
+        <Box h="100%">
+          {selectedSite !== undefined ? (
+            <Card
+              id={selectedSite}
+              siteData={siteList.find(
+                site => site.properties._id === selectedSite
+              )}
               handleSelectSite={handleSelectSite}
             />
           ) : (
-            <ScrollList
-              listItems={visibleSiteList}
-              handleSelectSite={handleSelectSite}
-            />
+            <>
+              <InputGroup>
+                <InputLeftElement
+                  pointerEvents={'none'}
+                  children={<MagnifyingGlass size={24} />}
+                ></InputLeftElement>
+                {inputValue !== '' && (
+                  <InputRightElement
+                    onClick={handleInputReset}
+                    children={<X size={24} />}
+                  ></InputRightElement>
+                )}
+                <Input
+                  placeholder="Search for a place"
+                  value={inputValue}
+                  onInput={handleInput}
+                ></Input>
+              </InputGroup>
+
+              {inputValue !== '' ? (
+                <ScrollList
+                  listItems={siteList}
+                  filter={inputValue}
+                  handleSelectSite={handleSelectSite}
+                />
+              ) : (
+                <ScrollList
+                  listItems={visibleSiteList}
+                  handleSelectSite={handleSelectSite}
+                />
+              )}
+            </>
           )}
-        </>
+        </Box>
       )}
-    </Box>
+    </>
   );
 };
 

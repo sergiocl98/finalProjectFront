@@ -11,15 +11,17 @@ const ScrollList = ({ listItems, filter = '', handleSelectSite }) => {
             site.properties.name.toLowerCase().includes(filter.toLowerCase()) ||
             site.properties.address.toLowerCase().includes(filter.toLowerCase())
         )
-        .map(site => (
-          <ListItem key={site.properties.id}>
-            <Card
-              siteData={site}
-              handleSelectSite={handleSelectSite}
-              canClose={false}
-            />
-          </ListItem>
-        ))}
+        .map(site => {
+          return (
+            <ListItem key={site.properties._id}>
+              <Card
+                siteData={site}
+                handleSelectSite={handleSelectSite}
+                canClose={false}
+              />
+            </ListItem>
+          );
+        })}
     </List>
   );
 };
