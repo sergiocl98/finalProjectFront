@@ -53,7 +53,7 @@ const Card = ({ siteData, handleSelectSite, canClose = true }) => {
       <Flex justifyContent={'space-between'}>
         <Button
           as={NavLink}
-          to={`/detail/${siteData._id}`}
+          to={`/detail/${siteData.properties._id}`}
           bgColor="brand.secondary"
           color="white"
         >

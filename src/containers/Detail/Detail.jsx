@@ -10,51 +10,15 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { NavigationArrow } from 'phosphor-react';
-import GoogleMap from '../Home/GoogleMap';
+import LocalService from '../../services/localService';
 
-const getSiteData = id => {
-  return {
-    id: 0,
-    name: 'Awesome Restaurant',
-    address: 'Awesome Street',
-    menu: [
-      {
-        name: 'CheeseBurger',
-        price: null,
-        category: 'Burgers',
-      },
-      {
-        name: 'DoubleBurger',
-        price: null,
-        category: 'Burgers',
-      },
-      {
-        name: 'Cuatro Quesos',
-        price: null,
-        category: 'Pizza',
-      },
-      {
-        name: 'Tarta de Queso',
-        price: null,
-        category: 'Postre',
-      },
-      {
-        name: 'Helado',
-        price: null,
-        category: 'Postre',
-      },
-    ],
-    description:
-      'An awesome food, in an awesome place to have the most awesome food',
-    coords: {
-      lat: 38.34,
-      lng: -0.49,
-    },
-    availableTables: 3,
-  };
+const getSiteData = async (id, setSiteData) => {
+  const res = await LocalService.getLocalById(id);
+  console.log(res);
+  return res;
 };
 
-const parseMenu = menu => {
+const parseMenu = (menu = []) => {
   return menu
     .map(ele => ele.category)
     .reduce((prev, curr) => (prev.includes(curr) ? prev : [...prev, curr]), []);
@@ -70,6 +34,7 @@ const handleGetDirections = siteData => {
 
 const Detail = () => {
   const { id } = useParams();
+
   const [siteData, setSiteData] = useState(null);
 
   const handleBooking = () => {
@@ -77,7 +42,7 @@ const Detail = () => {
   };
 
   useEffect(() => {
-    setSiteData(() => getSiteData(id));
+    getSiteData(id, setSiteData);
   }, []);
   return (
     <Box>
