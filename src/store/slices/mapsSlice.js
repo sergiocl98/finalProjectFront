@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import sites from '../../containers/Home/data';
+import sites from './data';
 
 /**
  * Converts an array of objects with name, lat and lng properties into an array

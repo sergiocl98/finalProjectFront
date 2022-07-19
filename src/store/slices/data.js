@@ -7999,6 +7999,14 @@ const sites = [
     lat: 40.44940037227206,
     lng: -3.747264780865201,
   },
+  {
+    id: 1000,
+    name: 'J',
+    address: 'P. Quintana',
+    availableTables: 0,
+    lat: 38.34779092632362,
+    lng: -0.4889627708754279,
+  },
 ];
 
 export default sites;
