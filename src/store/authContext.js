@@ -5,7 +5,7 @@ let logoutTimeout;
 const AuthContext = React.createContext({
     token: '',
     isLoggedIn: false,
-    username: '',
+    email: '',
     roles: [],
     login: () => {},
     logout: () => {}
@@ -22,44 +22,44 @@ const calculateRemainingTime = (expirationTime) => {
 const retrieveStoredToken = () => {
     const storedToken =  localStorage.getItem('token');
     const storedExpirationTime =  localStorage.getItem('expirationTime');
-    const storedUsername =  localStorage.getItem('userName');
+    const storedEmail =  localStorage.getItem('email');
     const storedRoles =  localStorage.getItem('roles');
     const remainingTime = calculateRemainingTime(storedExpirationTime);
 
     if (remainingTime <= 60000) {
         localStorage.removeItem('token');
-        localStorage.removeItem('userName');
+        localStorage.removeItem('email');
         localStorage.removeItem('roles');
         localStorage.removeItem('expirationTime');
         return null;
     }
 
-    return { token: storedToken, userName: storedUsername, duration: remainingTime, roles: storedRoles };
+    return { token: storedToken, email: storedEmail, duration: remainingTime, roles: storedRoles };
 
 };
 
 export const AuthContextProvider = (props) => {
     const storedData =  retrieveStoredToken();
-    let initialData = {token: '', userName: '', roles: []};
+    let initialData = {token: '', email: '', roles: []};
 
     if (storedData) {
         initialData.token = storedData.token;
-        initialData.userName = storedData.userName;
+        initialData.email = storedData.email;
         initialData.roles = storedData.roles;
     }
 
     const [token, setToken] = useState(initialData.token);
-    const [userName, setUserName] = useState(initialData.userName);
+    const [email, setEmail] = useState(initialData.email);
     const [roles, setRoles] = useState(initialData.roles);
 
     const userIsLoggedIn = !!token;
 
     const logoutHandler = () => {
         setToken(null);
-        setUserName(null);
+        setEmail(null);
         setRoles(null);
         localStorage.removeItem('token');
-        localStorage.removeItem('userName');
+        localStorage.removeItem('email');
         localStorage.removeItem('roles');
         localStorage.removeItem('expirationTime');
 
@@ -68,19 +68,19 @@ export const AuthContextProvider = (props) => {
         }
     };
 
-    const loginHandler = (userName, token, expirationTime, roles) => {
+    const loginHandler = (email, token, expirationTime, roles) => {
         setToken(token);
-        setUserName(userName); 
+        setEmail(email); 
         setRoles(roles);
         localStorage.setItem('token', token);
         localStorage.setItem('expirationTime', expirationTime);
-        localStorage.setItem('userName', userName);
+        localStorage.setItem('email', email);
         localStorage.setItem('roles', roles);
     };
 
     const contextValue = {
         token: token,
-        username: userName,
+        email: email,
         roles: roles,
         isLoggedIn: userIsLoggedIn,
         login: loginHandler,

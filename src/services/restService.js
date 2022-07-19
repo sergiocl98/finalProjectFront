@@ -7,8 +7,6 @@ import jwt_decode from 'jwt-decode';
 
 //const AVAILABLE_REQUEST_CODES = [200,201,202];
 
-var JSONbig = require('json-bigint');
-
 class RestService {
 
     subscribeEvent = (url) => {
@@ -314,7 +312,7 @@ class RestService {
         }
 
         if (transformResponse) {
-            config.transformResponse = [(data) => JSONbig.parse(data)];
+            config.transformResponse = [(data) => (data)];
         }
 
         if (this.checkEnviromentIsDevelopmentOrTest() && mockCode) {
