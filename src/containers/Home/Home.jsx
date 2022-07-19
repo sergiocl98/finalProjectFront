@@ -11,7 +11,6 @@ import { setSites } from '../../store/slices/mapsSlice';
 
 const getLocals = async dispatcherFunction => {
   const res = await localService.getLocals();
-  console.log(res)
   dispatcherFunction(res);
 };
 

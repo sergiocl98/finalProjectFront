@@ -12,7 +12,6 @@ const ScrollList = ({ listItems, filter = '', handleSelectSite }) => {
             site.properties.address.toLowerCase().includes(filter.toLowerCase())
         )
         .map(site => {
-          console.log(site.properties._id);
           return (
             <ListItem key={site.properties._id}>
               <Card

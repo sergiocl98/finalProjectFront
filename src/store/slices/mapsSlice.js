@@ -10,7 +10,6 @@ import sites from './data';
  */
 const parseToGeoJSON = (arr, viewCenter) => {
   return arr.map(point => {
-    console.log(point);
     return {
       type: 'Feature',
       properties: {

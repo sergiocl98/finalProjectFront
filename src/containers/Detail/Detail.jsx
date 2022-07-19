@@ -14,8 +14,7 @@ import LocalService from '../../services/localService';
 
 const getSiteData = async (id, setSiteData) => {
   const res = await LocalService.getLocalById(id);
-  console.log(res);
-  return res;
+  setSiteData(res);
 };
 
 const parseMenu = (menu = []) => {
@@ -43,12 +42,12 @@ const Detail = () => {
 
   useEffect(() => {
     getSiteData(id, setSiteData);
-  }, []);
+  }, [id]);
   return (
     <Box>
-      {siteData && (
+      {siteData !== null && (
         <>
-          <Flex justifyContent={'space-between'} alignItems="center">
+          <Flex justifyContent="space-between" alignItems="center">
             <Heading>{siteData.name}</Heading>
             <Button
               onClick={handleBooking}
