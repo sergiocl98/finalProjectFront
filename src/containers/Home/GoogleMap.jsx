@@ -62,9 +62,6 @@ const GoogleMap = () => {
     options: { radius: 50, maxZoom: 20 },
   });
 
-  console.log(userPermission)
-  console.log(center)
-
   const handleLocationPermission = e => {
     navigator.geolocation.getCurrentPosition(
       data => {
