@@ -1,6 +1,9 @@
 import { Avatar, Box, Button, Divider, Flex, HStack, Text } from '@chakra-ui/react';
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux';
 import InputController from '../../components/Form/InputController';
+import userService from '../../services/userService';
+import { fetchUserById } from '../../store/slices/userSlice';
 
 const ProfileTabOne = ({
     control,
@@ -12,6 +15,17 @@ const ProfileTabOne = ({
     optionsTabs,
     setOptionsTabs
   }) => {
+    const dispatch = useDispatch;
+    const localUser = userService.getUser();
+
+    useEffect(() => {
+        if(localUser){
+            setValue('name', localUser.name);
+            setValue('email', localUser.email);
+            //dispatch(fetchUserById(localUser.userId));
+        }
+    }, [])
+    
   return (
     <Flex direction='column' justifyContent='space-between' h='100%'>
       <Box
