@@ -14,7 +14,6 @@ const handleGetDirections = coords => {
 };
 
 const Card = ({ siteData, handleSelectSite, canClose = true }) => {
-  const { time, date } = useSelector(state => state.booking);
   return (
     <Box overflow={'hidden'} mt="1rem" mb="1rem">
       <Flex justifyContent={'space-between'}>

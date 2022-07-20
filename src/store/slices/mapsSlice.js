@@ -102,6 +102,9 @@ export const mapsSlice = createSlice({
         .filter(site => site.properties.distToViewCenter <= 1000)
         .slice(0, 25);
     },
+    resetCenter(state, action) {
+      state.center = {};
+    },
     setSelectedSite(state, action) {
       state.selectedSite = action.payload;
       if (action.payload === undefined) {
@@ -119,10 +122,8 @@ export const mapsSlice = createSlice({
         lat: selectedSiteData.geometry.coordinates[1],
       };
 
-      state.zoom = 15;
-      state.center = coords;
-      state.viewCenter = coords;
       state.zoom = 20;
+      state.center = coords;
     },
     setLocationPermission(state, action) {
       const { newCenter, permission } = action.payload;
@@ -157,6 +158,7 @@ export const mapsSlice = createSlice({
 
 export const {
   setSites,
+  resetCenter,
   setLocationPermission,
   setMapView,
   increaseZoom,
