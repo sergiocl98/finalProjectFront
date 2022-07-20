@@ -1,3 +1,5 @@
+import restService from "./restService";
+
 class UserService {
 
     getUser() {
@@ -23,5 +25,14 @@ class UserService {
     checkExistRole(roles) {
         return this.getRoles()?.some(role => roles.includes(role));
     }
+
+    getUserById = id => {
+        const endPoint = `user/${id}`;
+    
+        return restService.get(endPoint).then(response => {
+            if (!response) return Promise.reject();
+            return response?.data;
+        });
+      };
 }
 export default new UserService();

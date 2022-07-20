@@ -1,28 +1,45 @@
-import { Flex,  Text, Avatar } from '@chakra-ui/react';
-import React, { useContext } from 'react';
+import { Flex,  Text, Avatar, Stack } from '@chakra-ui/react';
+import React, { useContext, useEffect} from 'react';
 import AuthContext from '../../../store/authContext';
-import UserService from '../../../services/userService.js'
+import { useDispatch, useSelector } from 'react-redux';
+import { selectUser, SELECT_USER_DETAIL, fetchUserById } from '../../../store/slices/userSlice';
 
 const TopbarProfile = () => {
   const { logout } = useContext(AuthContext);
-  const user = UserService.getUser();
-  console.log(user);
+  const dispatch = useDispatch();
+  const userStored = useSelector(selectUser);
+  const userDetailStored = useSelector(SELECT_USER_DETAIL);
+  const {user} = userStored;
+
 
   const handleDisconnect = () => {
     logout();
   };
 
+  useEffect(() => {
+    if(user?.userId){
+      dispatch(fetchUserById(user?.userId));
+    }
+  }, [user, dispatch])
 
   return (
     <Flex position='absolute' right='0' h='100%' mr='30px'>
       <Flex mb='0' ml='20px' position='relative' alignItems='center' alignContent='center'>
         <Flex mr='20px' direction='row' justifyContent='space-between' alignItems='center' gap='10px'>
-          <Avatar size='sm' name={user?.name} />
-          <Text 
-          fontSize='14px' fontWeight='700'
-          >
-            {user?.name} Usuario
-          </Text>
+          <Avatar size='md' name={userDetailStored?.name}  src={userDetailStored?.image}/>
+          <Stack>
+            <Text 
+            fontSize='14px' fontWeight='700'
+            >
+              {user?.email ? user?.email : "Email"}
+            </Text>
+            <Text 
+            fontSize='10px' fontWeight='700' display='flex' justifyContent='flex-end'
+            >
+              {user?.name ? user?.name : "Usuario"}
+            </Text>
+
+          </Stack>
         </Flex>
         <Text 
           data-testid='link_logout' 

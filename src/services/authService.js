@@ -14,13 +14,14 @@ class AuthService {
         }
     }
 
-    login(username, password) {
-        return restService.post('/login', {
-             username: username,
+    login(email, password) {
+        return restService.post('user/login', {
+             email: email,
              password: password,
             }).then(response => {
                 if (response.data) {
-                    return response.data;
+                    console.log('Response en auth',response);
+                    return response;
                 }
         });
     }
