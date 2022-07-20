@@ -3,6 +3,7 @@ import React, { useContext, useEffect} from 'react';
 import AuthContext from '../../../store/authContext';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUser, SELECT_USER_DETAIL, fetchUserById } from '../../../store/slices/userSlice';
+import userService from '../../../services/userService';
 
 const TopbarProfile = () => {
   const { logout } = useContext(AuthContext);
@@ -10,6 +11,8 @@ const TopbarProfile = () => {
   const userStored = useSelector(selectUser);
   const userDetailStored = useSelector(SELECT_USER_DETAIL);
   const {user} = userStored;
+  const localUser = userService.getUser();
+  console.log(localUser)
 
 
   const handleDisconnect = () => {
@@ -17,8 +20,8 @@ const TopbarProfile = () => {
   };
 
   useEffect(() => {
-    if(user?.userId){
-      dispatch(fetchUserById(user?.userId));
+    if(localUser?.userId){
+      dispatch(fetchUserById(localUser?.userId));
     }
   }, [user, dispatch])
 
@@ -26,17 +29,17 @@ const TopbarProfile = () => {
     <Flex position='absolute' right='0' h='100%' mr='30px'>
       <Flex mb='0' ml='20px' position='relative' alignItems='center' alignContent='center'>
         <Flex mr='20px' direction='row' justifyContent='space-between' alignItems='center' gap='10px'>
-          <Avatar size='md' name={userDetailStored?.name}  src={userDetailStored?.image}/>
+          <Avatar size='md' name={localUser?.name}  src={userDetailStored?.image}/>
           <Stack>
             <Text 
             fontSize='14px' fontWeight='700'
             >
-              {user?.email ? user?.email : "Email"}
+              {localUser?.email ? localUser?.email : "Email"}
             </Text>
             <Text 
             fontSize='10px' fontWeight='700' display='flex' justifyContent='flex-end'
             >
-              {user?.name ? user?.name : "Usuario"}
+              {localUser?.name ? localUser?.name : "Usuario"}
             </Text>
 
           </Stack>
