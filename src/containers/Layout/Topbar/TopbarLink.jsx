@@ -1,10 +1,11 @@
-import { Box, Link } from '@chakra-ui/react';
+import { Box, Link,useMediaQuery } from '@chakra-ui/react';
 import { House, User } from 'phosphor-react';
 import React from 'react'
 import { NavLink } from 'react-router-dom';
 
 const TopbarLink = ({ title, icon, route, onClick }) => {
-
+    const [isLargerThan768] = useMediaQuery('(min-width: 768px)');
+    console.log(isLargerThan768)
     const selectIcon = () => {
       switch (icon) {
         case 'home':
@@ -18,16 +19,16 @@ const TopbarLink = ({ title, icon, route, onClick }) => {
       <Link as={ NavLink }
         to={ route }
         onClick={ (e) => onClick(e) }
-        h='36px' w={ '220px' } ml='10px' mb='10px' borderRadius='4px' transition='all 0.2s' position='relative' cursor='pointer' display='flex' p='25px 20px' overflow='hidden' bg='transparent' border='none' alignItems='center' 
+        h='36px' w={ {base: '40px', md: '220px'} } ml='10px' mb='10px' borderRadius='4px' transition='all 0.2s' position='relative' cursor='pointer' display='flex' p='25px 20px' overflow='hidden' bg='transparent' border='none' alignItems='center'  justifyContent={ !isLargerThan768 && 'center'}
         _hover={ { bgColor:'brand.primary20', color:'brand.primary' } }
         _focus={ { outline:'none' } }
         _activeLink={ { color:'brand.primary', bgColor:'brand.primary20' } }
       >
         <Box>
           { selectIcon() }
-          <Box position='absolute' left='43px' w='160px' transition='left 0.3s' top='50%' transform='translateY(-50%)' pl='10px' color='brand.gray2'>
+          {isLargerThan768 && <Box position='absolute' left={ {base: '10px', md: '43px'} } w='160px' transition='left 0.3s' top='50%' transform='translateY(-50%)' pl='10px' color='brand.gray2' >
             {title}
-          </Box>
+          </Box>}
         </Box>
       </Link>
     );

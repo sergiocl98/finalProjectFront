@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Card from './Card';
 import {
-  Heading,
   Box,
-  Input,
-  InputGroup,
   InputLeftElement,
   InputRightElement,
+  Text,
 } from '@chakra-ui/react';
 import { MagnifyingGlass, X } from 'phosphor-react';
 import ScrollList from './ScrollList';
@@ -36,7 +34,7 @@ const SiteList = () => {
   return (
     <>
       <Box h="100%">
-        <Heading>Near Locals</Heading>
+        <Text fontSize='26px' fontWeight='700' >Near Locals</Text>
         {selectedSite !== undefined ? (
           <Card
             id={selectedSite}
@@ -55,7 +53,8 @@ const SiteList = () => {
               inputLeftElement={
                 <InputLeftElement
                   pointerEvents={'none'}
-                  children={<MagnifyingGlass size={24} />}
+                  zIndex='0'
+                  children={<MagnifyingGlass size={24}  />}
                 ></InputLeftElement>
               }
               inputRightElement={

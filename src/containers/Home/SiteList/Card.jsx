@@ -1,5 +1,5 @@
 import { Box, Button, Flex, Heading, Text } from '@chakra-ui/react';
-import { NavigationArrow } from 'phosphor-react';
+import { MapTrifold } from 'phosphor-react';
 import React from 'react';
 import { useSelector } from 'react-redux';
 
@@ -15,15 +15,15 @@ const handleGetDirections = coords => {
 
 const Card = ({ siteData, handleSelectSite, canClose = true }) => {
   return (
-    <Box overflow={'hidden'} mt="1rem" mb="1rem">
+    <Box overflow={'hidden'} mt="1rem" mb="1rem" p={5} shadow='md' borderWidth='1px' bgColor='white'>
       <Flex justifyContent={'space-between'}>
-        <Heading
+        <Text fontSize='20px' fontWeight='700'
           onClick={() => {
             handleSelectSite(siteData.properties._id);
           }}
         >
           {siteData.properties.name}
-        </Heading>
+        </Text>
         {canClose && (
           <Button bgColor="brand.primary" onClick={e => handleSelectSite()}>
             X
@@ -36,8 +36,8 @@ const Card = ({ siteData, handleSelectSite, canClose = true }) => {
           alignItems="center"
           onClick={() => handleGetDirections(siteData.geometry.coordinates)}
         >
-          <Text>{siteData.properties.address}</Text>
-          <NavigationArrow size={32} weight="fill" />
+          <Text mr='4px'>{siteData.properties.address}</Text>
+          <MapTrifold size={26} weight="regular" color={'orange'}/>
         </Flex>
       </Box>
       <Text mb="2rem" mt="1rem">
@@ -51,15 +51,14 @@ const Card = ({ siteData, handleSelectSite, canClose = true }) => {
         <Button
           as={NavLink}
           to={`/detail/${siteData.properties._id}`}
-          bgColor="brand.secondary"
-          color="white"
+          variant='secondary2' 
         >
           More Info
         </Button>
         <Button
           as={NavLink}
           to={`/book/${siteData.properties._id}`}
-          bgColor="brand.primary"
+          variant='primary'
           isDisabled={siteData.availableTables < 1}
         >
           Book a table

@@ -1,9 +1,9 @@
 import { Avatar, Box, Button, Divider, Flex, HStack, Text } from '@chakra-ui/react';
 import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import InputController from '../../components/Form/InputController';
 import userService from '../../services/userService';
-import { fetchUserById } from '../../store/slices/userSlice';
+import { fetchUserById, SELECT_USER_DETAIL } from '../../store/slices/userSlice';
 
 const ProfileTabOne = ({
     control,
@@ -17,6 +17,7 @@ const ProfileTabOne = ({
   }) => {
     const dispatch = useDispatch;
     const localUser = userService.getUser();
+    const userDetail = useSelector(SELECT_USER_DETAIL);
 
     useEffect(() => {
         if(localUser){
@@ -56,12 +57,9 @@ const ProfileTabOne = ({
             </Text>
           </Flex>
 
-          <Text fontSize='16px' color='brand.gray2' fontWeight='400' mb='30px'>
-            Description
-          </Text>
 
           <HStack spacing='20px' mb='30px'>
-            <Avatar name='usuario anonimo' src='' size='2xl'/>
+            <Avatar name={localUser?.name} src={userDetail?.image} size='2xl'/>
             <InputController 
                 name='email'
                 type='text'

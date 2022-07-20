@@ -70,7 +70,6 @@ const DatepickerController = ({
                   minDate={ minDate }
                   showPopperArrow={ false }
                   isClearable
-                  dateFormat="MM/dd/yyyy"
                   dropdownMode="select"
                   dateFormat={ getLocaleDateString() }
                   calendarStartDay={ 1 }

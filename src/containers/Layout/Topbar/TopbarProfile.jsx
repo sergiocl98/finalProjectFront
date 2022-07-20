@@ -1,4 +1,4 @@
-import { Flex,  Text, Avatar, Stack } from '@chakra-ui/react';
+import { Flex,  Text, Avatar, Stack, useMediaQuery } from '@chakra-ui/react';
 import React, { useContext, useEffect} from 'react';
 import AuthContext from '../../../store/authContext';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,6 +7,7 @@ import userService from '../../../services/userService';
 
 const TopbarProfile = () => {
   const { logout } = useContext(AuthContext);
+  const [isLargerThan768] = useMediaQuery('(min-width: 768px)')
   const dispatch = useDispatch();
   const userStored = useSelector(selectUser);
   const userDetailStored = useSelector(SELECT_USER_DETAIL);
@@ -30,7 +31,7 @@ const TopbarProfile = () => {
       <Flex mb='0' ml='20px' position='relative' alignItems='center' alignContent='center'>
         <Flex mr='20px' direction='row' justifyContent='space-between' alignItems='center' gap='10px'>
           <Avatar size='md' name={localUser?.name}  src={userDetailStored?.image}/>
-          <Stack>
+          {isLargerThan768 && <Stack>
             <Text 
             fontSize='14px' fontWeight='700'
             >
@@ -42,7 +43,7 @@ const TopbarProfile = () => {
               {localUser?.name ? localUser?.name : "Usuario"}
             </Text>
 
-          </Stack>
+          </Stack>}
         </Flex>
         <Text 
           data-testid='link_logout' 
