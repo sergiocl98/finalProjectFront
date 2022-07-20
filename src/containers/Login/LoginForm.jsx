@@ -27,7 +27,21 @@ const LoginForm = () => {
     e.preventDefault();
     setIsLoading(true);
     const form = getValues()
-    authService
+
+    if (isSignup) {
+      authService
+      .register(form.email,form.password, form.name)
+      .then( (response) => {
+        setIsLoading(false);
+        if (response.status === 500){
+          toast.error(
+            response.data,
+            { isLoading: false, autoClose: 5000, closeOnClick: true, closeButton: true, hideProgressBar: false }
+          );
+          return
+        }
+
+        authService
       .login(form.email,form.password)
       .then( (response) => {
         setIsLoading(false);
@@ -48,13 +62,46 @@ const LoginForm = () => {
           email,
           token,
           expirationTime,
-          [/* ...roles, */ 'ADMIN']
+          [/* ...roles, */ 'ADMIN'],
+          JSON.stringify(response?.data?.data)
         );
 
         dispatch(userActions.setUser(response?.data?.data));
 
         navigation('/home');
       });
+      });
+    } else {
+      authService
+        .login(form.email,form.password)
+        .then( (response) => {
+          setIsLoading(false);
+          if (response.status === 401){
+            toast.error(
+              response.data,
+              { isLoading: false, autoClose: 5000, closeOnClick: true, closeButton: true, hideProgressBar: false }
+            );
+            return
+          }
+          const {token, expires_in, roles, email} = response?.data?.data;
+
+          const expirationTime = new Date(
+            new Date().getTime() + expires_in * 1000
+          );
+
+          login(
+            email,
+            token,
+            expirationTime,
+            [/* ...roles, */ 'ADMIN'],
+            JSON.stringify(response?.data?.data)
+          );
+
+          dispatch(userActions.setUser(response?.data?.data));
+
+          navigation('/home');
+        });
+    }
   }; 
 
   /* const handleLogin = (e) => {
@@ -100,7 +147,7 @@ const LoginForm = () => {
 
   useEffect(() => {
       setIsButtonDisabled(handleValidForm());
-  }, [watch('email'), watch('password'), isSignup])
+  }, [watch('email'), watch('password'),watch('name'), isSignup])
   
 
   return (

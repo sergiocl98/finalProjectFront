@@ -25,5 +25,18 @@ class AuthService {
                 }
         });
     }
+
+    register(email, password, name) {
+        return restService.post('user/register', {
+             email: email,
+             password: password,
+             name: name
+            }).then(response => {
+                if (response.data) {
+                    console.log('Response en auth',response);
+                    return response;
+                }
+        });
+    }
 }
 export default new AuthService ();
