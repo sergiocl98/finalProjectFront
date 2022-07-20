@@ -11,7 +11,7 @@ import {
 import { MagnifyingGlass, X } from 'phosphor-react';
 import ScrollList from './ScrollList';
 import { useDispatch, useSelector } from 'react-redux';
-import { resetCenter, setSelectedSite } from '../../../store/slices/mapsSlice';
+import { setSelectedSite } from '../../../store/slices/mapsSlice';
 import InputController from '../../../components/Form/InputController';
 import { useForm } from 'react-hook-form';
 
@@ -29,7 +29,6 @@ const SiteList = () => {
 
   const handleSelectSite = (id = undefined) => {
     dispatch(setSelectedSite(id));
-    setTimeout(() => dispatch(resetCenter()), 500);
   };
 
   const inputValue = watch('inputValue');

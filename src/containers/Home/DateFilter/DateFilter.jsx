@@ -2,8 +2,9 @@ import React from 'react';
 import { Heading, Flex } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setDate } from '../../../store/slices/bookingSlice';
-import ReactDatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import CustomDatePicker from '../../../components/DatePicker/CustomDatePicker';
+
+
 
 const DateFilter = () => {
   const { date } = useSelector(state => state.booking);
@@ -16,14 +17,10 @@ const DateFilter = () => {
   return (
     <Flex flexDirection="column">
       <Heading>Date and hour</Heading>
-      <ReactDatePicker
-        selected={date}
-        onChange={handleDateChange}
-        showTimeSelect
-        timeIntervals={30}
-        timeCaption="time"
-        dateFormat="dd/MM/yyyy hh:mm aa"
-      ></ReactDatePicker>
+      <CustomDatePicker
+        date={date}
+        handleDateChange={handleDateChange}
+      ></CustomDatePicker>
     </Flex>
   );
 };
