@@ -1,6 +1,7 @@
 import { Box, Button, Flex, Heading, Text } from '@chakra-ui/react';
 import { NavigationArrow } from 'phosphor-react';
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import { NavLink } from 'react-router-dom';
 
@@ -13,10 +14,6 @@ const handleGetDirections = coords => {
 };
 
 const Card = ({ siteData, handleSelectSite, canClose = true }) => {
-  const handleBooking = e => {
-    console.log('Redirecting to booking');
-  };
-
   return (
     <Box overflow={'hidden'} mt="1rem" mb="1rem">
       <Flex justifyContent={'space-between'}>
@@ -60,7 +57,8 @@ const Card = ({ siteData, handleSelectSite, canClose = true }) => {
           More Info
         </Button>
         <Button
-          onClick={handleBooking}
+          as={NavLink}
+          to={`/book/${siteData.properties._id}`}
           bgColor="brand.primary"
           isDisabled={siteData.availableTables < 1}
         >

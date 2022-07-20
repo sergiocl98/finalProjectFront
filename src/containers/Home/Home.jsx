@@ -6,8 +6,9 @@ import GoogleMap from './GoogleMap';
 import HeaderPage from '../../components/HeaderPage/HeaderPage';
 import SiteList from './SiteList/SiteList';
 import localService from '../../services/localService';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setSites } from '../../store/slices/mapsSlice';
+import DateFilter from './DateFilter/DateFilter';
 
 const getLocals = async dispatcherFunction => {
   const res = await localService.getLocals();
@@ -16,6 +17,7 @@ const getLocals = async dispatcherFunction => {
 
 const Home = () => {
   const dispatch = useDispatch();
+  const { userPermission } = useSelector(state => state.maps);
 
   useEffect(() => {
     getLocals(v => dispatch(setSites(v)));
@@ -66,7 +68,12 @@ const Home = () => {
           md: 'calc(100vh - 225px)',
         }}
       >
-        <SiteList gridRow="1/2" />
+        {userPermission !== 'pending' && (
+          <>
+            <DateFilter />
+            <SiteList gridRow="1/2" />
+          </>
+        )}
       </GridItem>
     </Grid>
   );

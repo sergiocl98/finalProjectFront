@@ -8,7 +8,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { NavigationArrow } from 'phosphor-react';
 import LocalService from '../../services/localService';
 
@@ -50,7 +50,8 @@ const Detail = () => {
           <Flex justifyContent="space-between" alignItems="center">
             <Heading>{siteData.name}</Heading>
             <Button
-              onClick={handleBooking}
+              as={NavLink}
+              to={`/book/${siteData._id}`}
               bgColor="brand.primary"
               isDisabled={siteData.availableTables < 1}
             >

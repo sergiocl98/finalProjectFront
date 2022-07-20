@@ -119,10 +119,8 @@ export const mapsSlice = createSlice({
         lat: selectedSiteData.geometry.coordinates[1],
       };
 
-      state.zoom = 15;
-      state.center = coords;
-      state.viewCenter = coords;
       state.zoom = 20;
+      state.center = coords;
     },
     setLocationPermission(state, action) {
       const { newCenter, permission } = action.payload;
@@ -142,7 +140,10 @@ export const mapsSlice = createSlice({
           bounds.se.lng,
           bounds.nw.lat,
         ];
-      if (center) state.viewCenter = center;
+      if (center) {
+        state.viewCenter = center;
+        state.center = center;
+      }
 
       state.visibleSiteList = getVisibleSites(state);
     },
