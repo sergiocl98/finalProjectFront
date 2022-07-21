@@ -5,12 +5,13 @@ const getHalfHourTime = () => {
 
   const today = new Date();
   const ms = today.getTime();
+  const res = parseInt(ms / HALFHOUR) + 1;
 
-  return parseInt(ms / HALFHOUR) + 1;
+  return new Date(res * HALFHOUR);
 };
 
 const initialState = {
-  date: new Date(getHalfHourTime()),
+  date: getHalfHourTime(),
   local: null,
 };
 

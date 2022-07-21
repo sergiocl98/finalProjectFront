@@ -27,7 +27,7 @@ class UserService {
     }
 
     getUserById = id => {
-        const endPoint = `/user/${id}`;
+        const endPoint = `user/${id}`;
     
         return restService.get(endPoint).then(response => {
             if (!response) return Promise.reject();

@@ -37,21 +37,17 @@ const Detail = () => {
 
   const [siteData, setSiteData] = useState(null);
 
-  const handleBooking = () => {
-    console.log('!');
-  };
-
   useEffect(() => {
     getSiteData(id, setSiteData);
   }, [id]);
   return (
     <Box>
-    <HeaderPage
-          title={ "Detail" } 
-          description={ "Information about restaurant." }
-          hasGoBack 
-          urlBack={ '/home' }
-        />
+      <HeaderPage
+        title={'Detail'}
+        description={'Information about restaurant.'}
+        hasGoBack
+        urlBack={'/home'}
+      />
       {siteData !== null && (
         <>
           <Flex justifyContent="space-between" alignItems="center">

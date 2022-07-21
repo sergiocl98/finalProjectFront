@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import sites from './data';
 
 /**
  * Converts an array of objects with name, lat and lng properties into an array
@@ -60,14 +59,14 @@ const calculateDistanceBetweenCoords = (p1, p2) => {
   }
 };
 
-const getVisibleSites = state => {
-  return state.siteList
+const getVisibleSites = (arr, viewCenter) => {
+  return arr
     .map(site => {
       const siteCoords = {
         lat: site.geometry.coordinates[1],
         lng: site.geometry.coordinates[0],
       };
-      const d = calculateDistanceBetweenCoords(siteCoords, state.viewCenter);
+      const d = calculateDistanceBetweenCoords(siteCoords, viewCenter);
       return {
         ...site,
         properties: { ...site.properties, distToViewCenter: d },
@@ -76,6 +75,7 @@ const getVisibleSites = state => {
     .sort((a, b) => {
       return a.properties.distToViewCenter - b.properties.distToViewCenter;
     })
+    .filter(site => site.properties.distToViewCenter < 5000)
     .slice(0, 25);
 };
 
@@ -97,10 +97,8 @@ export const mapsSlice = createSlice({
   reducers: {
     setSites(state, action) {
       const parsed = parseToGeoJSON(action.payload);
-      state.siteList = parsed;
-      state.visibleSiteList = parsed
-        .filter(site => site.properties.distToViewCenter <= 1000)
-        .slice(0, 25);
+      state.siteList = [...parsed];
+      state.visibleSiteList = getVisibleSites([...parsed], state.viewCenter);
     },
     setSelectedSite(state, action) {
       state.selectedSite = action.payload;
@@ -145,7 +143,10 @@ export const mapsSlice = createSlice({
         state.center = center;
       }
 
-      state.visibleSiteList = getVisibleSites(state);
+      state.visibleSiteList = getVisibleSites(
+        [...state.siteList],
+        state.viewCenter
+      );
     },
     moveCameraToPoint(state, action) {
       state.center = action.payload;
