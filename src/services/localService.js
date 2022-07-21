@@ -2,7 +2,7 @@ import restService from './restService';
 
 class LocalService {
   getLocals = () => {
-    const endPoint = '/locales';
+    const endPoint = 'locales';
 
     return restService.get(endPoint).then(res => {
       if (res.data) return res.data;
@@ -10,7 +10,7 @@ class LocalService {
   };
 
   getLocalById = id => {
-    const endPoint = `/locales/${id}`;
+    const endPoint = `locales/${id}`;
 
     return restService.get(endPoint).then(res => {
       if (res.data) return res.data;
@@ -18,7 +18,7 @@ class LocalService {
   };
 
   createLocal = (coords, name, address) => {
-    const endPoint = `/locales`;
+    const endPoint = `locales`;
 
     return restService
       .post(endPoint, {
