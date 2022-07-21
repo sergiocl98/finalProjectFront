@@ -4,7 +4,7 @@ import Card from './Card';
 
 const ScrollList = ({ listItems, filter = '', handleSelectSite }) => {
   return (
-    <List h="100%" overflowY={'scroll'}>
+    <List h="100%" overflowY={'auto'}>
       {listItems
         .filter(
           site =>

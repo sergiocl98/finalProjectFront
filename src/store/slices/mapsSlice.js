@@ -20,6 +20,23 @@ const parseToGeoJSON = (arr, viewCenter) => {
         busyTables: point.busyTables,
         availableTables: point.availableTables,
         cluster: false,
+        bookings: point.bookings.map(b => {
+          try {
+            return {
+              _id: b._id,
+              people: b.people,
+              start: b.lastBook.start,
+              end: b.lastBook.end,
+            };
+          } catch (err) {
+            return {
+              _id: b._id,
+              people: 4,
+              start: '',
+              end: '',
+            };
+          }
+        }),
         distToViewCenter: calculateDistanceBetweenCoords(
           { lng: point.coords.lng, lat: point.coords.lat },
           viewCenter
@@ -59,7 +76,7 @@ const calculateDistanceBetweenCoords = (p1, p2) => {
   }
 };
 
-const getVisibleSites = (arr, viewCenter) => {
+const getVisibleSites = (arr, viewCenter, date = '', people = 1) => {
   return arr
     .map(site => {
       const siteCoords = {
@@ -76,7 +93,31 @@ const getVisibleSites = (arr, viewCenter) => {
       return a.properties.distToViewCenter - b.properties.distToViewCenter;
     })
     .filter(site => site.properties.distToViewCenter < 5000)
-    .slice(0, 25);
+    .filter(site => {
+      // falta filtrar por fecha
+      const res = site.properties.bookings.map(b => {
+        const peopleFilter = b.people == people;
+        if (!peopleFilter) return false;
+        if (b.start === '' && b.end === '') return true;
+
+        const reqDate = new Date(date);
+        const strDate = new Date(b.start);
+        const endDate = new Date(b.end);
+
+        const reqTime = reqDate.getTime();
+        const strTime = strDate.getTime();
+        const endTime = endDate.getTime();
+
+        const TIME = 1000 * 60 * 90;
+
+        const dateFilter = reqTime <= strTime - TIME || reqTime >= endTime;
+        if (!dateFilter) return false;
+
+        return true;
+      });
+      return res.some(e => e);
+    })
+    .slice(0, 50);
 };
 
 const initialState = {
@@ -97,8 +138,8 @@ export const mapsSlice = createSlice({
   reducers: {
     setSites(state, action) {
       const parsed = parseToGeoJSON(action.payload);
-      state.siteList = [...parsed];
-      state.visibleSiteList = getVisibleSites([...parsed], state.viewCenter);
+      state.siteList = parsed;
+      state.visibleSiteList = getVisibleSites(parsed, state.viewCenter);
     },
     setSelectedSite(state, action) {
       state.selectedSite = action.payload;
@@ -129,7 +170,7 @@ export const mapsSlice = createSlice({
       state.userPermission = permission;
     },
     setMapView(state, action) {
-      const { zoom, bounds, center } = action.payload;
+      const { zoom, bounds, center, date, people } = action.payload;
       if (zoom) state.zoom = zoom;
       if (bounds)
         state.bounds = [
@@ -144,8 +185,10 @@ export const mapsSlice = createSlice({
       }
 
       state.visibleSiteList = getVisibleSites(
-        [...state.siteList],
-        state.viewCenter
+        state.siteList,
+        state.viewCenter,
+        date,
+        people
       );
     },
     moveCameraToPoint(state, action) {

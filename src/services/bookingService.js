@@ -1,18 +1,22 @@
 import restService from './restService';
 
 class BookingService {
-  createBooking = (local, user, date) => {
+  createBooking = (local, user, startDate, endDate, location, people) => {
     const endPoint = `booking`;
 
-    return restService
-      .post(endPoint, {
-        local,
-        user,
-        date,
-      })
-      .then(res => {
-        if (res.data) return res.data;
-      });
+    // return restService
+    //   .put(endPoint, {
+    //     local,
+    //     user,
+    //     startDate,
+    //     endDate,
+    //     location,
+    //     people,
+    //   })
+    //   .then(res => {
+    //     if (res.data) return res.data;
+    //   });
+    return "F"
   };
 
   getBookingById = id => {
