@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heading, Flex } from '@chakra-ui/react';
+import { Heading, Flex, Text } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setDate } from '../../../store/slices/bookingSlice';
 import CustomDatePicker from '../../../components/DatePicker/CustomDatePicker';
@@ -16,7 +16,7 @@ const DateFilter = () => {
 
   return (
     <Flex flexDirection="column">
-      <Heading>Date and hour</Heading>
+      <Text fontSize='26px' fontWeight='700'>Date and Hour</Text>
       <CustomDatePicker
         date={date}
         handleDateChange={handleDateChange}

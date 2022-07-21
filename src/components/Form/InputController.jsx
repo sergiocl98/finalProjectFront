@@ -54,6 +54,7 @@ const InputController = ({
                   onChange={ onChangeCustom }
                   onBlur={ onBlurCustom }
                   autoComplete={ autoComplete || 'off' }
+                  focusBorderColor='#F26E02'
                   { ...props }
                 />
                 {inputRightElement}

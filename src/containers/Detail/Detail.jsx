@@ -11,6 +11,7 @@ import React, { useEffect, useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import { NavigationArrow } from 'phosphor-react';
 import LocalService from '../../services/localService';
+import HeaderPage from '../../components/HeaderPage/HeaderPage';
 
 const getSiteData = async (id, setSiteData) => {
   const res = await LocalService.getLocalById(id);
@@ -45,6 +46,12 @@ const Detail = () => {
   }, [id]);
   return (
     <Box>
+    <HeaderPage
+          title={ "Detail" } 
+          description={ "Information about restaurant." }
+          hasGoBack 
+          urlBack={ '/home' }
+        />
       {siteData !== null && (
         <>
           <Flex justifyContent="space-between" alignItems="center">

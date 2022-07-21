@@ -1,7 +1,9 @@
 import React from 'react';
-import ReactDatePicker from 'react-datepicker';
-
+import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import '../Form/DatepickerController.css';
+import { InputGroup, InputRightElement } from '@chakra-ui/react';
+import { Calendar } from 'phosphor-react';
 
 const filterPassedDate = date => {
   const currentDate = new Date();
@@ -34,19 +36,24 @@ const filterPassedTime = time => {
   return currentDate.getTime() < selectedDate.getTime();
 };
 
-const CustomDatePicker = ({date, onChange}) => {
+const CustomDatePicker = ({date, handleDateChange}) => {
   console.log(date)
   return (
-    <ReactDatePicker
-      selected={date}
-      onChange={onChange}
-      showTimeSelect
-      timeIntervals={30}
-      filterDate={filterPassedDate}
-      filterTime={filterPassedTime}
-      timeCaption="time"
-      dateFormat="dd/MM/yyyy HH:mm"
-    ></ReactDatePicker>
+    <InputGroup>
+      <DatePicker
+        selected={date}
+        onChange={handleDateChange}
+        showTimeSelect
+        timeIntervals={30}
+        filterDate={filterPassedDate}
+        filterTime={filterPassedTime}
+        timeCaption="time"
+        dateFormat="dd/MM/yyyy HH:mm"
+      />
+      <InputRightElement w='' zIndex='1' mr={'6px'}>
+         <Calendar size={32} weight="thin"/>
+      </InputRightElement>
+    </InputGroup>
   );
 };
 
