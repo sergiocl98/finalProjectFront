@@ -36,7 +36,7 @@ const Home = () => {
       gridTemplateRows={{ base: 'auto auto auto', md: 'auto auto' }}
       gridTemplateColumns={{
         base: 'auto',
-        md: '26% 72%',
+        md: 'minmax(375px, 26%) minmax(auto, 72%)',
       }}
       gap="2%"
     >

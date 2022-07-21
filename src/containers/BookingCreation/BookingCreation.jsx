@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, Box, Flex, Heading, Text } from '@chakra-ui/react';
-import { setDate } from '../../store/slices/bookingSlice';
+import { Select, Button, Box, Flex, Heading, Text } from '@chakra-ui/react';
+import { setDate, setPeople } from '../../store/slices/bookingSlice';
 import localService from '../../services/localService';
 import CustomDatePicker from '../../components/DatePicker/CustomDatePicker';
 import bookingService from '../../services/bookingService';
@@ -13,10 +13,22 @@ const getSiteData = async (id, setSiteData) => {
   setSiteData(res);
 };
 
+const generateOptions = people => {
+  let opts = [];
+  for (let i = 1; i < 13; i++) {
+    opts.push(
+      <option key={i} value={i} selected={i == people ? 'selected' : ''}>
+        {i}
+      </option>
+    );
+  }
+  return opts;
+};
+
 const BookingCreation = () => {
   const { local } = useParams();
 
-  const { date } = useSelector(state => state.booking);
+  const { date, people } = useSelector(state => state.booking);
 
   const dispatch = useDispatch();
 
@@ -28,6 +40,10 @@ const BookingCreation = () => {
 
   const handleDateChange = v => {
     dispatch(setDate(v));
+  };
+
+  const handlePeopleChange = e => {
+    dispatch(setPeople(e.target.value));
   };
 
   const handleSubmit = async () => {
@@ -59,6 +75,10 @@ const BookingCreation = () => {
           date={date}
           handleDateChange={handleDateChange}
         ></CustomDatePicker>
+      </Box>
+      <Box>
+      <Text>People</Text>
+        <Select onChange={handlePeopleChange}>{generateOptions(people)}</Select>
       </Box>
       <Box>
         <Text>Select your table</Text>

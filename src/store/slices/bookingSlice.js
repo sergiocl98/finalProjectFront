@@ -12,7 +12,7 @@ const getHalfHourTime = () => {
 
 const initialState = {
   date: getHalfHourTime(),
-  local: null,
+  people: 0,
 };
 
 export const bookingSlice = createSlice({
@@ -22,8 +22,11 @@ export const bookingSlice = createSlice({
     setDate(state, action) {
       state.date = new Date(action.payload);
     },
+    setPeople(state, action) {
+      state.people = action.payload;
+    },
   },
 });
 
-export const { setDate, setLocal } = bookingSlice.actions;
+export const { setDate, setPeople } = bookingSlice.actions;
 export const selectActions = bookingSlice.actions;

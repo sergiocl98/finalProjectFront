@@ -55,6 +55,8 @@ const GoogleMap = () => {
     bounds,
   } = useSelector(state => state.maps);
 
+  const { people } = useSelector(state => state.booking);
+
   const { clusters } = useSupercluster({
     points: visibleSiteList,
     bounds,
@@ -107,6 +109,7 @@ const GoogleMap = () => {
                 zoom,
                 bounds,
                 center,
+                people,
               })
             );
           }}
