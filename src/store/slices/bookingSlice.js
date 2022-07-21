@@ -1,7 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const getHalfHourTime = () => {
+  const HALFHOUR = 1000 * 60 * 30;
+
+  const today = new Date();
+  const ms = today.getTime();
+
+  return parseInt(ms / HALFHOUR) + 1;
+};
+
 const initialState = {
-  date: new Date(),
+  date: new Date(getHalfHourTime()),
   local: null,
 };
 

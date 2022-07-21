@@ -36,8 +36,7 @@ const filterPassedTime = time => {
   return currentDate.getTime() < selectedDate.getTime();
 };
 
-const CustomDatePicker = ({date, handleDateChange}) => {
-  console.log(date)
+const CustomDatePicker = ({ date, handleDateChange }) => {
   return (
     <InputGroup>
       <DatePicker
@@ -50,8 +49,8 @@ const CustomDatePicker = ({date, handleDateChange}) => {
         timeCaption="time"
         dateFormat="dd/MM/yyyy HH:mm"
       />
-      <InputRightElement w='' zIndex='1' mr={'6px'}>
-         <Calendar size={32} weight="thin"/>
+      <InputRightElement w="" zIndex="1" mr={'6px'}>
+        <Calendar size={32} weight="thin" />
       </InputRightElement>
     </InputGroup>
   );
