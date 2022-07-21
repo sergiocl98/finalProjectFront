@@ -24,23 +24,23 @@ const TopbarProfile = () => {
     if(localUser?.userId){
       dispatch(fetchUserById(localUser?.userId));
     }
-  }, [user, dispatch])
+  }, [user, dispatch, userDetailStored?.image])
 
   return (
     <Flex position='absolute' right='0' h='100%' mr='30px'>
       <Flex mb='0' ml='20px' position='relative' alignItems='center' alignContent='center'>
         <Flex mr='20px' direction='row' justifyContent='space-between' alignItems='center' gap='10px'>
-          <Avatar size='md' name={localUser?.name}  src={userDetailStored?.image}/>
+          <Avatar size='md' name={userDetailStored?.name}  src={userDetailStored?.image}/>
           {isLargerThan768 && <Stack>
             <Text 
             fontSize='14px' fontWeight='700'
             >
-              {localUser?.email ? localUser?.email : "Email"}
+              {userDetailStored?.email ? userDetailStored?.email : "Email"}
             </Text>
             <Text 
             fontSize='10px' fontWeight='700' display='flex' justifyContent='flex-end'
             >
-              {localUser?.name ? localUser?.name : "Usuario"}
+              {userDetailStored?.name ? userDetailStored?.name : "Usuario"}
             </Text>
 
           </Stack>}

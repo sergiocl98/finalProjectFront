@@ -9,7 +9,7 @@ const HandleRoute = ({ component: ComponentRoute, type='public' }) => {
     return isLoggedIn ? <ComponentRoute /> : <Navigate to="/login" />; 
   }
 
-  return isLoggedIn ? <Navigate to='/dashboard' /> : <ComponentRoute />;
+  return isLoggedIn ? <Navigate to='/home' /> : <ComponentRoute />;
 
 };
 
