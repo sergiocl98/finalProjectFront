@@ -17,7 +17,7 @@ const SiteList = () => {
   const { siteList, visibleSiteList, selectedSite, userPermission } =
     useSelector(state => state.maps);
 
-  const { control, setValue, watch } = useForm();
+  const { control, setValue, watch } = useForm({defaultValues:{"inputValue":""}});
 
   const dispatch = useDispatch();
 
@@ -33,7 +33,7 @@ const SiteList = () => {
 
   return (
     <>
-      <Box h="100%">
+      <Box>
         <Text fontSize='26px' fontWeight='700' >Near Locals</Text>
         {selectedSite !== undefined ? (
           <Card

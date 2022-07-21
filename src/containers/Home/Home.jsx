@@ -30,13 +30,13 @@ const Home = () => {
                 "Map"
                 "List"`,
         md: `"header header"
-                "Map List"
-                "Map List"`,
+                "List Map"
+                "List Map"`,
       }}
       gridTemplateRows={{ base: 'auto auto auto', md: 'auto auto' }}
       gridTemplateColumns={{
         base: 'auto',
-        md: '72% 26%',
+        md: '26% 72%',
       }}
       gap="2%"
     >
