@@ -20,6 +20,7 @@ const parseToGeoJSON = (arr, viewCenter) => {
         totalTables: point.totalTables,
         busyTables: point.busyTables,
         availableTables: point.availableTables,
+        tags: point.tags,
         cluster: false,
         bookings: point.bookings.map(b => {
           try {

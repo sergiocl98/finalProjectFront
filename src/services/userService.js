@@ -34,5 +34,14 @@ class UserService {
             return response?.data;
         });
       };
+
+      editUserById = ({id , user}) => {
+        const endPoint = `user/edit/${id}`;
+        return restService.put(endPoint,user)
+        .then(response => {
+            if (!response) return Promise.reject();
+            return response?.data;
+        });
+      };
 }
 export default new UserService();
