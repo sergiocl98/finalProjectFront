@@ -12,7 +12,7 @@ class BookingService {
 
     return restService
       .patch(endPoint, {
-        user: user.id,
+        user: user.userId,
         bookings,
         lastBook: { start, end },
       })
