@@ -14,10 +14,15 @@ import InputController from '../../../components/Form/InputController';
 import { useForm } from 'react-hook-form';
 
 const SiteList = () => {
-  const { siteList, visibleSiteList, selectedSite, userPermission } =
-    useSelector(state => state.maps);
+  const { siteList, visibleSiteList, selectedSite } = useSelector(
+    state => state.maps
+  );
 
-  const { control, setValue, watch } = useForm({defaultValues:{"inputValue":""}});
+  const { date, people } = useSelector(state => state.booking);
+
+  const { control, setValue, watch } = useForm({
+    defaultValues: { inputValue: '' },
+  });
 
   const dispatch = useDispatch();
 
@@ -26,7 +31,7 @@ const SiteList = () => {
   };
 
   const handleSelectSite = (id = undefined) => {
-    dispatch(setSelectedSite(id));
+    dispatch(setSelectedSite({ id, date, people }));
   };
 
   const inputValue = watch('inputValue');
@@ -34,11 +39,13 @@ const SiteList = () => {
   return (
     <>
       <Box>
-        <Text fontSize='26px' fontWeight='700' >Near Locals</Text>
+        <Text fontSize="26px" fontWeight="700">
+          Near Locals
+        </Text>
         {selectedSite !== undefined ? (
           <Card
             id={selectedSite}
-            siteData={siteList.find(
+            siteData={visibleSiteList.find(
               site => site.properties._id === selectedSite
             )}
             handleSelectSite={handleSelectSite}
@@ -53,8 +60,8 @@ const SiteList = () => {
               inputLeftElement={
                 <InputLeftElement
                   pointerEvents={'none'}
-                  zIndex='0'
-                  children={<MagnifyingGlass size={24}  />}
+                  zIndex="0"
+                  children={<MagnifyingGlass size={24} />}
                 ></InputLeftElement>
               }
               inputRightElement={
@@ -72,11 +79,16 @@ const SiteList = () => {
                 listItems={siteList}
                 filter={inputValue}
                 handleSelectSite={handleSelectSite}
+                isSearch={true}
+                handleInputReset={handleInputReset}
               />
             ) : (
               <ScrollList
-                listItems={visibleSiteList}
+                listItems={visibleSiteList.filter(
+                  site => site.properties.available
+                )}
                 handleSelectSite={handleSelectSite}
+                handleInputReset={handleInputReset}
               />
             )}
           </>

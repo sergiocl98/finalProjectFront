@@ -55,7 +55,7 @@ const GoogleMap = () => {
     bounds,
   } = useSelector(state => state.maps);
 
-  const { people } = useSelector(state => state.booking);
+  const { people, date } = useSelector(state => state.booking);
 
   const { clusters } = useSupercluster({
     points: visibleSiteList,
@@ -110,10 +110,11 @@ const GoogleMap = () => {
                 bounds,
                 center,
                 people,
+                date,
               })
             );
           }}
-          onClick={e => dispatch(setSelectedSite(undefined))}
+          onClick={e => dispatch(setSelectedSite({id:undefined, date, people}))}
           defaultZoom={15}
           bootstrapURLKeys={{ key: apikey, v: '3.31' }}
           options={mapStyles}
@@ -144,6 +145,7 @@ const GoogleMap = () => {
                 lng={longitude}
                 name={cluster.properties.name}
                 icon="restaurant"
+                available={cluster.properties.available}
               />
             );
           })}

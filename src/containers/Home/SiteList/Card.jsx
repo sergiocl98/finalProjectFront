@@ -13,13 +13,28 @@ const handleGetDirections = coords => {
   );
 };
 
-const Card = ({ siteData, handleSelectSite, canClose = true }) => {  
-  console.log(siteData);
+const Card = ({ 
+siteData,
+  handleSelectSite,
+  canClose = true,
+  isSearch = false,
+  handleInputReset }) => {  
   return (
-    <Box overflow={'hidden'} mt="1rem" mb="1rem" p={5} shadow='md' borderWidth='1px' bgColor='white'>
+    <Box
+      overflow={'hidden'}
+      mt="1rem"
+      mb="1rem"
+      p={5}
+      shadow="md"
+      borderWidth="1px"
+      bgColor="white"
+    >
       <Flex justifyContent={'space-between'}>
-        <Text fontSize='20px' fontWeight='700'
+        <Text
+          fontSize="20px"
+          fontWeight="700"
           onClick={() => {
+            handleInputReset();
             handleSelectSite(siteData.properties._id);
           }}
         >
@@ -44,34 +59,37 @@ const Card = ({ siteData, handleSelectSite, canClose = true }) => {
           alignItems="center"
           onClick={() => handleGetDirections(siteData.geometry.coordinates)}
         >
-          <Text mr='4px'>{siteData.properties.address}</Text>
-          <MapTrifold size={26} weight="regular" color={'orange'}/>
+          <Text mr="4px">{siteData.properties.address}</Text>
+          <MapTrifold size={26} weight="regular" color={'orange'} />
         </Flex>
       </Box>
-      <Text mb="2rem" mt="1rem">
-        {siteData.properties.availableTables > 0
-          ? `We have ${siteData.properties.availableTables} free table${
-              siteData.properties.availableTables > 1 ? 's' : ''
-            }!`
-          : 'Sorry, there are no tables available'}
-      </Text>
-      <Flex justifyContent={'space-between'}>
-        <Button
-          as={NavLink}
-          to={`/detail/${siteData.properties._id}`}
-          variant='secondary2' 
-        >
-          More Info
-        </Button>
-        <Button
-          as={NavLink}
-          to={`/book/${siteData.properties._id}`}
-          variant='primary'
-          isDisabled={siteData.availableTables < 1}
-        >
-          Book a table
-        </Button>
-      </Flex>
+
+      {!isSearch && (
+        <Box>
+          <Text mb="2rem" mt="1rem">
+            {siteData.properties.available
+              ? `We still have some free tables`
+              : 'Sorry, there are no tables available'}
+          </Text>
+          <Flex justifyContent={'space-between'}>
+            <Button
+              as={NavLink}
+              to={`/detail/${siteData.properties._id}`}
+              variant="secondary2"
+            >
+              More Info
+            </Button>
+            <Button
+              as={NavLink}
+              to={`/book/${siteData.properties._id}`}
+              variant="primary"
+              isDisabled={!siteData.properties.available}
+            >
+              Book a table
+            </Button>
+          </Flex>
+        </Box>
+      )}
     </Box>
   );
 };

@@ -77,6 +77,31 @@ const calculateDistanceBetweenCoords = (p1, p2) => {
   }
 };
 
+const getAvailability = (booking, people, date) => {
+  if (date === '') return true;
+
+  const peopleFilter = booking.people == people;
+
+  if (!peopleFilter) return false;
+
+  if (booking.start === '' && booking.end === '') return true;
+
+  const reqDate = new Date(date);
+  const strDate = new Date(booking.start);
+  const endDate = new Date(booking.end);
+
+  const reqTime = reqDate.getTime();
+  const strTime = strDate.getTime();
+  const endTime = endDate.getTime();
+
+  const TIME = 1000 * 60 * 90;
+
+  const dateFilter = reqTime <= strTime - TIME || reqTime >= endTime;
+  if (!dateFilter) return false;
+
+  return true;
+};
+
 const getVisibleSites = (arr, viewCenter, date = '', people = 1) => {
   return arr
     .map(site => {
@@ -94,31 +119,15 @@ const getVisibleSites = (arr, viewCenter, date = '', people = 1) => {
       return a.properties.distToViewCenter - b.properties.distToViewCenter;
     })
     .filter(site => site.properties.distToViewCenter < 5000)
-    .filter(site => {
+    .map(site => {
       // falta filtrar por fecha
-      const res = site.properties.bookings.map(b => {
-        const peopleFilter = b.people == people;
-        if (!peopleFilter) return false;
-        if (b.start === '' && b.end === '') return true;
+      const res = site.properties.bookings.map(b =>
+        getAvailability(b, people, date)
+      );
 
-        const reqDate = new Date(date);
-        const strDate = new Date(b.start);
-        const endDate = new Date(b.end);
-
-        const reqTime = reqDate.getTime();
-        const strTime = strDate.getTime();
-        const endTime = endDate.getTime();
-
-        const TIME = 1000 * 60 * 90;
-
-        const dateFilter = reqTime <= strTime - TIME || reqTime >= endTime;
-        if (!dateFilter) return false;
-
-        return true;
-      });
-      return res.some(e => e);
-    })
-    .slice(0, 50);
+      site.properties.available = res.some(e => e);
+      return site;
+    });
 };
 
 const initialState = {
@@ -143,13 +152,14 @@ export const mapsSlice = createSlice({
       state.visibleSiteList = getVisibleSites(parsed, state.viewCenter);
     },
     setSelectedSite(state, action) {
-      state.selectedSite = action.payload;
+      state.selectedSite = action.payload.id;
+      const { date, people } = action.payload;
       if (action.payload === undefined) {
         state.selectedSite = undefined;
       }
 
       const selectedSiteData = state.siteList.find(
-        p => p.properties._id === action.payload
+        p => p.properties._id === action.payload.id
       );
 
       if (!selectedSiteData) return;
@@ -161,6 +171,13 @@ export const mapsSlice = createSlice({
 
       state.zoom = 20;
       state.center = coords;
+
+      state.visibleSiteList = getVisibleSites(
+        state.siteList,
+        state.center,
+        date,
+        people
+      );
     },
     setLocationPermission(state, action) {
       const { newCenter, permission } = action.payload;
