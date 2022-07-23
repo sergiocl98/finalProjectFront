@@ -18,6 +18,8 @@ siteData,
   handleSelectSite,
   canClose = true,
   isSearch = false,
+  handleInputReset
+}) => {
   handleInputReset }) => {  
   return (
     <Box

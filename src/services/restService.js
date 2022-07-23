@@ -391,6 +391,23 @@ class RestService {
             });
     };
 
+    patch = (url, body, mockCode = null) => {
+        let config = {
+            headers: AuthService.authHeader(),
+        };
+        if (this.checkEnviromentIsDevelopmentOrTest() && mockCode) {
+            config.headers.Prefer = `code=${mockCode}`;
+        }
+        return axios.patch(`${process.env.REACT_APP_API_URL}${url}`, body, config)
+            .catch((error) => {
+                if (!error.response) {
+                    return;
+                } else {
+                    return error.response;
+                }
+            });
+    };
+
     delete = (url, mockCode = null) => {
         let config = {
             headers: AuthService.authHeader(),
