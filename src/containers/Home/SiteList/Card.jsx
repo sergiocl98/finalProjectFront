@@ -20,6 +20,7 @@ const Card = ({
   isSearch = false,
   handleInputReset
 }) => {
+  
   return (
     <Box
       overflow={'hidden'}

@@ -25,7 +25,6 @@ const DateFilter = () => {
 
   const handleDateChange = v => {
     dispatch(setDate(v));
-    console.log(v);
     dispatch(
       setMapView({
         date: v,

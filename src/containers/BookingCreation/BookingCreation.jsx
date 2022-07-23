@@ -6,7 +6,6 @@ import { setDate, setPeople } from '../../store/slices/bookingSlice';
 import localService from '../../services/localService';
 import CustomDatePicker from '../../components/DatePicker/CustomDatePicker';
 import bookingService from '../../services/bookingService';
-import userService from '../../services/userService';
 
 const getSiteData = async (id, setSiteData) => {
   const res = await localService.getLocalById(id);
@@ -30,9 +29,9 @@ const BookingCreation = () => {
 
   const { date, people } = useSelector(state => state.booking);
 
-  const dispatch = useDispatch();
+  const [bookings, setBookings] = useState([]);
 
-  const user = userService.getUser();
+  const dispatch = useDispatch();
 
   const [siteData, setSiteData] = useState(null);
 
@@ -47,8 +46,9 @@ const BookingCreation = () => {
   };
 
   const handleSubmit = async () => {
-    const res = await bookingService.createBooking(local, user.userId, date);
+    const res = await bookingService.createBooking(bookings, date);
     if (res) {
+      console.log(res);
       navigate(`/confirmation/${res._id}`);
     }
   };
@@ -56,6 +56,17 @@ const BookingCreation = () => {
   useEffect(() => {
     getSiteData(local, setSiteData);
   }, [local]);
+
+  useEffect(() => {
+    if (siteData)
+      setBookings(
+        siteData.bookings.filter(b =>
+          bookingService.getAvailability(b, date, people)
+        )
+      );
+  }, [siteData, date, people]);
+
+  console.log(bookings)
 
   return (
     <Flex
@@ -77,13 +88,15 @@ const BookingCreation = () => {
         ></CustomDatePicker>
       </Box>
       <Box>
-      <Text>People</Text>
+        <Text>People</Text>
         <Select onChange={handlePeopleChange}>{generateOptions(people)}</Select>
       </Box>
       <Box>
         <Text>Select your table</Text>
       </Box>
-      <Button onClick={handleSubmit}>Book</Button>
+      <Button onClick={handleSubmit} disabled={bookings.length === 0}>
+        Book
+      </Button>
     </Flex>
   );
 };

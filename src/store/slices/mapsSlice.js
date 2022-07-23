@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import bookingService from '../../services/bookingService';
 
 /**
  * Converts an array of objects with name, lat and lng properties into an array
@@ -25,15 +26,13 @@ const parseToGeoJSON = (arr, viewCenter) => {
             return {
               _id: b._id,
               people: b.people,
-              start: b.lastBook.start,
-              end: b.lastBook.end,
+              lastBook: b.lastBook,
             };
           } catch (err) {
             return {
               _id: b._id,
               people: 4,
-              start: '',
-              end: '',
+              lastBook: [],
             };
           }
         }),
@@ -76,31 +75,6 @@ const calculateDistanceBetweenCoords = (p1, p2) => {
   }
 };
 
-const getAvailability = (booking, people, date) => {
-  if (date === '') return true;
-
-  const peopleFilter = booking.people == people;
-
-  if (!peopleFilter) return false;
-
-  if (booking.start === '' && booking.end === '') return true;
-
-  const reqDate = new Date(date);
-  const strDate = new Date(booking.start);
-  const endDate = new Date(booking.end);
-
-  const reqTime = reqDate.getTime();
-  const strTime = strDate.getTime();
-  const endTime = endDate.getTime();
-
-  const TIME = 1000 * 60 * 90;
-
-  const dateFilter = reqTime <= strTime - TIME || reqTime >= endTime;
-  if (!dateFilter) return false;
-
-  return true;
-};
-
 const getVisibleSites = (arr, viewCenter, date = '', people = 1) => {
   return arr
     .map(site => {
@@ -121,7 +95,7 @@ const getVisibleSites = (arr, viewCenter, date = '', people = 1) => {
     .map(site => {
       // falta filtrar por fecha
       const res = site.properties.bookings.map(b =>
-        getAvailability(b, people, date)
+        bookingService.getAvailability(b, date, people)
       );
 
       site.properties.available = res.some(e => e);
