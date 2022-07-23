@@ -1,17 +1,26 @@
 import {
   Box,
   Button,
+  Container,
   Flex,
   Heading,
+  Icon,
   List,
   ListItem,
+  SimpleGrid,
+  Stack,
+  StackDivider,
   Text,
+  Image,
+  HStack,
+  Spinner
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
-import { NavigationArrow } from 'phosphor-react';
+import { MapTrifold } from 'phosphor-react';
 import LocalService from '../../services/localService';
 import HeaderPage from '../../components/HeaderPage/HeaderPage';
+import TableIcon from '../../shared/img/TableIcon.png';
 
 const getSiteData = async (id, setSiteData) => {
   const res = await LocalService.getLocalById(id);
@@ -32,6 +41,23 @@ const handleGetDirections = siteData => {
   );
 };
 
+const Feature = ({ text, icon, iconBg }) => {
+  return (
+    <Stack direction={'row'} align={'center'}>
+      <Flex
+        w={8}
+        h={8}
+        align={'center'}
+        justify={'center'}
+        rounded={'full'}
+        bg={iconBg}>
+        {icon}
+      </Flex>
+      <Text fontWeight={600}>{text}</Text>
+    </Stack>
+  );
+};
+
 const Detail = () => {
   const { id } = useParams();
 
@@ -48,51 +74,93 @@ const Detail = () => {
         hasGoBack
         urlBack={'/home'}
       />
-      {siteData !== null && (
-        <>
-          <Flex justifyContent="space-between" alignItems="center">
-            <Heading>{siteData.name}</Heading>
-            <Button
-              as={NavLink}
-              to={`/book/${siteData._id}`}
-              bgColor="brand.primary"
-              isDisabled={siteData.availableTables < 1}
-            >
-              Book a table
-            </Button>
+    
+    {siteData ? <Container maxW={'5xl'} p={12} bgColor={'white'} borderRadius={10}>
+      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
+        <Stack spacing={4}>
+          <HStack>
+            {siteData?.tags.map(tag => (
+              <Text
+              key={tag}
+              textTransform={'uppercase'}
+              color={'orange.400'}
+              fontWeight={600}
+              fontSize={'sm'}
+              bg='orange.50'
+              p={2}
+              alignSelf={'flex-start'}
+              rounded={'md'}>
+              {tag}
+            </Text>
+            ))
+            }
+          </HStack>
+          <Heading>{siteData?.name}</Heading>
+          <Flex onClick={() => handleGetDirections(siteData)}>
+            <Text color={'gray.500'} fontSize={'lg'} mr='4px' >
+              {siteData?.address} 
+            </Text>
+            <MapTrifold size={26} weight="regular" color={'orange'}/>
           </Flex>
-          <Box display="inline-block" cursor={'pointer'}>
-            <Flex
-              w={'auto'}
-              alignItems="center"
-              onClick={() => handleGetDirections(siteData)}
-            >
-              <Text>{siteData.address}</Text>
-              <NavigationArrow size={32} weight="fill" />
-            </Flex>
-          </Box>
-          <Heading fontSize={'150%'}>About the place</Heading>
-          <Text>{siteData.description}</Text>
-          <Heading fontSize={'150%'}>Menu</Heading>
-          <Flex>
-            {parseMenu(siteData.menu).map(cat => {
-              return (
-                <Box mr="1rem">
-                  <Heading fontSize={'100%'}>{cat}</Heading>
-                  <List>
-                    {siteData.menu
-                      .filter(ele => ele.category === cat)
-                      .map(ele => (
-                        <ListItem>{ele.name}</ListItem>
-                      ))}
-                  </List>
-                </Box>
-              );
-            })}
-          </Flex>
-        </>
-      )}
+          <Text color={'gray.500'} fontSize={'lg'}>
+            {siteData?.description}
+          </Text>
+          <Stack
+            spacing={4}
+            divider={
+              <StackDivider
+                borderColor={'gray.100'}
+              />
+            }
+            mb='30px'>
+            <Feature
+              icon={
+                <Image src={TableIcon} alt="TableIcon" width={5} height={5} />
+              }
+              iconBg={'yellow.100'}
+              text={'Total tables: ' + siteData?.totalTables}
+            />
+            <Feature
+              icon={<Image src={TableIcon} alt="TableIcon" width={5} height={5} />}
+              iconBg={'red.100'}
+              text={'Busy tables: ' + siteData?.busyTables}
+            />
+            <Feature
+              icon={
+                <Image src={TableIcon} alt="TableIcon" width={5} height={5} />
+              }
+              iconBg={'green.100'}
+              text={'Available tables: ' + (siteData?.totalTables - siteData?.busyTables)}
+            />
+          </Stack>
+          <HStack pt={'40px'}>
+            <Button variant='secondary2' mr='20px'>Open Menu</Button>
+            <Button variant='primary'>Book a table</Button>
+          </HStack>
+        </Stack>
+        <Flex>
+          <Image
+            rounded={'md'}
+            alt={'feature image'}
+            src={
+              siteData?.image
+            }
+            objectFit={'cover'}
+          />
+        </Flex>
+      </SimpleGrid>
+    </Container>
+    : <Flex justify={'center'}> 
+        <Spinner
+            thickness='4px'
+            speed='0.65s'
+            emptyColor='gray.200'
+            color='orange.500'
+            size='xl'
+          />
+      </Flex>}
     </Box>
+
   );
 };
 

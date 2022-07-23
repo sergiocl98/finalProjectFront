@@ -1,6 +1,6 @@
-import { Box, Button, Flex, Heading, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Heading, HStack, Tag, Text } from '@chakra-ui/react';
 import { MapTrifold } from 'phosphor-react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { NavLink } from 'react-router-dom';
@@ -13,13 +13,12 @@ const handleGetDirections = coords => {
   );
 };
 
-const Card = ({
-  siteData,
+const Card = ({ 
+siteData,
   handleSelectSite,
   canClose = true,
   isSearch = false,
-  handleInputReset
-}) => {
+  handleInputReset }) => {  
   return (
     <Box
       overflow={'hidden'}
@@ -47,6 +46,13 @@ const Card = ({
           </Button>
         )}
       </Flex>
+      {siteData?.properties?.tags && <HStack spacing={'4px'} mb={'10px'}>
+       {siteData?.properties?.tags.map(tag => (
+        <Tag key={tag} variantColor='subtle' colorScheme='orange' textTransform={'capitalize'}>
+          {tag}
+        </Tag>
+      ))}
+      </HStack>}
       <Box display="inline-block" cursor={'pointer'}>
         <Flex
           w={'auto'}
