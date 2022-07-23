@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setDate, setPeople } from '../../../store/slices/bookingSlice';
 import CustomDatePicker from '../../../components/DatePicker/CustomDatePicker';
 import { setMapView } from '../../../store/slices/mapsSlice';
+import { UsersThree } from 'phosphor-react';
 
 const generateOptions = people => {
   let opts = [];
@@ -24,7 +25,7 @@ const DateFilter = () => {
 
   const handleDateChange = v => {
     dispatch(setDate(v));
-    console.log(v)
+    console.log(v);
     dispatch(
       setMapView({
         date: v,
@@ -52,7 +53,10 @@ const DateFilter = () => {
         date={date}
         handleDateChange={handleDateChange}
       ></CustomDatePicker>
-      <Select onChange={handlePeopleChange}>{generateOptions(people)}</Select>
+      <Flex>
+        <UsersThree size={32} weight="thin" />
+        <Select onChange={handlePeopleChange}>{generateOptions(people)}</Select>
+      </Flex>
     </Flex>
   );
 };

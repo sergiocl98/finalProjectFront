@@ -12,14 +12,14 @@ import {
 } from '@chakra-ui/react';
 import { MapPin, Person } from 'phosphor-react';
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   increaseZoom,
   moveCameraToPoint,
   setSelectedSite,
 } from '../../store/slices/mapsSlice';
 
-const renderIcon = (icon, name) => {
+const renderIcon = (icon, name, available) => {
   const ICONS = {
     user: (
       <Box
@@ -37,6 +37,7 @@ const renderIcon = (icon, name) => {
         left="50%"
         top="50%"
         transform="translate(-50%, -100%)"
+        opacity={available ? '1' : '.5'}
       >
         <MapPin size={48} color="#ff0000" weight="fill" />
       </Box>
@@ -59,13 +60,14 @@ const renderIcon = (icon, name) => {
   return ICONS[icon];
 };
 
-const Marker = ({ id, name, lat, lng, icon }) => {
+const Marker = ({ id, name, lat, lng, icon, available = true }) => {
   const dispatch = useDispatch();
+  const {date, people} = useSelector(state => state.booking)
 
   const handleClick = e => {
     e.preventDefault();
     if (id !== undefined) {
-      dispatch(setSelectedSite(id));
+      dispatch(setSelectedSite({id, date, people}));
     } else {
       dispatch(
         moveCameraToPoint({
@@ -88,7 +90,7 @@ const Marker = ({ id, name, lat, lng, icon }) => {
     >
       <Popover>
         <PopoverTrigger transform="translate(-50%, -50%)">
-          {renderIcon(icon, name)}
+          {renderIcon(icon, name, available)}
         </PopoverTrigger>
         {id !== undefined && (
           <PopoverContent onClick={e => e.stopPropagation()}>

@@ -2,7 +2,7 @@ import { List, ListItem } from '@chakra-ui/react';
 import React from 'react';
 import Card from './Card';
 
-const ScrollList = ({ listItems, filter = '', handleSelectSite }) => {
+const ScrollList = ({ listItems, filter = '', handleSelectSite, isSearch, handleInputReset }) => {
   return (
     <List h="100%" overflowY={'auto'}>
       {listItems
@@ -18,6 +18,8 @@ const ScrollList = ({ listItems, filter = '', handleSelectSite }) => {
                 siteData={site}
                 handleSelectSite={handleSelectSite}
                 canClose={false}
+                isSearch={isSearch}
+                handleInputReset={handleInputReset}
               />
             </ListItem>
           );
