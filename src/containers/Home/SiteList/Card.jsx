@@ -20,7 +20,6 @@ siteData,
   isSearch = false,
   handleInputReset
 }) => {
-  handleInputReset }) => {  
   return (
     <Box
       overflow={'hidden'}
