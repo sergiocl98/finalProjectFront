@@ -1,7 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { Select, Button, Box, Flex, Heading, Text } from '@chakra-ui/react';
+import {
+  Select,
+  Button,
+  Box,
+  Flex,
+  Heading,
+  Text,
+  GridItem,
+  Grid,
+} from '@chakra-ui/react';
 import { setDate, setPeople } from '../../store/slices/bookingSlice';
 import localService from '../../services/localService';
 import CustomDatePicker from '../../components/DatePicker/CustomDatePicker';
@@ -66,38 +75,54 @@ const BookingCreation = () => {
       );
   }, [siteData, date, people]);
 
-  console.log(bookings)
+  console.log(bookings);
 
   return (
-    <Flex
-      flexDir="column"
-      alignItems="center"
-      justifyContent="center"
-      textAlign="center"
+    <Grid
+      templateAreas={{
+        base: `"titulo"
+              "fecha"
+              "gente"
+              "mesa"
+              "enviar"`,
+        md: `"titulo titulo titulo"
+            "fecha gente mesa"
+            "enviar enviar enviar"`,
+      }}
+      templateRows={{ base: '1fr 1fr 1fr 1fr 1fr', md: '1fr 1fr auto' }}
+      templateColumns={{ base: '1fr', md: '1fr 1fr 1fr' }}
+      gap="1rem"
+      bgColor="white"
+      mt="1rem"
+      p="1rem"
+      pb="3rem"
     >
-      <Box>
+      <GridItem area="titulo">
         <Text>Booking for</Text>
         <Heading>{siteData?.name}</Heading>
-      </Box>
-      <Box>
-        <Text>Your Date</Text>
+      </GridItem>
+      <GridItem area="fecha">
+        <Text>When?</Text>
 
         <CustomDatePicker
           date={date}
           handleDateChange={handleDateChange}
         ></CustomDatePicker>
-      </Box>
-      <Box>
-        <Text>People</Text>
+      </GridItem>
+      <GridItem area="gente">
+        <Text>How many people?</Text>
         <Select onChange={handlePeopleChange}>{generateOptions(people)}</Select>
-      </Box>
-      <Box>
-        <Text>Select your table</Text>
-      </Box>
-      <Button onClick={handleSubmit} disabled={bookings.length === 0}>
-        Book
-      </Button>
-    </Flex>
+      </GridItem>
+      <GridItem area="mesa">
+        <Text>Which table?</Text>
+        <Select onChange={handlePeopleChange} disabled={true}></Select>
+      </GridItem>
+      <GridItem area="enviar" justifySelf="center">
+        <Button onClick={handleSubmit} disabled={bookings.length === 0}>
+          Book
+        </Button>
+      </GridItem>
+    </Grid>
   );
 };
 

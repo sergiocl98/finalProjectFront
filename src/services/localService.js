@@ -30,5 +30,12 @@ class LocalService {
         if (res.data) return res.data;
       });
   };
+
+  getLocalGoogleMapsURL = coords => {
+    window.open(
+      `https://www.google.com/maps/dir//${coords[1]},${coords[0]}/?travelmode=walking`,
+      '_blank'
+    );
+  };
 }
 export default new LocalService();

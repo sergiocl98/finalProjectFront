@@ -1,8 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Heading, Box, Text, Flex, Button } from '@chakra-ui/react';
+import { Clock, UsersThree } from 'phosphor-react';
+import {
+  Flex,
+  Heading,
+  Box,
+  Text,
+  GridItem,
+  Grid,
+  Button,
+} from '@chakra-ui/react';
 import bookingService from '../../services/bookingService';
 import userService from '../../services/userService';
+import localService from '../../services/localService';
 
 const getBookingData = async (id, setBookingData) => {
   if (id === 'undefined') return null;
@@ -36,33 +46,58 @@ const BookingConfirmation = () => {
     }
   }, [bookingData]);
 
+  console.log(bookingData);
+
   return (
     <>
       {id !== 'undefined' ? (
-        <Flex
-          justifyContent="center"
-          alignItems="flexStart"
-          flexDir="column"
-          pr="20%"
-          pl="20%"
+        <Grid
+          templateAreas={{
+            base: `"titulo"
+              "fecha"
+              "gente"
+              "mesa"
+              "directions"`,
+            md: `"titulo titulo titulo"
+            "fecha gente mesa"
+            "directions directions directions"`,
+          }}
+          templateRows={{ base: '1fr 1fr 1fr 1fr 1fr', md: '1fr 1fr auto' }}
+          templateColumns={{ base: '1fr', md: '1fr 1fr 1fr' }}
+          gap="1rem"
+          bgColor="white"
+          mt="1rem"
+          p="1rem"
+          pb="3rem"
         >
-          <Box>
-            <Heading>
-              Your reservation at{' '}
-              <Text display="inline-block" color="red">{bookingData?.local.name}</Text> is confirmed
-            </Heading>
-          </Box>
-          <Box>
-            <Heading>Time:</Heading>
-            <Text>{data?.time}</Text>
-            <Box>
-              <Heading>People</Heading>
-              <Text>{bookingData?.people}</Text>
-            </Box>
-
-            <Button>How to get there</Button>
-          </Box>
-        </Flex>
+          <GridItem area="titulo">
+            <Text>Your Booking at</Text>
+            <Heading>{bookingData?.local?.name}</Heading>
+          </GridItem>
+          <GridItem area="fecha">
+            <Flex alignItems="center">
+              <Clock size={32} /> {data.time}
+            </Flex>
+          </GridItem>
+          <GridItem area="gente">
+            <Flex alignItems="center">
+              <UsersThree size={32} /> {bookingData?.people} people
+            </Flex>
+          </GridItem>
+          <GridItem area="mesa">
+            <Text>table type</Text>
+          </GridItem>
+          <GridItem area="directions" justifySelf="center">
+            <Button
+              onClick={() => {
+                const { lat, lng } = bookingData?.local.coords;
+                localService.getLocalGoogleMapsURL([lng, lat]);
+              }}
+            >
+              How to get there
+            </Button>
+          </GridItem>
+        </Grid>
       ) : (
         <Box>There was an error with your booking, please try again</Box>
       )}
