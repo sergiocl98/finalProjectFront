@@ -1,38 +1,45 @@
-import { Avatar, Box, Button, Divider, Flex, HStack, Input, Text } from '@chakra-ui/react';
-import React, { useContext, useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import InputController from '../../components/Form/InputController';
+import { Box, Button, Divider, Flex, FormControl, FormHelperText, FormLabel, HStack, Image, Input, Text, Textarea } from '@chakra-ui/react';
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux';
 import userService from '../../services/userService';
-import { fetchUserById, putUserById, SELECT_USER_DETAIL, userActions } from '../../store/slices/userSlice';
+import { fetchUserById } from '../../store/slices/userSlice';
 import {useDropzone} from 'react-dropzone';
-import AuthContext from '../../store/authContext';
+import RestaurantDefault from '../../shared/img/restaurantDefault.jpg';
+import GoogleMapReact from 'google-map-react';
+import Marker from '../Home/Marker';
 
-const ProfileTabTwo = ({
-    control,
-    getValues,
-    watch,
-    setValue,
-    index,
-    setIndex,
-    optionsTabs,
-    setOptionsTabs
-  }) => {
+const ProfileTabTwo = () => {
     const dispatch = useDispatch();
     const localUser = userService.getUser();
-    const userDetail = useSelector(SELECT_USER_DETAIL);
+    const [showMap, setShowMap] = useState(false);
+    const [localData, setLocalData] = useState({
+      name: '',
+      address: '',
+      phone: '',
+      description: '',
+      tags: '',
+      coords: {
+        lat: '',
+        lng: ''
+      }
+    });
+    const apikey = '';
+    const [mapData, setMapData] = useState({
+      center: {
+        lat:40.3396472,
+        lng: -3.7729584,
+      },
+      zoom: 9,
+      draggable: true,
+      lat: 40.3396472,
+      lng: -3.7729584
+    });
 
     useEffect(() => {
         if(localUser){
             dispatch(fetchUserById(localUser.userId));
         }
     }, [])
-
-    useEffect(() => {
-        if(userDetail){
-            setValue('name', userDetail.name);
-            setValue('email', userDetail.email);
-        }
-    }, [userDetail])
 
   const [files, setFiles] = useState([]);
   const {getRootProps, getInputProps} = useDropzone({
@@ -48,22 +55,82 @@ const ProfileTabTwo = ({
     }
   });
 
-  const handleEdit = () => {
-    const user = getValues();
-    user.image = files[0]|| undefined;
-    console.log(user);
+  console.log('localData', localData);
+  const mapStyles = {
+    styles: [
+      {
+        featureType: 'poi',
+        stylers: [
+          {
+            visibility: 'off',
+          },
+        ],
+      },
+      {
+        featureType: 'administrative',
+        stylers: [
+          {
+            visibility: 'off',
+          },
+        ],
+      },
+      {
+        featureType: 'transit',
+        stylers: [
+          {
+            visibility: 'off',
+          },
+        ],
+      },
+    ],
+  };
 
-    const formData = new FormData();
-    for(const name in user) {
-        formData.append(name, user[name]);
-      }
+  const getCoordenatesFromAddress = async (address) => {
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyBX0TpEhck6NtN8fwQ17TzYHjN_gaD6DPA`)
+    .then(response => response.json())
+    .then(data => {
+      console.log('data', data);
+      setLocalData({...localData, coords: {
+        lat: data.results[0].geometry.location.lat,
+        lng: data.results[0].geometry.location.lng
+      },
+      address: data.results[0].formatted_address
+      });
+      setMapData({...mapData, center: {
+        lat: data.results[0].geometry.location.lat,
+        lng: data.results[0].geometry.location.lng
+      },
+      lat: data.results[0].geometry.location.lat,
+      lng: data.results[0].geometry.location.lng});
+    })
+    .catch(error => console.log(error));
+    setShowMap(true);
+}
 
+const onCircleInteraction = (childKey, childProps, mouse) => {
+  // function is just a stub to test callbacks
+  setMapData({...mapData,
+    draggable: false,
+    lat: mouse.lat,
+    lng: mouse.lng
+  });
+ 
+  console.log('onCircleInteraction called with', childKey, childProps, mouse);
+}
+const onCircleInteraction3 = (childKey, childProps, mouse) => {
+  setMapData({...mapData, draggable: true});
+  // function is just a stub to test callbacks  
+  console.log('onCircleInteraction called with', childKey, childProps, mouse);
+  
+}
 
-   dispatch(putUserById({id: localUser.userId, user: formData}));
-   localStorage.setItem('user',JSON.stringify({name: user.name, email:user.email, token: localUser.token, expires_in: localUser.expirationTime, userId: localUser.userId}));
+const handleOnChange = ({center, zoom}) => {
+  setMapData({...mapData,
+    center: center,
+    zoom: zoom,      
+  });
+}
 
-   
-  }
 
   return (
     <Flex direction='column' justifyContent='space-between' h='100%'>
@@ -88,14 +155,14 @@ const ProfileTabTwo = ({
         <Flex w='50%' m='0 auto' flexDirection='column' mt='70px'>
           <Flex mb='10px'>
             <Text fontSize='20px' color='brand.primary' fontWeight='700' mr='10px'>
-              01
+              02
             </Text>
             <Text fontSize='20px' color='brand.gray' fontWeight='700'>
-              General information
+              Manage your local
             </Text>
           </Flex>
          <HStack spacing='20px' mb='30px'>
-            <Avatar name={localUser?.name} src={files[0]?.preview || userDetail?.image} size='2xl'/>
+            <Image alt={'local foto'} src={files[0]?.preview || RestaurantDefault} w='200px' h='200px'/>
             <div {...getRootProps({ className: 'dropzone' })}>
                 <input {...getInputProps()} />
                 <p>Drag 'n' drop some files here, or click to select files</p>
@@ -107,53 +174,68 @@ const ProfileTabTwo = ({
             <Text  fontSize='14px'>{files[0]?.path} - {files[0]?.size} bytes</Text>
           </HStack>}
 
-          <HStack spacing='20px' mb='30px'>
-            <InputController 
-                name='email'
-                type='text'
-                control={ control }
-                formStyle={ {
-                mb:'20px'
-                } }
-                label={
-                <Text fontSize='14px' color='brand.gray2' fontWeight='500' mb='10px'>
-                    Email
-                </Text>
-                }
-                rules={ {
-                required: 'Email is required.',
-                maxLength: {
-                    value: 255,
-                    message: 'Too many characters'
-                },
-                } }
-            />
-            <InputController 
-                name='name'
-                type='text'
-                control={ control }
-                formStyle={ {
-                mb:'20px'
-                } }
-                label={
-                <Text fontSize='14px' color='brand.gray2' fontWeight='500' mb='10px'>
-                    Name
-                </Text>
-                }
-                rules={ {
-                required: 'Name is required.',
-                maxLength: {
-                    value: 255,
-                    message: 'Too many characters'
-                },
-                } }
-            />
+          <HStack spacing='20px' mb='20px'>
+            <FormControl>
+              <FormLabel>Address</FormLabel>
+              <Input type='text' value={localData.address} onChange={(e) => setLocalData({...localData, address: e.target.value})}/>
+              <FormHelperText>Set address before submit to see your local coords.</FormHelperText>
+            </FormControl>
+            <Button variant='primary' onClick={() => getCoordenatesFromAddress(localData.address)}>Set Address</Button>
           </HStack>
-          
+          <HStack spacing='20px' mb='20px'>
+            <FormControl>
+              <FormLabel>Name</FormLabel>
+              <Input type='text' value={localData.name} onChange={(e) => setLocalData({...localData, name: e.target.value})} />
+              <FormHelperText>Name of your local </FormHelperText>
+            </FormControl>
+            <FormControl>
+              <FormLabel>Tags</FormLabel>
+              <Input type='text' value={localData.tags} onChange={(e) => setLocalData({...localData, tags: e.target.value.split(",")}) } />
+              <FormHelperText>Split the tags with comma. Example: American,Italian </FormHelperText>
+            </FormControl>
+          </HStack>
+          <HStack spacing='20px' mb='20px'>
+            <FormControl>
+              <FormLabel>Description</FormLabel>
+              <Textarea
+                value={localData.description}
+                onChange={(e) => setLocalData({...localData, description: e.target.value})}
+                placeholder='Description of your local'
+                size='md'
+              />
+            </FormControl>
+          </HStack>
+          {showMap && <Box w='100%' h='600px'>
+            <GoogleMapReact 
+              draggable={mapData.draggable}
+              onChange={({ zoom, center }) => handleOnChange({center,zoom})}
+              center={mapData.center}
+              defaultCenter={{
+                lat:40.3396472,
+                lng: -3.7729584,
+              }}
+              defaultZoom={15}
+              zoom={mapData.zoom}
+              options={mapStyles}
+              bootstrapURLKeys={{ key: apikey, v: '3.31' }}
+              onChildMouseDown={({childKey, childProps, mouse}) => onCircleInteraction(childKey, childProps, mouse)}
+              onChildMouseUp={(childKey, childProps, mouse) => onCircleInteraction3(childKey, childProps, mouse)}
+              onChildMouseMove={(childKey, childProps, mouse) => onCircleInteraction(childKey, childProps, mouse)}
+              onChildClick={() => console.log('child click')}
+              onClick={(e) => console.log('mapClick',e )}
+            >
+              <Marker
+                key="local"
+                lat={mapData.lat}
+                lng={mapData.lng}
+                name="Local location"
+                icon="restaurant"
+              />
+            </GoogleMapReact>
 
-          
-
+          </Box>}
         </Flex>
+        
       </Box>
       <Box h='15%'>
         <Divider color='brand.gray2' />
@@ -161,15 +243,9 @@ const ProfileTabTwo = ({
           <Button 
             variant='secondary2' 
             mr='20px'
-            onClick={() => handleEdit()}
+            onClick={() => {}}
           >
             Save
-          </Button>
-          <Button 
-            data-testid='button_next_step1'
-            variant='primary' 
-          >
-            Next
           </Button>
         </Flex>
       </Box>

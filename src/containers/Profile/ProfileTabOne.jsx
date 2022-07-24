@@ -1,11 +1,10 @@
-import { Avatar, Box, Button, Divider, Fade, Flex, HStack, Input, Text } from '@chakra-ui/react';
-import React, { useContext, useEffect, useMemo, useState } from 'react'
+import { Avatar, Box, Button, Divider, Fade, Flex, HStack, Text } from '@chakra-ui/react';
+import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import InputController from '../../components/Form/InputController';
 import userService from '../../services/userService';
-import { fetchUserById, putUserById, SELECT_USER_DETAIL, userActions } from '../../store/slices/userSlice';
+import { fetchUserById, putUserById, SELECT_USER_DETAIL,} from '../../store/slices/userSlice';
 import {useDropzone} from 'react-dropzone';
-import AuthContext from '../../store/authContext';
 import TableSimple from '../../components/Table/TableSimple';
 
 const ProfileTabOne = ({
@@ -230,7 +229,6 @@ const ProfileTabOne = ({
                     <Fade in={ true }>
                       <Box mt='70px'>
                         <TableSimple
-                          data-testid='table_loans' 
                           columns={ columns }
                           data={ history }
                           isSorty
@@ -240,9 +238,6 @@ const ProfileTabOne = ({
                       </Box>
                     </Fade>
                   )}
-
-          
-
         </Flex>
       </Box>
       <Box h='15%'>

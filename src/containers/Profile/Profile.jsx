@@ -6,6 +6,7 @@ import HeaderPage from '../../components/HeaderPage/HeaderPage';
 import userService from '../../services/userService'
 import ProfileTabOne from './ProfileTabOne';
 import { useForm } from 'react-hook-form';
+import ProfileTabTwo from './ProfileTabTwo';
 
 const Profile = () => {
 
@@ -86,7 +87,7 @@ const Profile = () => {
                   />
                 </TabPanel>
                 <TabPanel h='100%' p='0px'>
-                  <ProfileTabOne
+                  <ProfileTabTwo
                     control={ control }
                     setValue= { setValue }
                     getValues= { getValues }
