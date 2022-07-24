@@ -14,6 +14,14 @@ import {
   Image,
   HStack,
   Spinner,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
@@ -21,7 +29,6 @@ import { MapTrifold } from 'phosphor-react';
 import LocalService from '../../services/localService';
 import HeaderPage from '../../components/HeaderPage/HeaderPage';
 import TableIcon from '../../shared/img/TableIcon.png';
-import localService from '../../services/localService';
 import RestaurantDefault from '../../shared/img/restaurantDefault.jpg';
 
 const getSiteData = async (id, setSiteData) => {
@@ -33,6 +40,14 @@ const parseMenu = (menu = []) => {
   return menu
     .map(ele => ele.category)
     .reduce((prev, curr) => (prev.includes(curr) ? prev : [...prev, curr]), []);
+};
+
+const handleGetDirections = siteData => {
+  //link para visitar ese sitio en google maps
+  window.open(
+    `https://www.google.com/maps/dir//${siteData.coords.lat},${siteData.coords.lng}/?travelmode=walking`,
+    '_blank'
+  );
 };
 
 const Feature = ({ text, icon, iconBg }) => {
@@ -57,10 +72,12 @@ const Detail = () => {
   const { id } = useParams();
 
   const [siteData, setSiteData] = useState(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     getSiteData(id, setSiteData);
   }, [id]);
+  console.log(siteData);
   return (
     <Box>
       <HeaderPage
@@ -92,12 +109,7 @@ const Detail = () => {
                 ))}
               </HStack>
               <Heading>{siteData?.name}</Heading>
-              <Flex
-                onClick={() => {
-                  const { lat, lng } = siteData.coords;
-                  localService.getLocalGoogleMapsURL([lng, lat]);
-                }}
-              >
+              <Flex onClick={() => handleGetDirections(siteData)}>
                 <Text color={'gray.500'} fontSize={'lg'} mr="4px">
                   {siteData?.address}
                 </Text>
@@ -109,43 +121,68 @@ const Detail = () => {
               <Stack
                 spacing={4}
                 divider={<StackDivider borderColor={'gray.100'} />}
-            mb='30px'>
-            <Feature
-              icon={
-                <Image src={TableIcon} alt="TableIcon" width={5} height={5} />
-              }
-              iconBg={'yellow.100'}
-              text={'Total tables: ' + siteData?.totalTables}
-            />
-            <Feature
-              icon={<Image src={TableIcon} alt="TableIcon" width={5} height={5} />}
-              iconBg={'red.100'}
-              text={'Busy tables: ' + siteData?.busyTables}
-            />
-            <Feature
-              icon={
-                <Image src={TableIcon} alt="TableIcon" width={5} height={5} />
-              }
-              iconBg={'green.100'}
-              text={'Available tables: ' + (siteData?.totalTables - siteData?.busyTables)}
-            />
-          </Stack>
-          <HStack pt={'40px'}>
-            <Button variant='secondary2' mr='20px'>Open Menu</Button>
-            <Button variant='primary'>Book a table</Button>
-          </HStack>
-        </Stack>
-        <Flex>
-          <Image
-            rounded={'md'}
-            alt={'feature image'}
-            src={
-              siteData?.image || RestaurantDefault
-            }
-            objectFit={'cover'}
+                mb="30px"
+              >
+                <Feature
+                  icon={
+                    <Image
+                      src={TableIcon}
+                      alt="TableIcon"
+                      width={5}
+                      height={5}
+                    />
+                  }
+                  iconBg={'yellow.100'}
+                  text={'Total tables: ' + siteData?.bookings.length}
+                />
+              </Stack>
+              <HStack pt={'40px'}>
+                <Button
+                  variant="secondary2"
+                  mr="20px"
+                  onClick={onOpen}
+                  isDisabled={siteData?.menu === undefined}
+                >
+                  Open Menu
+                </Button>
+                <Button variant="primary">Book a table</Button>
+              </HStack>
+            </Stack>
+            <Flex>
+              <Image
+                rounded={'md'}
+                alt={'feature image'}
+                src={siteData?.image || RestaurantDefault}
+                objectFit={'cover'}
               />
+            </Flex>
+          </SimpleGrid>
+        </Container>
+      ) : (
+        <Flex justify={'center'}>
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="orange.500"
+            size="xl"
+          />
         </Flex>
       )}
+
+      <Modal onClose={onClose} isOpen={isOpen} size="6xl" isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Menu</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Image alt={'menu'} src={siteData?.menu} objectFit={'cover'} />
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={onClose}>Close</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 };
