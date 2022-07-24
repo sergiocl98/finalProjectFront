@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import GoogleMapReact from 'google-map-react';
 import Marker from './Marker';
@@ -11,6 +11,7 @@ import {
   setMapView,
   setSelectedSite,
 } from '../../store/slices/mapsSlice';
+import SiteList from './SiteList/SiteList';
 
 const mapStyles = {
   styles: [
@@ -114,7 +115,9 @@ const GoogleMap = () => {
               })
             );
           }}
-          onClick={e => dispatch(setSelectedSite({id:undefined, date, people}))}
+          onClick={e =>
+            dispatch(setSelectedSite({ id: undefined, date, people }))
+          }
           defaultZoom={15}
           bootstrapURLKeys={{ key: apikey, v: '3.31' }}
           options={mapStyles}

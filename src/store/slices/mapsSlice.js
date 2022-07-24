@@ -95,7 +95,6 @@ const getVisibleSites = (arr, viewCenter, date = '', people = 1) => {
     })
     .filter(site => site.properties.distToViewCenter < 5000)
     .map(site => {
-      // falta filtrar por fecha
       const res = site.properties.bookings.map(b =>
         bookingService.getAvailability(b, date, people)
       );
