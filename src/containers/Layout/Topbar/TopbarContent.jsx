@@ -26,7 +26,7 @@ const TopbarContent = () => {
           title={'About'}
           activeRoutes={['/about']}
           route="/about"
-          icon="user"
+          icon="about"
         />
       </Stack>
     </Box>

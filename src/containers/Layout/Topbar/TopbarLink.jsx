@@ -1,5 +1,5 @@
 import { Box, Link,useMediaQuery } from '@chakra-ui/react';
-import { House, User } from 'phosphor-react';
+import { House, User, UsersThree } from 'phosphor-react';
 import React from 'react'
 import { NavLink } from 'react-router-dom';
 
@@ -12,6 +12,8 @@ const TopbarLink = ({ title, icon, route, onClick }) => {
           return <House size={ "20px" } weight="fill" />;
         case 'user':
           return <User size={ "20px" } weight="fill" />;
+        case 'about':
+          return <UsersThree size={ "20px" } weight="fill" />
       }
     };
     

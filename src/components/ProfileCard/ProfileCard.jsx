@@ -10,21 +10,16 @@ const ProfileCard = ({
     work,
     email,
     hashtag,
-    hashtagIcon
+    hashtagIcon,
+    objectPosition='top'
 }) => {
   return (
-    <Flex
-        bg="#edf3f8"
-        _dark={{
-            bg: "#3e3e3e",
-        }}
+    <Box
         p={50}
         w="full"
-        alignItems="center"
-        justifyContent="center"
         >
         <Box
-            w="sm"
+            w="320px"
             mx="auto"
             bg="white"
             _dark={{
@@ -37,14 +32,14 @@ const ProfileCard = ({
             <Image
             w="full"
             h={56}
-            fit="cover"
-            objectPosition="center"
+            objectFit={'cover'}
+            objectPosition={objectPosition}
             src={img}
             alt={name}
             />
 
             <Flex alignItems="center" px={6} py={3} bg="gray.900">
-            <GameController size={32} color="#050505" weight="light" />
+            {hashtagIcon}
 
             <Text mx={3} color="white" fontWeight="bold" fontSize="lg">
                 {hashtag}
@@ -118,7 +113,7 @@ const ProfileCard = ({
             </Flex>
             </Box>
         </Box>
-        </Flex>
+        </Box>
 
   )
 }
