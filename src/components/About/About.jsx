@@ -48,8 +48,8 @@ const About = () => {
         <Text fontSize="36px" fontWeight="bold" color="orange"> Our Team </Text>
         <HStack spacing="20px" mt="10px">
           <ProfileCard name='Guillermo Piñate' img={GuillermoPicture} description='Full Stack Developer, Designer and Photograph' address='Pontevedra, Spain' work='Interfoto' email='gpinate@gmail.com' hashtag='Photograph' hashtagIcon={<Camera size={32} color="#edeef0" weight="thin" />}  />
-          <ProfileCard name='Sergio Carmona' img={SergioPicture} description='Frontend Developer in IoBuilders, gamer in free time' address='Madrid, Spain' work='IoBuilders' email='scarmonalorente@gmail.com' hashtag='Gamer' hashtagIcon={<GameController size={32} color="#edeef0" weight="thin" />} />
-          <ProfileCard name='Jose Ignacio Labella' img={JosePicture} description='Assistant University Teacher and Researcher' address='Alicante, Spain' work='University' email='jose@gmail.com' hashtag='Biologist' hashtagIcon={<Bird size={32} color="#edeef0" weight="thin" />} />
+          <ProfileCard name='Sergio Carmona' img={SergioPicture} description='Full Stack Developer working as Frontend Developer in IoBuilders' address='Madrid, Spain' work='IoBuilders' email='scarmonalorente@gmail.com' hashtag='Gamer' hashtagIcon={<GameController size={32} color="#edeef0" weight="thin" />} />
+          <ProfileCard name='Jose Ignacio Labella' img={JosePicture} description='Assistant University Teacher, Full Stack Developer' address='Alicante, Spain' work='University' email='jose@gmail.com' hashtag='Biologist' hashtagIcon={<Bird size={32} color="#edeef0" weight="thin" />} />
         </HStack>
       </Flex>
       </Center>
