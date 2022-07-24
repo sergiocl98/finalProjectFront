@@ -16,24 +16,24 @@ const About = () => {
         boxShadow="lg"
       >
         <Heading as="h2" color="white">
-          ¡Reserva , Rápido y Fácil!
+          Reserve, Quick and Easy!
         </Heading>
       </Flex>
-      <Box bg="#edeef0" w="100%" h="200px" mt="20px">
-        <Flex p="1rem" flexDir="column" justifyContent="center">
+      <Box bg="#edeef0" w="100%" h="auto" mt="20px">
+        <Flex p="2rem" flexDir="column" justifyContent="center">
           <Flex>
-            <Text fontSize="20px" fontWeight="bold" color="orange">
+            <Text mt="10px" fontSize="20px" fontWeight="bold" color="orange">
               Dining Room App
             </Text>
           </Flex>
           <Flex justifyContent="flex-start">
-            <Text lineHeight="30px">
-              Esta iniciativa surge para Ahórrate tiempo a la hora reservar una
-              mesa en el establecimiento de tu preferencia, de manera fácil y
-              rápida. Con este servicio dispondrás de una lista de locales
-              recomendados en función tu ubicación y la cantidad de personas que
-              desean reservar. También tendrás cantidad de mesas disponibles con
-              que cuenta el establecimiento en tiempo real.
+            <Text mt="15px" lineHeight="30px">
+              This initiative arises to save time when reserving a table in the
+              establishment of your choice, in an easy and fast. With this
+              service you will have a list of places based on your location and
+              the number of people who they want to book. You will also have a
+              number of tables available with that counts the establishment in
+              real time.
             </Text>
           </Flex>
         </Flex>
