@@ -21,6 +21,7 @@ import { MapTrifold } from 'phosphor-react';
 import LocalService from '../../services/localService';
 import HeaderPage from '../../components/HeaderPage/HeaderPage';
 import TableIcon from '../../shared/img/TableIcon.png';
+import RestaurantDefault from '../../shared/img/restaurantDefault.jpg';
 
 const getSiteData = async (id, setSiteData) => {
   const res = await LocalService.getLocalById(id);
@@ -143,7 +144,7 @@ const Detail = () => {
             rounded={'md'}
             alt={'feature image'}
             src={
-              siteData?.image
+              siteData?.image || RestaurantDefault
             }
             objectFit={'cover'}
           />

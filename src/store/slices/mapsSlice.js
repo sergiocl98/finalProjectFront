@@ -21,6 +21,7 @@ const parseToGeoJSON = (arr, viewCenter) => {
         busyTables: point.busyTables,
         availableTables: point.availableTables,
         tags: point.tags,
+        image: point.image,
         cluster: false,
         bookings: point.bookings.map(b => {
           try {

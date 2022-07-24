@@ -1,14 +1,13 @@
-import { Avatar, Box, Button, Divider, Fade, Flex, HStack, Input, Text } from '@chakra-ui/react';
-import React, { useContext, useEffect, useMemo, useState } from 'react'
+import { Avatar, Box, Button, Divider, Flex, HStack, Input, Text } from '@chakra-ui/react';
+import React, { useContext, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import InputController from '../../components/Form/InputController';
 import userService from '../../services/userService';
 import { fetchUserById, putUserById, SELECT_USER_DETAIL, userActions } from '../../store/slices/userSlice';
 import {useDropzone} from 'react-dropzone';
 import AuthContext from '../../store/authContext';
-import TableSimple from '../../components/Table/TableSimple';
 
-const ProfileTabOne = ({
+const ProfileTabTwo = ({
     control,
     getValues,
     watch,
@@ -21,8 +20,6 @@ const ProfileTabOne = ({
     const dispatch = useDispatch();
     const localUser = userService.getUser();
     const userDetail = useSelector(SELECT_USER_DETAIL);
-    const [history, setHistory] = useState([]);
-    const [files, setFiles] = useState([]);
 
     useEffect(() => {
         if(localUser){
@@ -31,35 +28,13 @@ const ProfileTabOne = ({
     }, [])
 
     useEffect(() => {
-        if(userDetail && userDetail.bookings){
+        if(userDetail){
             setValue('name', userDetail.name);
             setValue('email', userDetail.email);
-            calculateHistory(userDetail.bookings);
-
         }
     }, [userDetail])
 
-    const calculateHistory = (history) => {
-      let historyArray = [];
-        history.forEach(bookings => {
-            bookings.lastBook.forEach(book => {
-              historyArray.push( {
-                local: {
-                  name: bookings.local.name,
-                  address: bookings.local.address,
-                },
-                people: bookings.people,
-                dateStart: book.start,
-                dateEnd: book.end,
-              });
-            })
-        })
-      setHistory(historyArray);
-      }
-      console.log('HISTORY',history);
-
-
-  
+  const [files, setFiles] = useState([]);
   const {getRootProps, getInputProps} = useDropzone({
     maxFiles:1,
     accept: {
@@ -89,57 +64,6 @@ const ProfileTabOne = ({
 
    
   }
-
-  const formatDate = (date='') => {
-    let result = ''
-    result = new Date(date).toLocaleDateString(navigator.language,{
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit'
-    });
-    result = result + ' ' + new Date(date).toLocaleTimeString(navigator.language,{
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-    return result;
-  };
-
-  const columns = useMemo(() => [
-    {
-      Header: 'Local',
-      accessor: 'local.name',
-      Cell: ({ cell: { value } }) => value ? value : '-',
-      props: {
-        maxWidth: '200px'
-      }
-    },
-    {
-      Header: 'Address',
-      accessor: 'local.address',
-      Cell: ({ cell: { value } }) => value ? value : '-',
-      props: {
-        whiteSpace: 'nowrap'
-      }
-    },
-    {
-      Header: 'Customers',
-      accessor: 'people',
-      Cell: ({ cell: { value } }) => value ? value : '-',
-      props: {
-        whiteSpace: 'nowrap'
-      }
-    },
-    {
-      Header: 'Date Start',
-      accessor: 'dateStart',
-      Cell: ({ cell: { value } }) => value ?  formatDate(new Date(value)) : '-'
-    },
-    {
-      Header: 'Date End',
-      accessor: 'dateEnd',
-      Cell: ({ cell: { value } }) => value ? formatDate(new Date(value)) : '-'
-    },
-  ]);
 
   return (
     <Flex direction='column' justifyContent='space-between' h='100%'>
@@ -225,21 +149,7 @@ const ProfileTabOne = ({
                 } }
             />
           </HStack>
-          {history.length > 0 && <Text fontSize='14px' color='brand.gray1' fontWeight='700'> History </Text>}
-          {history.length > 0 && (
-                    <Fade in={ true }>
-                      <Box mt='70px'>
-                        <TableSimple
-                          data-testid='table_loans' 
-                          columns={ columns }
-                          data={ history }
-                          isSorty
-                          variant='list'
-                          whiteSpace='nowrap'
-                        />
-                      </Box>
-                    </Fade>
-                  )}
+          
 
           
 
@@ -267,4 +177,4 @@ const ProfileTabOne = ({
   );
 };
 
-export default ProfileTabOne
+export default ProfileTabTwo
