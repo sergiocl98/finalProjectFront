@@ -10,6 +10,7 @@ import Profile from '../Profile/Profile';
 import Detail from '../Detail/Detail';
 import BookingCreation from '../BookingCreation/BookingCreation';
 import BookingConfirmation from '../BookingCreation/BookingConfirmation';
+import About from '../../components/About/About';
 
 const RoleRoute = ({ component: ComponentRouter, roles }) => {
   const userRoles = userService.getRoles();
@@ -57,7 +58,13 @@ const WrapperRoutesLayout = () => {
           />
           <Route
             path="/confirmation/:id"
-            element={<RoleRoute component={<BookingConfirmation />} roles={[]} />}
+            element={
+              <RoleRoute component={<BookingConfirmation />} roles={[]} />
+            }
+          />
+          <Route
+            path="/about"
+            element={<RoleRoute component={<About />} roles={[]} />}
           />
 
           {/* Default routes */}
