@@ -3,7 +3,6 @@ import { Select, Flex, Text } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setDate, setPeople } from '../../../store/slices/bookingSlice';
 import CustomDatePicker from '../../../components/DatePicker/CustomDatePicker';
-import { setMapView } from '../../../store/slices/mapsSlice';
 import { UsersThree } from 'phosphor-react';
 
 const generateOptions = people => {
@@ -25,22 +24,10 @@ const DateFilter = () => {
 
   const handleDateChange = v => {
     dispatch(setDate(v));
-    dispatch(
-      setMapView({
-        date: v,
-        people,
-      })
-    );
   };
 
   const handlePeopleChange = e => {
     dispatch(setPeople(e.target.value));
-    dispatch(
-      setMapView({
-        date,
-        people: e.target.value,
-      })
-    );
   };
 
   return (

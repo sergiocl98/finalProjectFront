@@ -7,7 +7,7 @@ import HeaderPage from '../../components/HeaderPage/HeaderPage';
 import SiteList from './SiteList/SiteList';
 import localService from '../../services/localService';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSites } from '../../store/slices/mapsSlice';
+import { setMapView, setSites } from '../../store/slices/mapsSlice';
 import DateFilter from './DateFilter/DateFilter';
 
 const getLocals = async dispatcherFunction => {
@@ -17,11 +17,16 @@ const getLocals = async dispatcherFunction => {
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { userPermission } = useSelector(state => state.maps);
+  const { siteList, userPermission } = useSelector(state => state.maps);
+  const { date, people } = useSelector(state => state.booking);
 
   useEffect(() => {
     getLocals(v => dispatch(setSites(v)));
   }, []);
+
+  useEffect(() => {
+    dispatch(setMapView({ date, people }));
+  }, [siteList, date, people]);
 
   return (
     <Grid
