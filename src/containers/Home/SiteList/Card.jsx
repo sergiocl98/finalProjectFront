@@ -89,7 +89,7 @@ const Card = ({
                 <Box minW={26} minH={26}>
                   <MapTrifold size={26} weight="regular" color={'orange'} />
                 </Box>{' '}
-                {siteData.properties.address}{' '}
+                {siteData?.properties.address}{' '}
               </Flex>
             </Flex>
           </Box>
@@ -97,14 +97,14 @@ const Card = ({
           {!isSearch && (
             <Box>
               <Text mb="2rem" mt="1rem">
-                {siteData.properties.available
+                {siteData?.properties.available
                   ? `We still have some free tables`
                   : 'Sorry, there are no tables available'}
               </Text>
               <Flex justifyContent={'space-between'}>
                 <Button
                   as={NavLink}
-                  to={`/detail/${siteData.properties._id}`}
+                  to={`/detail/${siteData?.properties._id}`}
                   variant="secondary2"
                 >
                   More Info
@@ -112,7 +112,7 @@ const Card = ({
                 <Button
                   onClick={handleBooking}
                   variant="primary"
-                  isDisabled={!siteData.properties.available}
+                  isDisabled={!siteData?.properties.available}
                 >
                   Book a table
                 </Button>
@@ -123,7 +123,7 @@ const Card = ({
         <Box>
           <Image
             objectFit="cover"
-            src={siteData.properties.image || RestaurantDefault}
+            src={siteData?.properties.image || RestaurantDefault}
             alt="TableIcon"
             width={'100%'}
             height={'100%'}
