@@ -22,6 +22,7 @@ import LocalService from '../../services/localService';
 import HeaderPage from '../../components/HeaderPage/HeaderPage';
 import TableIcon from '../../shared/img/TableIcon.png';
 import localService from '../../services/localService';
+import RestaurantDefault from '../../shared/img/restaurantDefault.jpg';
 
 const getSiteData = async (id, setSiteData) => {
   const res = await LocalService.getLocalById(id);
@@ -108,74 +109,41 @@ const Detail = () => {
               <Stack
                 spacing={4}
                 divider={<StackDivider borderColor={'gray.100'} />}
-                mb="30px"
-              >
-                <Feature
-                  icon={
-                    <Image
-                      src={TableIcon}
-                      alt="TableIcon"
-                      width={5}
-                      height={5}
-                    />
-                  }
-                  iconBg={'yellow.100'}
-                  text={'Total tables: ' + siteData?.totalTables}
-                />
-                <Feature
-                  icon={
-                    <Image
-                      src={TableIcon}
-                      alt="TableIcon"
-                      width={5}
-                      height={5}
-                    />
-                  }
-                  iconBg={'red.100'}
-                  text={'Busy tables: ' + siteData?.busyTables}
-                />
-                <Feature
-                  icon={
-                    <Image
-                      src={TableIcon}
-                      alt="TableIcon"
-                      width={5}
-                      height={5}
-                    />
-                  }
-                  iconBg={'green.100'}
-                  text={
-                    'Available tables: ' +
-                    (siteData?.totalTables - siteData?.busyTables)
-                  }
-                />
-              </Stack>
-              <HStack pt={'40px'}>
-                <Button variant="secondary2" mr="20px">
-                  Open Menu
-                </Button>
-                <Button variant="primary">Book a table</Button>
-              </HStack>
-            </Stack>
-            <Flex>
-              <Image
-                rounded={'md'}
-                alt={'feature image'}
-                src={siteData?.image}
-                objectFit={'cover'}
+            mb='30px'>
+            <Feature
+              icon={
+                <Image src={TableIcon} alt="TableIcon" width={5} height={5} />
+              }
+              iconBg={'yellow.100'}
+              text={'Total tables: ' + siteData?.totalTables}
+            />
+            <Feature
+              icon={<Image src={TableIcon} alt="TableIcon" width={5} height={5} />}
+              iconBg={'red.100'}
+              text={'Busy tables: ' + siteData?.busyTables}
+            />
+            <Feature
+              icon={
+                <Image src={TableIcon} alt="TableIcon" width={5} height={5} />
+              }
+              iconBg={'green.100'}
+              text={'Available tables: ' + (siteData?.totalTables - siteData?.busyTables)}
+            />
+          </Stack>
+          <HStack pt={'40px'}>
+            <Button variant='secondary2' mr='20px'>Open Menu</Button>
+            <Button variant='primary'>Book a table</Button>
+          </HStack>
+        </Stack>
+        <Flex>
+          <Image
+            rounded={'md'}
+            alt={'feature image'}
+            src={
+              siteData?.image || RestaurantDefault
+            }
+            objectFit={'cover'}
               />
-            </Flex>
-          </SimpleGrid>
-        </Container>
-      ) : (
-        <Flex justify={'center'}>
-          <Spinner
-            thickness="4px"
-            speed="0.65s"
-            emptyColor="gray.200"
-            color="orange.500"
-            size="xl"
-          />
         </Flex>
       )}
     </Box>

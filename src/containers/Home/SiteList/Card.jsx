@@ -1,7 +1,8 @@
-import { Box, Button, Flex, Heading, HStack, Tag, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Heading, HStack, Image, SimpleGrid, Tag, Text } from '@chakra-ui/react';
 import { MapTrifold } from 'phosphor-react';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import RestaurantDefault from '../../../shared/img/restaurantDefault.jpg';
 
 import { NavLink } from 'react-router-dom';
 import localService from '../../../services/localService';
@@ -23,6 +24,8 @@ siteData,
       borderWidth="1px"
       bgColor="white"
     >
+    <SimpleGrid columns={2} spacing={5} templateColumns='73% 25%' gap='2%'>
+      <Box>
       <Flex justifyContent={'space-between'}>
         <Text
           fontSize="20px"
@@ -31,8 +34,9 @@ siteData,
             handleInputReset();
             handleSelectSite(siteData.properties._id);
           }}
+          cursor={'pointer'}
         >
-          {siteData.properties.name}
+          {siteData?.properties?.name}
         </Text>
         {canClose && (
           <Button bgColor="brand.primary" onClick={e => handleSelectSite()}>
@@ -47,14 +51,14 @@ siteData,
         </Tag>
       ))}
       </HStack>}
-      <Box display="inline-block" cursor={'pointer'}>
+      <Box cursor={'pointer'}>
         <Flex
           w={'auto'}
           alignItems="center"
           onClick={() => localService.getLocalGoogleMapsURL(siteData.geometry.coordinates)}
+          whiteSpace={'wrap'}
         >
-          <Text mr="4px">{siteData.properties.address}</Text>
-          <MapTrifold size={26} weight="regular" color={'orange'} />
+          <Flex gap='6px'> <Box minW={26} minH={26}><MapTrifold size={26} weight="regular" color={'orange'}/></Box> {siteData.properties.address} </Flex>
         </Flex>
       </Box>
 
@@ -84,6 +88,11 @@ siteData,
           </Flex>
         </Box>
       )}
+      </Box>
+      <Box>
+        <Image objectFit='cover' src={siteData.properties.image ||RestaurantDefault} alt="TableIcon" width={'100%'} height={'100%'} borderRadius='5px' />
+      </Box>
+    </SimpleGrid>
     </Box>
   );
 };
