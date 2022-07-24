@@ -21,7 +21,7 @@ const Profile = () => {
     {
       idx: 1,
       number: '02',
-      title: 'Last ordereds',
+      title: 'Manage your local',
     },
   ]);
 

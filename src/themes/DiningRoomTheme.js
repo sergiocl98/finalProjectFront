@@ -12,7 +12,7 @@ const DiningRoomTheme = extendTheme({
       primaryDark: '#0E2A67',
       primary10:'rgba(40, 115, 184, 0.1)',
       primary20:'rgba(40, 115, 184, 0.2)',
-      primaryHover: '#335b97',
+      primaryHover: '#f2b452',
       secondary: '#288484',
       secondaryDark: '#174D4C',
       tertiary: '#EFC650',
@@ -131,7 +131,8 @@ const DiningRoomTheme = extendTheme({
           borderWidth: '2px',
           borderStyle: 'solid',
           _hover:{
-            bg:'#bddfff',
+            bg:'brand.primaryHover',
+            color:'white'
           }
         },
         cancel:{
