@@ -132,7 +132,10 @@ const DiningRoomTheme = extendTheme({
           borderStyle: 'solid',
           _hover:{
             bg:'brand.primaryHover',
-            color:'white'
+            color:'white',
+            _disabled: {
+              color: 'brand.gray2',
+            },
           }
         },
         cancel:{

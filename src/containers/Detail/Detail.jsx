@@ -24,7 +24,7 @@ import {
   ModalFooter,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import { MapTrifold } from 'phosphor-react';
 import LocalService from '../../services/localService';
 import HeaderPage from '../../components/HeaderPage/HeaderPage';
@@ -34,12 +34,6 @@ import RestaurantDefault from '../../shared/img/restaurantDefault.jpg';
 const getSiteData = async (id, setSiteData) => {
   const res = await LocalService.getLocalById(id);
   setSiteData(res);
-};
-
-const parseMenu = (menu = []) => {
-  return menu
-    .map(ele => ele.category)
-    .reduce((prev, curr) => (prev.includes(curr) ? prev : [...prev, curr]), []);
 };
 
 const handleGetDirections = siteData => {
@@ -73,6 +67,12 @@ const Detail = () => {
 
   const [siteData, setSiteData] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const navigate = useNavigate();
+  const handleGo = (url) => {
+    navigate(url);
+  };
+  const idLocal = useParams(id);
+
 
   useEffect(() => {
     getSiteData(id, setSiteData);
@@ -145,7 +145,7 @@ const Detail = () => {
                 >
                   Open Menu
                 </Button>
-                <Button variant="primary">Book a table</Button>
+                <Button variant="primary" onClick={() => handleGo(`/book/${idLocal}`)}>Book a table</Button>
               </HStack>
             </Stack>
             <Flex>
