@@ -13,7 +13,7 @@ import {
   Text,
   Image,
   HStack,
-  Spinner
+  Spinner,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
@@ -21,6 +21,7 @@ import { MapTrifold } from 'phosphor-react';
 import LocalService from '../../services/localService';
 import HeaderPage from '../../components/HeaderPage/HeaderPage';
 import TableIcon from '../../shared/img/TableIcon.png';
+import localService from '../../services/localService';
 import RestaurantDefault from '../../shared/img/restaurantDefault.jpg';
 
 const getSiteData = async (id, setSiteData) => {
@@ -34,14 +35,6 @@ const parseMenu = (menu = []) => {
     .reduce((prev, curr) => (prev.includes(curr) ? prev : [...prev, curr]), []);
 };
 
-const handleGetDirections = siteData => {
-  //link para visitar ese sitio en google maps
-  window.open(
-    `https://www.google.com/maps/dir//${siteData.coords.lat},${siteData.coords.lng}/?travelmode=walking`,
-    '_blank'
-  );
-};
-
 const Feature = ({ text, icon, iconBg }) => {
   return (
     <Stack direction={'row'} align={'center'}>
@@ -51,7 +44,8 @@ const Feature = ({ text, icon, iconBg }) => {
         align={'center'}
         justify={'center'}
         rounded={'full'}
-        bg={iconBg}>
+        bg={iconBg}
+      >
         {icon}
       </Flex>
       <Text fontWeight={600}>{text}</Text>
@@ -75,44 +69,46 @@ const Detail = () => {
         hasGoBack
         urlBack={'/home'}
       />
-    
-    {siteData ? <Container maxW={'5xl'} p={12} bgColor={'white'} borderRadius={10}>
-      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
-        <Stack spacing={4}>
-          <HStack>
-            {siteData?.tags.map(tag => (
-              <Text
-              key={tag}
-              textTransform={'uppercase'}
-              color={'orange.400'}
-              fontWeight={600}
-              fontSize={'sm'}
-              bg='orange.50'
-              p={2}
-              alignSelf={'flex-start'}
-              rounded={'md'}>
-              {tag}
-            </Text>
-            ))
-            }
-          </HStack>
-          <Heading>{siteData?.name}</Heading>
-          <Flex onClick={() => handleGetDirections(siteData)}>
-            <Text color={'gray.500'} fontSize={'lg'} mr='4px' >
-              {siteData?.address} 
-            </Text>
-            <MapTrifold size={26} weight="regular" color={'orange'}/>
-          </Flex>
-          <Text color={'gray.500'} fontSize={'lg'}>
-            {siteData?.description}
-          </Text>
-          <Stack
-            spacing={4}
-            divider={
-              <StackDivider
-                borderColor={'gray.100'}
-              />
-            }
+
+      {siteData ? (
+        <Container maxW={'5xl'} p={12} bgColor={'white'} borderRadius={10}>
+          <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
+            <Stack spacing={4}>
+              <HStack>
+                {siteData?.tags.map(tag => (
+                  <Text
+                    key={tag}
+                    textTransform={'uppercase'}
+                    color={'orange.400'}
+                    fontWeight={600}
+                    fontSize={'sm'}
+                    bg="orange.50"
+                    p={2}
+                    alignSelf={'flex-start'}
+                    rounded={'md'}
+                  >
+                    {tag}
+                  </Text>
+                ))}
+              </HStack>
+              <Heading>{siteData?.name}</Heading>
+              <Flex
+                onClick={() => {
+                  const { lat, lng } = siteData.coords;
+                  localService.getLocalGoogleMapsURL([lng, lat]);
+                }}
+              >
+                <Text color={'gray.500'} fontSize={'lg'} mr="4px">
+                  {siteData?.address}
+                </Text>
+                <MapTrifold size={26} weight="regular" color={'orange'} />
+              </Flex>
+              <Text color={'gray.500'} fontSize={'lg'}>
+                {siteData?.description}
+              </Text>
+              <Stack
+                spacing={4}
+                divider={<StackDivider borderColor={'gray.100'} />}
             mb='30px'>
             <Feature
               icon={
@@ -147,21 +143,10 @@ const Detail = () => {
               siteData?.image || RestaurantDefault
             }
             objectFit={'cover'}
-          />
+              />
         </Flex>
-      </SimpleGrid>
-    </Container>
-    : <Flex justify={'center'}> 
-        <Spinner
-            thickness='4px'
-            speed='0.65s'
-            emptyColor='gray.200'
-            color='orange.500'
-            size='xl'
-          />
-      </Flex>}
+      )}
     </Box>
-
   );
 };
 

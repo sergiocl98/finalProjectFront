@@ -5,14 +5,7 @@ import { useSelector } from 'react-redux';
 import RestaurantDefault from '../../../shared/img/restaurantDefault.jpg';
 
 import { NavLink } from 'react-router-dom';
-
-const handleGetDirections = coords => {
-  //link para visitar ese sitio en google maps
-  window.open(
-    `https://www.google.com/maps/dir//${coords[1]},${coords[0]}/?travelmode=walking`,
-    '_blank'
-  );
-};
+import localService from '../../../services/localService';
 
 const Card = ({ 
 siteData,
@@ -62,7 +55,7 @@ siteData,
         <Flex
           w={'auto'}
           alignItems="center"
-          onClick={() => handleGetDirections(siteData.geometry.coordinates)}
+          onClick={() => localService.getLocalGoogleMapsURL(siteData.geometry.coordinates)}
           whiteSpace={'wrap'}
         >
           <Flex gap='6px'> <Box minW={26} minH={26}><MapTrifold size={26} weight="regular" color={'orange'}/></Box> {siteData.properties.address} </Flex>
