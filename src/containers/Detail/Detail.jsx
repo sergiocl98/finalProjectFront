@@ -77,7 +77,7 @@ const Detail = () => {
   useEffect(() => {
     getSiteData(id, setSiteData);
   }, [id]);
-  console.log(siteData);
+  
   return (
     <Box>
       <HeaderPage

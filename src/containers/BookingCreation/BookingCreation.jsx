@@ -57,7 +57,6 @@ const BookingCreation = () => {
   const handleSubmit = async () => {
     const res = await bookingService.createBooking(bookings, date);
     if (res) {
-      console.log(res);
       navigate(`/confirmation/${res._id}`);
     }
   };
@@ -74,8 +73,6 @@ const BookingCreation = () => {
         )
       );
   }, [siteData, date, people]);
-
-  console.log(bookings);
 
   return (
     <Grid

@@ -101,7 +101,6 @@ const ProfileTabTwo = () => {
 
   useEffect(() => {
     getUserLocals().then(data => {
-      console.log(data);
       if (data) setUserLocals(data);
     });
   }, []);
@@ -113,7 +112,6 @@ const ProfileTabTwo = () => {
       'image/*': [],
     },
     onDrop: acceptedFiles => {
-      console.log('acceptedFiles', acceptedFiles);
       setFiles(
         acceptedFiles.map(file =>
           Object.assign(file, {
@@ -124,7 +122,6 @@ const ProfileTabTwo = () => {
     },
   });
 
-  console.log('localData', localData);
 
   const getCoordenatesFromAddress = async address => {
     fetch(
@@ -132,7 +129,6 @@ const ProfileTabTwo = () => {
     )
       .then(response => response.json())
       .then(data => {
-        console.log('data', data);
         setLocalData({
           ...localData,
           coords: {

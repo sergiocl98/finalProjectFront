@@ -49,6 +49,7 @@ const SiteList = () => {
               site => site.properties._id === selectedSite
             )}
             handleSelectSite={handleSelectSite}
+            handleInputReset={handleInputReset}
           />
         ) : (
           <>

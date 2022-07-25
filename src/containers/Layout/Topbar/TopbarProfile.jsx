@@ -13,7 +13,6 @@ const TopbarProfile = () => {
   const userDetailStored = useSelector(SELECT_USER_DETAIL);
   const {user} = userStored;
   const localUser = userService.getUser();
-  console.log(localUser)
 
 
   const handleDisconnect = () => {

@@ -5,7 +5,6 @@ import { NavLink } from 'react-router-dom';
 
 const TopbarLink = ({ title, icon, route, onClick }) => {
     const [isLargerThan768] = useMediaQuery('(min-width: 768px)');
-    console.log(isLargerThan768)
     const selectIcon = () => {
       switch (icon) {
         case 'home':
