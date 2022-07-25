@@ -1,4 +1,5 @@
 import restService from './restService';
+import UserService from './userService';
 
 class LocalService {
   getLocals = () => {
@@ -6,6 +7,15 @@ class LocalService {
 
     return restService.get(endPoint).then(res => {
       if (res.data) return res.data;
+    });
+  };
+
+  getUserLocals = () => {
+    const userID = UserService.getUser().userId;
+
+    return restService.get(`user/locales/${userID}`).then(res => {
+      console.log(res)
+      if (res.data) return res.data.locales;
     });
   };
 
@@ -17,18 +27,12 @@ class LocalService {
     });
   };
 
-  createLocal = (coords, name, address) => {
+  createLocal = data => {
     const endPoint = `locales`;
 
-    return restService
-      .post(endPoint, {
-        coords,
-        name,
-        address,
-      })
-      .then(res => {
-        if (res.data) return res.data;
-      });
+    return restService.post(endPoint, data).then(res => {
+      if (res.data) return res.data;
+    });
   };
 
   getLocalGoogleMapsURL = coords => {
