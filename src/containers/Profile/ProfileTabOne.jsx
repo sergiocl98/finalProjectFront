@@ -55,7 +55,6 @@ const ProfileTabOne = ({
         })
       setHistory(historyArray);
       }
-      console.log('HISTORY',history);
 
 
   
@@ -65,7 +64,6 @@ const ProfileTabOne = ({
       'image/*': []
     },
     onDrop: acceptedFiles => {
-        console.log('acceptedFiles', acceptedFiles)
       setFiles(acceptedFiles.map(file => Object.assign(file, {
         preview: URL.createObjectURL(file)
       })));
@@ -75,7 +73,6 @@ const ProfileTabOne = ({
   const handleEdit = () => {
     const user = getValues();
     user.image = files[0]|| undefined;
-    console.log(user);
 
     const formData = new FormData();
     for(const name in user) {

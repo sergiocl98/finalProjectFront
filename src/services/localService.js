@@ -14,7 +14,6 @@ class LocalService {
     const userID = UserService.getUser().userId;
 
     return restService.get(`user/locales/${userID}`).then(res => {
-      console.log(res)
       if (res.data) return res.data.locales;
     });
   };

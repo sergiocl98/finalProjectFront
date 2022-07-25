@@ -46,8 +46,6 @@ const BookingConfirmation = () => {
     }
   }, [bookingData]);
 
-  console.log(bookingData);
-
   return (
     <>
       {id !== 'undefined' ? (
