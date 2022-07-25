@@ -224,16 +224,16 @@ const ProfileTabOne = ({
                 } }
             />
           </HStack>
-          {history.length > 0 && <Text fontSize='14px' color='brand.gray1' fontWeight='700'> History </Text>}
           {history.length > 0 && (
                     <Fade in={ true }>
+                    <Text fontSize='14px' color='brand.gray1' fontWeight='700'> History </Text>
                       <Box mt='70px'>
                         <TableSimple
                           columns={ columns }
                           data={ history }
                           isSorty
                           variant='list'
-                          whiteSpace='nowrap'
+                          whiteSpace='wrap'
                         />
                       </Box>
                     </Fade>

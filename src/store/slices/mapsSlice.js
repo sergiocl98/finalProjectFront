@@ -182,6 +182,15 @@ export const mapsSlice = createSlice({
         date,
         people
       );
+
+      if (state.selectedSite) {
+        if (
+          !state.visibleSiteList.find(
+            site => site.properties._id === state.selectedSite
+          )
+        )
+          state.selectedSite = undefined;
+      }
     },
     moveCameraToPoint(state, action) {
       state.center = action.payload;
