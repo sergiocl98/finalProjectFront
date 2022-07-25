@@ -4,9 +4,6 @@ import {
   Container,
   Flex,
   Heading,
-  Icon,
-  List,
-  ListItem,
   SimpleGrid,
   Stack,
   StackDivider,
@@ -24,16 +21,19 @@ import {
   ModalFooter,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
-import { NavLink, useNavigate, useParams } from 'react-router-dom';
-import { MapTrifold } from 'phosphor-react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { MapTrifold, Pencil } from 'phosphor-react';
 import LocalService from '../../services/localService';
 import HeaderPage from '../../components/HeaderPage/HeaderPage';
 import TableIcon from '../../shared/img/TableIcon.png';
 import RestaurantDefault from '../../shared/img/restaurantDefault.jpg';
+import userService from '../../services/userService';
+import LocalForm from '../../components/LocalForm/LocalForm';
+import localService from '../../services/localService';
 
-const getSiteData = async (id, setSiteData) => {
+const getSiteData = async id => {
   const res = await LocalService.getLocalById(id);
-  setSiteData(res);
+  return res;
 };
 
 const handleGetDirections = siteData => {
@@ -67,17 +67,70 @@ const Detail = () => {
 
   const [siteData, setSiteData] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const user = userService.getUser();
   const navigate = useNavigate();
-  const handleGo = (url) => {
+  const handleGo = url => {
     navigate(url);
   };
   const idLocal = useParams(id);
 
+  const [isEdit, setIsEdit] = useState(false);
+
+  const localUser = userService.getUser();
+  const [showMap, setShowMap] = useState(false);
+  const [localData, setLocalData] = useState({
+    user: localUser.userId,
+    name: '',
+    address: '',
+    phone: '',
+    description: '',
+    tags: '',
+    coords: {
+      lat: '',
+      lng: '',
+    },
+  });
+
+  const [mapData, setMapData] = useState({
+    center: {
+      lat: 40.3396472,
+      lng: -3.7729584,
+    },
+    zoom: 9,
+    draggable: true,
+    lat: 40.3396472,
+    lng: -3.7729584,
+  });
+
+  const [files, setFiles] = useState([]);
+
+  const handleSave = async () => {
+    localData.image = files[0] || RestaurantDefault;
+    localData.menu = files[0] || RestaurantDefault;
+
+    const formData = new FormData();
+    for (const name in localData) {
+      formData.append(
+        name,
+        name === 'coords'
+          ? JSON.stringify({ lat: mapData.lat, lng: mapData.lng })
+          : localData[name]
+      );
+    }
+
+    const res = await localService.updateLocal(localData._id, formData);
+    setIsEdit(false);
+  };
 
   useEffect(() => {
-    getSiteData(id, setSiteData);
-  }, [id]);
-  
+    getSiteData(id).then(data => {
+      setSiteData(data);
+      setLocalData(() => {
+        return data;
+      });
+    });
+  }, [id, isEdit]);
+
   return (
     <Box>
       <HeaderPage
@@ -88,75 +141,119 @@ const Detail = () => {
       />
 
       {siteData ? (
-        <Container maxW={'5xl'} p={12} bgColor={'white'} borderRadius={10}>
-          <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
-            <Stack spacing={4}>
-              <HStack>
-                {siteData?.tags.map(tag => (
-                  <Text
-                    key={tag}
-                    textTransform={'uppercase'}
-                    color={'orange.400'}
-                    fontWeight={600}
-                    fontSize={'sm'}
-                    bg="orange.50"
-                    p={2}
-                    alignSelf={'flex-start'}
-                    rounded={'md'}
-                  >
-                    {tag}
+        <Container
+          maxW={'5xl'}
+          p={12}
+          bgColor={'white'}
+          borderRadius={10}
+          position="relative"
+        >
+          {siteData.user && user.userId && !isEdit && (
+            <Button
+              position="absolute"
+              right="1rem"
+              top="1rem"
+              onClick={() => setIsEdit(old => !old)}
+            >
+              <Pencil size={32} />
+            </Button>
+          )}
+          {!isEdit ? (
+            <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
+              <Stack spacing={4}>
+                <HStack>
+                  {siteData?.tags.map(tag => (
+                    <Text
+                      key={tag}
+                      textTransform={'uppercase'}
+                      color={'orange.400'}
+                      fontWeight={600}
+                      fontSize={'sm'}
+                      bg="orange.50"
+                      p={2}
+                      alignSelf={'flex-start'}
+                      rounded={'md'}
+                    >
+                      {tag}
+                    </Text>
+                  ))}
+                </HStack>
+                <Heading>{siteData?.name}</Heading>
+                <Flex onClick={() => handleGetDirections(siteData)}>
+                  <Text color={'gray.500'} fontSize={'lg'} mr="4px">
+                    {siteData?.address}
                   </Text>
-                ))}
-              </HStack>
-              <Heading>{siteData?.name}</Heading>
-              <Flex onClick={() => handleGetDirections(siteData)}>
-                <Text color={'gray.500'} fontSize={'lg'} mr="4px">
-                  {siteData?.address}
+                  <MapTrifold size={26} weight="regular" color={'orange'} />
+                </Flex>
+                <Text color={'gray.500'} fontSize={'lg'}>
+                  {siteData?.description}
                 </Text>
-                <MapTrifold size={26} weight="regular" color={'orange'} />
-              </Flex>
-              <Text color={'gray.500'} fontSize={'lg'}>
-                {siteData?.description}
-              </Text>
-              <Stack
-                spacing={4}
-                divider={<StackDivider borderColor={'gray.100'} />}
-                mb="30px"
-              >
-                <Feature
-                  icon={
-                    <Image
-                      src={TableIcon}
-                      alt="TableIcon"
-                      width={5}
-                      height={5}
-                    />
-                  }
-                  iconBg={'yellow.100'}
-                  text={'Total tables: ' + siteData?.bookings.length}
-                />
-              </Stack>
-              <HStack pt={'40px'}>
-                <Button
-                  variant="secondary2"
-                  mr="20px"
-                  onClick={onOpen}
-                  isDisabled={siteData?.menu === undefined}
+                <Stack
+                  spacing={4}
+                  divider={<StackDivider borderColor={'gray.100'} />}
+                  mb="30px"
                 >
-                  Open Menu
-                </Button>
-                <Button variant="primary" onClick={() => handleGo(`/book/${idLocal}`)}>Book a table</Button>
-              </HStack>
-            </Stack>
-            <Flex>
-              <Image
-                rounded={'md'}
-                alt={'feature image'}
-                src={siteData?.image || RestaurantDefault}
-                objectFit={'cover'}
-              />
-            </Flex>
-          </SimpleGrid>
+                  <Feature
+                    icon={
+                      <Image
+                        src={TableIcon}
+                        alt="TableIcon"
+                        width={5}
+                        height={5}
+                      />
+                    }
+                    iconBg={'yellow.100'}
+                    text={'Total tables: ' + siteData?.bookings.length}
+                  />
+                </Stack>
+                <HStack pt={'40px'}>
+                  <Button
+                    variant="secondary2"
+                    mr="20px"
+                    onClick={onOpen}
+                    isDisabled={siteData?.menu === undefined}
+                  >
+                    Open Menu
+                  </Button>
+                  <Button
+                    variant="primary"
+                    onClick={() => handleGo(`/book/${idLocal}`)}
+                  >
+                    Book a table
+                  </Button>
+                </HStack>
+              </Stack>
+              <Flex>
+                <Image
+                  rounded={'md'}
+                  alt={'feature image'}
+                  src={siteData?.image || RestaurantDefault}
+                  objectFit={'cover'}
+                />
+              </Flex>
+            </SimpleGrid>
+          ) : (
+            <Box>
+              <LocalForm
+                localData={localData}
+                setLocalData={setLocalData}
+                mapData={mapData}
+                setMapData={setMapData}
+                showMap={showMap}
+                setShowMap={setShowMap}
+                files={files}
+                setFiles={setFiles}
+              ></LocalForm>
+
+              <Button
+                variant="secondary2"
+                mr="20px"
+                onClick={() => handleSave()}
+              >
+                Save
+              </Button>
+            </Box>
+          )}
         </Container>
       ) : (
         <Flex justify={'center'}>
