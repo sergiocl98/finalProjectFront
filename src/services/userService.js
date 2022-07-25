@@ -1,47 +1,45 @@
-import restService from "./restService";
+import restService from './restService';
 
 class UserService {
+  getUser() {
+    let user = JSON.parse(localStorage.getItem('user'));
+    return user;
+  }
 
-    getUser() {
-        let user = JSON.parse(localStorage.getItem('user'));
-        return user;
-    }
+  getToken() {
+    let token = localStorage.getItem('token');
+    return token;
+  }
 
-    getToken() {
-        let token = localStorage.getItem('token');
-        return token;
-    }
+  getUserLng() {
+    let lng = localStorage.getItem('lng');
+    return lng;
+  }
 
-    getUserLng() {
-        let lng = localStorage.getItem('lng');
-        return lng;
-    }
+  getRoles() {
+    let roles = localStorage.getItem('roles');
+    return roles?.split(',');
+  }
 
-    getRoles() {
-        let roles = localStorage.getItem('roles');
-        return roles?.split(',');    
-    }
+  checkExistRole(roles) {
+    return this.getRoles()?.some(role => roles.includes(role));
+  }
 
-    checkExistRole(roles) {
-        return this.getRoles()?.some(role => roles.includes(role));
-    }
+  getUserById = id => {
+    const endPoint = `user/${id}`;
 
-    getUserById = id => {
-        const endPoint = `user/${id}`;
-    
-        return restService.get(endPoint).then(response => {
-            if (!response) return Promise.reject();
-            return response?.data;
-        });
-      };
+    return restService.get(endPoint).then(response => {
+      if (!response) return Promise.reject();
+      return response?.data;
+    });
+  };
 
-      editUserById = ({id , user}) => {
-        const endPoint = `user/edit/${id}`;
-        return restService.put(endPoint,user)
-        .then(response => {
-            if (!response) return Promise.reject();
-            return response?.data;
-        });
-      };
+  editUserById = ({ id, user }) => {
+    const endPoint = `user/edit/${id}`;
+    return restService.patch(endPoint, user).then(response => {
+      if (!response) return Promise.reject();
+      return response?.data;
+    });
+  };
 }
 export default new UserService();
