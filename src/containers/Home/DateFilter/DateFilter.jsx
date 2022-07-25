@@ -39,9 +39,9 @@ const DateFilter = () => {
         date={date}
         handleDateChange={handleDateChange}
       ></CustomDatePicker>
-      <Flex>
-        <UsersThree size={32} weight="thin" />
-        <Select onChange={handlePeopleChange}>{generateOptions(people)}</Select>
+      <Flex mt='6px'>
+        
+        <Select variant='outline' bgColor={'white'} icon={<UsersThree size={32} weight="thin" />} onChange={handlePeopleChange}>{generateOptions(people)}</Select>
       </Flex>
     </Flex>
   );
