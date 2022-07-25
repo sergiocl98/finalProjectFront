@@ -64,7 +64,7 @@ const Card = ({
               {siteData?.properties?.tags.map(tag => (
                 <Tag
                   key={tag}
-                  variantColor="subtle"
+                  variant="subtle"
                   colorScheme="orange"
                   textTransform={'capitalize'}
                 >

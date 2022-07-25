@@ -32,8 +32,9 @@ const filterPassedDate = date => {
 const filterPassedTime = time => {
   const currentDate = new Date();
   const selectedDate = new Date(time);
-
-  return currentDate.getTime() < selectedDate.getTime();
+  const hour = selectedDate.getHours()
+  const horario = (hour >= 8 && hour <= 16) || (hour >= 20 && hour <= 23);
+  return currentDate.getTime() < selectedDate.getTime() && horario;
 };
 
 const CustomDatePicker = ({ date, handleDateChange }) => {
@@ -48,6 +49,7 @@ const CustomDatePicker = ({ date, handleDateChange }) => {
         filterTime={filterPassedTime}
         timeCaption="time"
         dateFormat="dd/MM/yyyy HH:mm"
+        timeFormat="HH:mm"
       />
       <InputRightElement w="" zIndex="1" mr={'6px'}>
         <Calendar size={32} weight="thin" />
