@@ -120,8 +120,8 @@ const ProfileTabTwo = () => {
           </Flex>
           <List>
             {userLocals.length &&
-              userLocals.map(local => (
-                <ListItem as={NavLink} to={`/detail/${local._id}`}>
+              userLocals.map((local, index)=> (
+                <ListItem as={NavLink} to={`/detail/${local._id}`} key={index}>
                   <Flex alignItems="baseline" gap="1rem">
                     <Text color="brand.primary" fontSize="24px">
                       {local.name}
