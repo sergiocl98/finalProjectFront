@@ -101,6 +101,7 @@ const ProfileTabTwo = () => {
 
   useEffect(() => {
     getUserLocals().then(data => {
+      console.log(data);
       if (data) setUserLocals(data);
     });
   }, []);
@@ -176,15 +177,17 @@ const ProfileTabTwo = () => {
   };
 
   const handleSave = async () => {
-    localData.image = files[0] || undefined;
-    localData.menu = files[0] || undefined;
+    localData.image = files[0] || RestaurantDefault;
+    localData.menu = files[0] || RestaurantDefault;
 
     const formData = new FormData();
     for (const name in localData) {
       console.log(name, localData[name]);
       formData.append(
         name,
-        name === 'coords' ? JSON.stringify(localData[name]) : localData[name]
+        name === 'coords'
+          ? JSON.stringify({ lat: mapData.lat, lng: mapData.lng })
+          : localData[name]
       );
     }
 
