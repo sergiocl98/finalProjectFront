@@ -156,6 +156,7 @@ const LocalForm = ({
             onChange={e =>
               setLocalData({ ...localData, address: e.target.value })
             }
+            focusBorderColor="brand.primary"
           />
           <FormHelperText>
             Set address before submit to see your local coords.
@@ -175,6 +176,7 @@ const LocalForm = ({
             type="text"
             value={localData.name}
             onChange={e => setLocalData({ ...localData, name: e.target.value })}
+            focusBorderColor="brand.primary"
           />
           <FormHelperText>Name of your local </FormHelperText>
         </FormControl>
@@ -189,6 +191,7 @@ const LocalForm = ({
                 tags: e.target.value.split(','),
               })
             }
+            focusBorderColor="brand.primary"
           />
           <FormHelperText>
             Split the tags with comma. Example: American,Italian{' '}
@@ -205,6 +208,7 @@ const LocalForm = ({
             }
             placeholder="Description of your local"
             size="md"
+            focusBorderColor="brand.primary"
           />
         </FormControl>
       </HStack>

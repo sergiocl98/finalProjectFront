@@ -9,7 +9,7 @@ const generateOptions = people => {
   let opts = [];
   for (let i = 1; i < 13; i++) {
     opts.push(
-      <option key={i} value={i} selected={i == people ? 'selected' : ''}>
+      <option key={i} value={i}>
         {i}
       </option>
     );
@@ -41,7 +41,7 @@ const DateFilter = () => {
       ></CustomDatePicker>
       <Flex mt='6px'>
         
-        <Select variant='outline' bgColor={'white'} icon={<UsersThree size={32} weight="thin" />} onChange={handlePeopleChange}>{generateOptions(people)}</Select>
+        <Select variant='outline' bgColor={'white'} icon={<UsersThree size={32} weight="thin" />} onChange={handlePeopleChange} defaultValue={0} focusBorderColor="brand.primary" >{generateOptions(people)}</Select>
       </Flex>
     </Flex>
   );
