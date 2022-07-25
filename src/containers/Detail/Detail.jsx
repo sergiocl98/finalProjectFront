@@ -243,6 +243,7 @@ const Detail = () => {
                 setShowMap={setShowMap}
                 files={files}
                 setFiles={setFiles}
+                isEdit={true}
               ></LocalForm>
 
               <Button

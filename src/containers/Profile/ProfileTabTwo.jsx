@@ -36,6 +36,7 @@ const ProfileTabTwo = () => {
       lat: '',
       lng: '',
     },
+    bookings: [],
   });
   const [userLocals, setUserLocals] = useState([]);
   const [mapData, setMapData] = useState({
@@ -143,22 +144,11 @@ const ProfileTabTwo = () => {
             setShowMap={setShowMap}
             files={files}
             setFiles={setFiles}
-          ></LocalForm>
+            handleSave={handleSave}
+          />
         </Flex>
       </Box>
-      <Box h="15%">
-        <Divider color="brand.gray2" />
-        <Flex
-          p="0px 24px"
-          justifyContent="flex-end"
-          h="99%"
-          alignItems="center"
-        >
-          <Button variant="secondary2" mr="20px" onClick={() => handleSave()}>
-            Save
-          </Button>
-        </Flex>
-      </Box>
+      
     </Flex>
   );
 };
