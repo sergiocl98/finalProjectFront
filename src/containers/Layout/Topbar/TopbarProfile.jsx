@@ -27,7 +27,7 @@ const TopbarProfile = () => {
   }, [user, dispatch, userDetailStored?.image])
 
   return (
-    <Flex position='absolute' right='0' h='100%' mr='30px'>
+    <Flex position='absolute' right='0' h='100%' gridColumn="3/4">
       <Flex mb='0' ml='20px' position='relative' alignItems='center' alignContent='center'>
         <Flex mr='20px' direction='row' justifyContent='space-between' alignItems='center' gap='10px'>
           <Avatar size='md' name={userDetailStored?.name}  src={userDetailStored?.image}/>

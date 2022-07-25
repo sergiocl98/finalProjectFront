@@ -21,16 +21,17 @@ const TopbarLink = ({ title, icon, route, onClick }) => {
       <Link as={ NavLink }
         to={ route }
         onClick={ (e) => onClick(e) }
-        h='36px' w={ {base: '40px', md: '220px'} } ml='10px' mb='10px' borderRadius='4px' transition='all 0.2s' position='relative' cursor='pointer' display='flex' p='25px 20px' overflow='hidden' bg='transparent' border='none' alignItems='center'  justifyContent={ !isLargerThan768 && 'center'}
+        h='36px' w={{base:"24px", lg:"150px"}} borderRadius='4px' transition='all 0.2s' position='relative' cursor='pointer' display='flex' p='25px 20px' overflow='hidden' bg='transparent' border='none' alignItems='center'  justifyContent={{base:'center', lg:"flex-start"}}
         _hover={ { bgColor:'brand.primary20', color:'brand.primary' } }
         _focus={ { outline:'none' } }
         _activeLink={ { color:'brand.primary', bgColor:'brand.primary20' } }
+        gridColumn="2/3"
       >
         <Box>
           { selectIcon() }
-          {isLargerThan768 && <Box position='absolute' left={ {base: '10px', md: '43px'} } w='160px' transition='left 0.3s' top='50%' transform='translateY(-50%)' pl='10px' color='brand.gray2' >
+          <Box position='absolute' display={{base:"none", lg: "inline-block"}} left={ {base: '10px', lg: '43px'} } w='160px' transition='left 0.3s' top='50%' transform='translateY(-50%)' pl='10px' color='brand.gray2' >
             {title}
-          </Box>}
+          </Box>
         </Box>
       </Link>
     );
