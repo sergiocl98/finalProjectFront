@@ -10,7 +10,7 @@ import Profile from '../Profile/Profile';
 import Detail from '../Detail/Detail';
 import BookingCreation from '../BookingCreation/BookingCreation';
 import BookingConfirmation from '../BookingCreation/BookingConfirmation';
-import About from '../../components/About/About';
+import About from '../About/About';
 
 const RoleRoute = ({ component: ComponentRouter, roles }) => {
   const userRoles = userService.getRoles();

@@ -31,9 +31,9 @@ class BookingService {
 
   getAvailability = (booking, date, people) => {
     if (date === '') return true;
-    const peopleFilter = booking.people === people;
+    const peopleFilter = parseInt(booking.people) === parseInt(people);
     if (!peopleFilter) return false;
-    
+
     const res = booking.lastBook.map(b => {
       if (b.start === '' && b.end === '') return true;
 
