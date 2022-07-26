@@ -122,8 +122,18 @@ const ProfileTabTwo = () => {
             {userLocals.length &&
               userLocals.map((local, index) => (
                 <ListItem as={NavLink} to={`/detail/${local._id}`} key={index}>
-                  <Flex alignItems="baseline" gap="1rem">
-                    <Text color="brand.primary" fontSize="24px">
+                  <Flex
+                    alignItems="baseline"
+                    gap="1rem"
+                    shadow="md"
+                    borderWidth="1px"
+                    bgColor="white"
+                    p={5}
+                    flexWrap="wrap"
+                    borderRadius="1rem"
+                    mb={5}
+                  >
+                    <Text color="brand.primary" fontSize="24px" w="200px" flexShrink="0">
                       {local.name}
                     </Text>
                     <Text>{local.address}</Text>

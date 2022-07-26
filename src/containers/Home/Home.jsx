@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setMapView, setSites } from '../../store/slices/mapsSlice';
 import DateFilter from './DateFilter/DateFilter';
 
+import Logo from '../../shared/img/login_logo.png';
+
 const getLocals = async dispatcherFunction => {
   const res = await localService.getLocals();
   dispatcherFunction(res);
@@ -20,7 +22,7 @@ const Home = () => {
   const { siteList, userPermission } = useSelector(state => state.maps);
   const { date, people } = useSelector(state => state.booking);
 
-  console.log(siteList)
+  console.log(siteList);
 
   useEffect(() => {
     getLocals(v => dispatch(setSites(v)));
@@ -32,6 +34,7 @@ const Home = () => {
 
   return (
     <Grid
+      position="relative"
       templateAreas={{
         base: `"header"
                 "Map"
@@ -75,11 +78,13 @@ const Home = () => {
           md: 'calc(100vh - 225px)',
         }}
       >
-        {userPermission !== 'pending' && (
+        {userPermission !== 'pending' ? (
           <>
             <DateFilter />
             <SiteList gridRow="1/2" />
           </>
+        ) : (
+          <Box w="full" h="full" bgColor="brand.primary" bgImage={Logo} bgPos="center" bgRepeat="no-repeat" bgSize="200px" borderRadius="2rem"></Box>
         )}
       </GridItem>
     </Grid>
