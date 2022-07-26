@@ -9,6 +9,7 @@ import {
   HStack,
   Image,
   Input,
+  Stack,
   Table,
   Tbody,
   Td,
@@ -242,7 +243,7 @@ const LocalForm = ({
 
   return (
     <Box>
-      <HStack spacing="20px" mb="30px">
+      <Stack direction={['column', 'row']} spacing="20px" mb="30px">
         <Image
           alt={'local foto'}
           src={files[0]?.preview || RestaurantDefault}
@@ -254,7 +255,7 @@ const LocalForm = ({
           <p>Drag 'n' drop some files here, or click to select files</p>
           <em>(1 files are the maximum number of files you can drop here)</em>
         </div>
-      </HStack>
+      </Stack>
       {files.length > 0 && (
         <HStack mb="30px">
           <Text fontSize="14px" fontWeight="700">
@@ -265,7 +266,7 @@ const LocalForm = ({
           </Text>
         </HStack>
       )}
-      <HStack spacing="20px" mb="20px">
+      <Stack direction={['column', 'row']} spacing="20px" mb="20px" alignItems={'center'}>
         <FormControl>
           <FormLabel>Address</FormLabel>
           <Input
@@ -286,8 +287,8 @@ const LocalForm = ({
         >
           Set Address
         </Button>
-      </HStack>
-      <HStack spacing="20px" mb="20px">
+      </Stack>
+      <Stack direction={['column', 'row']} spacing="20px" mb="20px">
         <FormControl>
           <FormLabel>Name</FormLabel>
           <Input
@@ -315,7 +316,7 @@ const LocalForm = ({
             Split the tags with comma. Example: American,Italian{' '}
           </FormHelperText>
         </FormControl>
-      </HStack>
+      </Stack>
       <HStack spacing="20px" mb="20px">
         <FormControl>
           <FormLabel>Description</FormLabel>
