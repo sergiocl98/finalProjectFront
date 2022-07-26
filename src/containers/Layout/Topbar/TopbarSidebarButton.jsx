@@ -1,11 +1,10 @@
 import React from 'react';
 import logoImg from './../../../shared/img/login_logo.png';
-import { Box, Flex,  Grid,  Link, Text, useMediaQuery } from '@chakra-ui/react';
+import { Box, Grid,  Link, Text} from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
 const TopbarSidebarButton = () => {
   const navigate = useNavigate();
-  const [isLargerThan768] = useMediaQuery('(min-width: 768px)')
   const handleLogo = () => {
     navigate('/home');
   };

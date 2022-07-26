@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   Flex,
-  Heading,
   HStack,
   Image,
   SimpleGrid,
@@ -10,8 +9,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { MapTrifold } from 'phosphor-react';
-import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
 import RestaurantDefault from '../../../shared/img/restaurantDefault.jpg';
 
 import { NavLink, useNavigate } from 'react-router-dom';

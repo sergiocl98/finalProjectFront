@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import GoogleMapReact from 'google-map-react';
 import Marker from './Marker';
@@ -11,7 +11,6 @@ import {
   setMapView,
   setSelectedSite,
 } from '../../store/slices/mapsSlice';
-import SiteList from './SiteList/SiteList';
 
 const mapStyles = {
   styles: [

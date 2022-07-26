@@ -1,7 +1,5 @@
 import {
   Box,
-  Button,
-  Divider,
   Flex,
   List,
   ListItem,
@@ -12,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import userService from '../../services/userService';
 import { fetchUserById } from '../../store/slices/userSlice';
 import RestaurantDefault from '../../shared/img/restaurantDefault.jpg';
+import MenuDefault from '../../shared/img/menuDefault.jpeg';
 import localService from '../../services/localService';
 import { useNavigate, NavLink } from 'react-router-dom';
 import LocalForm from '../../components/LocalForm/LocalForm';
@@ -65,10 +64,11 @@ const ProfileTabTwo = () => {
   }, []);
 
   const [files, setFiles] = useState([]);
+  const [menu, setMenu] = useState([]);
 
   const handleSave = async () => {
     localData.image = files[0] || RestaurantDefault;
-    localData.menu = files[0] || RestaurantDefault;
+    localData.menu = menu[0] || MenuDefault;
 
     const formData = new FormData();
     for (const name in localData) {
@@ -143,6 +143,8 @@ const ProfileTabTwo = () => {
             setShowMap={setShowMap}
             files={files}
             setFiles={setFiles}
+            menu={menu}
+            setMenu={setMenu}
             handleSave={handleSave}
           />
         </Flex>
