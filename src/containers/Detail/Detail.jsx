@@ -107,8 +107,8 @@ const Detail = () => {
   const handleSave = async () => {
     localData.image = files[0] || RestaurantDefault;
     localData.menu = files[0] || RestaurantDefault;
-    console.log(localData.coords)
-    console.log(mapData.lat, mapData.lng)
+    console.log(localData.coords);
+    console.log(mapData.lat, mapData.lng);
 
     const formData = new FormData();
     for (const name in localData) {
@@ -129,6 +129,9 @@ const Detail = () => {
       setSiteData(data);
       setLocalData(() => {
         return data;
+      });
+      setMapData(oldValue => {
+        return { ...oldValue, lat: data.coords.lat, lng: data.coords.lng };
       });
     });
   }, [id, isEdit]);
