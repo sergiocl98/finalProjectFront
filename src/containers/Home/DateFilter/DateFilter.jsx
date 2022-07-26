@@ -20,6 +20,7 @@ const generateOptions = people => {
 
 const DateFilter = () => {
   const { date, people } = useSelector(state => state.booking);
+  console.log(people);
   const dispatch = useDispatch();
 
   const handleDateChange = v => {
@@ -39,9 +40,17 @@ const DateFilter = () => {
         date={date}
         handleDateChange={handleDateChange}
       ></CustomDatePicker>
-      <Flex mt='6px'>
-        
-        <Select variant='outline' bgColor={'white'} icon={<UsersThree size={32} weight="thin" />} onChange={handlePeopleChange} defaultValue={0} focusBorderColor="brand.primary" >{generateOptions(people)}</Select>
+      <Flex mt="6px">
+        <Select
+          variant="outline"
+          bgColor={'white'}
+          icon={<UsersThree size={32} weight="thin" />}
+          onChange={handlePeopleChange}
+          defaultValue={people}
+          focusBorderColor="brand.primary"
+        >
+          {generateOptions(people)}
+        </Select>
       </Flex>
     </Flex>
   );
