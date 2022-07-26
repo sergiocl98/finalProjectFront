@@ -1,4 +1,4 @@
-import { Box, Center, Flex, Heading, HStack, Text, Stack } from '@chakra-ui/react';
+import { Box, Center, Flex, Heading, Text } from '@chakra-ui/react';
 import { Bird, Camera, GameController} from 'phosphor-react';
 import React from 'react';
 import ProfileCard from '../ProfileCard/ProfileCard';

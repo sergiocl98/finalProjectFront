@@ -27,6 +27,7 @@ import LocalService from '../../services/localService';
 import HeaderPage from '../../components/HeaderPage/HeaderPage';
 import TableIcon from '../../shared/img/TableIcon.png';
 import RestaurantDefault from '../../shared/img/restaurantDefault.jpg';
+import MenuDefault from '../../shared/img/menuDefault.jpeg';
 import userService from '../../services/userService';
 import LocalForm from '../../components/LocalForm/LocalForm';
 import localService from '../../services/localService';
@@ -103,12 +104,11 @@ const Detail = () => {
   });
 
   const [files, setFiles] = useState([]);
+  const [menu, setMenu] = useState([]);
 
   const handleSave = async () => {
     localData.image = files[0] || RestaurantDefault;
-    localData.menu = files[0] || RestaurantDefault;
-    console.log(localData.coords);
-    console.log(mapData.lat, mapData.lng);
+    localData.menu = menu[0] || MenuDefault;
 
     const formData = new FormData();
     for (const name in localData) {
@@ -120,7 +120,7 @@ const Detail = () => {
       );
     }
 
-    const res = await localService.updateLocal(localData._id, formData);
+    await localService.updateLocal(localData._id, formData);
     setIsEdit(false);
   };
 
@@ -248,6 +248,8 @@ const Detail = () => {
                 setShowMap={setShowMap}
                 files={files}
                 setFiles={setFiles}
+                menu={menu}
+                setMenu={setMenu}
                 isEdit={true}
                 handleSave={handleSave}
               ></LocalForm>

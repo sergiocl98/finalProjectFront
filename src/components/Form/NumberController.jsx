@@ -65,7 +65,7 @@ const NumberController = ({
         };
 
         const handleAllowed = (inputObj) => {
-          if (maxValue == 0) return false;
+          if (maxValue === 0) return false;
 
           if (maxValue && minValue){
             const { floatValue } = inputObj;
