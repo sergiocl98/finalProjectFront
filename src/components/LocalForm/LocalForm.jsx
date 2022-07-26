@@ -61,17 +61,9 @@ const mapStyles = {
 
 const BOOKINGS_DEFAULT=[
     {
-      numPeople: 2,
-      numTables: 10
-    },
-    {
       numPeople: 4,
-      numTables: 10
-    },
-    {
-      numPeople: 6,
-      numTables: 4
-    },
+      numTables: 2
+    }
   ];
 
 const LocalForm = ({
@@ -231,7 +223,7 @@ const LocalForm = ({
               />  
             </Td>
             <Td>
-              {fields.length <= 2 ? <Box data-testid='button_remove' _hover={ { cursor: 'not-allowed'} }>
+              {fields.length < 2 ? <Box data-testid='button_remove' _hover={ { cursor: 'not-allowed'} }>
                 <MinusCircle size={ 28 } weight='thin' color='#ACAEB4' />
               </Box>
               :
