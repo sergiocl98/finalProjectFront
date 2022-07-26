@@ -131,6 +131,7 @@ const ProfileTabTwo = () => {
                     p={5}
                     flexWrap="wrap"
                     borderRadius="1rem"
+                    mb={5}
                   >
                     <Text color="brand.primary" fontSize="24px" w="200px" flexShrink="0">
                       {local.name}
