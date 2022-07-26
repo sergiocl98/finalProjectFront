@@ -1,5 +1,5 @@
 import { ArrowUpDownIcon, ChevronDownIcon, ChevronUpIcon, ArrowLeftIcon , ChevronLeftIcon, ChevronRightIcon, ArrowRightIcon} from '@chakra-ui/icons';
-import { Box, Flex, IconButton, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Select, Table, Tbody, Td, Text, Th, Thead, Tooltip, Tr } from '@chakra-ui/react';
+import { Box, Flex, IconButton, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Select, Table, Tbody, Td, Text, Th, Thead, Tooltip, Tr, useMediaQuery } from '@chakra-ui/react';
 import React from 'react';
 import { useTable, useSortBy, usePagination } from 'react-table';
 
@@ -11,6 +11,7 @@ const TableSimple = ({
   rowProps = () => {},
   ...props
 }) => {
+  const [greaterThan598] = useMediaQuery('(min-width: 598px)');
 
   const {
     getTableProps,
@@ -108,7 +109,7 @@ const TableSimple = ({
         </Flex>
 
         <Flex alignItems="center">
-          <Text flexShrink="0" mr={8}>
+          { greaterThan598 && <Text flexShrink="0" mr={8}>
             Page{" "}
             <Text fontWeight="bold" as="span">
               {pageIndex + 1}
@@ -117,8 +118,8 @@ const TableSimple = ({
             <Text fontWeight="bold" as="span">
               {pageOptions.length}
             </Text>
-          </Text>
-          <Text flexShrink="0">Go to page:</Text>{" "}
+          </Text>}
+          {greaterThan598 && <Text flexShrink="0">Go to page:</Text>}
           <NumberInput
             ml={2}
             mr={8}
@@ -137,7 +138,7 @@ const TableSimple = ({
               <NumberDecrementStepper />
             </NumberInputStepper>
           </NumberInput>
-          <Select
+          {greaterThan598 && <Select
             w={32}
             value={pageSize}
             onChange={(e) => {
@@ -149,7 +150,7 @@ const TableSimple = ({
                 Show {pageSize}
               </option>
             ))}
-          </Select>
+          </Select>}
         </Flex>
 
         <Flex>
