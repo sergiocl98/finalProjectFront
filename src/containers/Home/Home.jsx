@@ -86,8 +86,8 @@ const Home = () => {
           </>
         ) : (
           <Box w="auto" h="100%" bgImage={BannerHome} bgPos="center" bgSize={'cover'} bgRepeat="no-repeat" borderRadius="1rem">
-            <Center w={'100%'} h='30%'>
-              <Image src={Logo} alt="Logo" w={'300px'} h='300px' mt='50px'/> 
+            <Center w={'100%'} h={{base:'100%',lg:'30%'}}>
+              <Image src={Logo} alt="Logo" w={{base:'150px',lg:'300px'}} h={{base:'150px',lg:'300px'}} mt={{base:'10px',lg:'50px'}}/> 
             </Center>
             
           </Box>
