@@ -1,5 +1,5 @@
-import { Box, Center, Flex, Heading, Text } from '@chakra-ui/react';
-import { Bird, Camera, GameController} from 'phosphor-react';
+import { Box, Center, Flex, Heading, HStack, Text, Stack } from '@chakra-ui/react';
+import { Bird, Camera, Flask, GameController} from 'phosphor-react';
 import React from 'react';
 import ProfileCard from '../ProfileCard/ProfileCard';
 import GuillermoPicture from '../../shared/img/Guillermo2.jpg';
@@ -49,7 +49,7 @@ const About = () => {
         <Flex justifyContent='space-between' alignItems={'center'} mt="10px" flexDirection={{base: 'column', md: 'row'}}>
           <ProfileCard name='Guillermo Piñate' img={GuillermoPicture} description='Full Stack Developer, Designer and Photograph' address='Pontevedra, Spain' work='Interfoto' email='gpinate@gmail.com' hashtag='Photograph' hashtagIcon={<Camera size={32} color="#edeef0" weight="thin" />}  />
           <ProfileCard name='Sergio Carmona' img={SergioPicture} description='Full Stack Developer working as Frontend Developer in IoBuilders' address='Madrid, Spain' work='IoBuilders' email='scarmonalorente@gmail.com' hashtag='Gamer' hashtagIcon={<GameController size={32} color="#edeef0" weight="thin" />} />
-          <ProfileCard name='Jose Ignacio Labella' img={JosePicture} description='Assistant University Teacher, Full Stack Developer' address='Alicante, Spain' work='University' email='jose@gmail.com' hashtag='Biologist' hashtagIcon={<Bird size={32} color="#edeef0" weight="thin" />} />
+          <ProfileCard name='Jose Ignacio Labella' img={JosePicture} description='Full Stack Developer and Researcher' address='Alicante, Spain' work='University' email='ls.joseignacio@gmail.com' hashtag='Scientist' hashtagIcon={<Flask size={32} color="#edeef0" weight="thin" />} />
         </Flex>
       </Flex>
       </Center>
