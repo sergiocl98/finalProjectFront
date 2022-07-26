@@ -72,13 +72,12 @@ const ProfileTabTwo = () => {
 
     const formData = new FormData();
     for (const name in localData) {
-      console.log(name, localData[name]);
-      formData.append(
-        name,
-        name === 'coords'
-          ? JSON.stringify({ lat: mapData.lat, lng: mapData.lng })
-          : localData[name]
-      );
+      const key = name;
+      let value = localData[name];
+      if (key === 'coords')
+        value = JSON.stringify({ lat: mapData.lat, lng: mapData.lng });
+      if (key === 'bookings') value = JSON.stringify(value);
+      formData.append(key, value);
     }
 
     const res = await localService.createLocal(formData);
@@ -121,7 +120,7 @@ const ProfileTabTwo = () => {
           </Flex>
           <List>
             {userLocals.length &&
-              userLocals.map((local, index)=> (
+              userLocals.map((local, index) => (
                 <ListItem as={NavLink} to={`/detail/${local._id}`} key={index}>
                   <Flex alignItems="baseline" gap="1rem">
                     <Text color="brand.primary" fontSize="24px">
@@ -148,7 +147,6 @@ const ProfileTabTwo = () => {
           />
         </Flex>
       </Box>
-      
     </Flex>
   );
 };

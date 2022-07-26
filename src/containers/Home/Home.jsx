@@ -20,6 +20,8 @@ const Home = () => {
   const { siteList, userPermission } = useSelector(state => state.maps);
   const { date, people } = useSelector(state => state.booking);
 
+  console.log(siteList)
+
   useEffect(() => {
     getLocals(v => dispatch(setSites(v)));
   }, []);
