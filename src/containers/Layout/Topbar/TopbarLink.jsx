@@ -1,10 +1,9 @@
-import { Box, Link,useMediaQuery } from '@chakra-ui/react';
+import { Box, Link} from '@chakra-ui/react';
 import { House, User, UsersThree } from 'phosphor-react';
 import React from 'react'
 import { NavLink } from 'react-router-dom';
 
 const TopbarLink = ({ title, icon, route, onClick }) => {
-    const [isLargerThan768] = useMediaQuery('(min-width: 768px)');
     const selectIcon = () => {
       switch (icon) {
         case 'home':

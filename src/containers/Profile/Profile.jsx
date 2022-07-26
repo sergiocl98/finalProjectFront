@@ -1,16 +1,14 @@
-import { Avatar, Box, Fade, Grid, Tab, Tabs, TabList, TabPanel, TabPanels, Text } from '@chakra-ui/react'
+import { Box, Fade, Grid, Tab, Tabs, TabList, TabPanel, TabPanels, Text } from '@chakra-ui/react'
 import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react';
 import HeaderPage from '../../components/HeaderPage/HeaderPage';
-import userService from '../../services/userService'
 import ProfileTabOne from './ProfileTabOne';
 import { useForm } from 'react-hook-form';
 import ProfileTabTwo from './ProfileTabTwo';
 
 const Profile = () => {
 
-    const user = userService.getUser();
     const [tabIndex, setTabIndex] = useState(0);
     const [maxTabIndex, setMaxTabIndex] = useState(0);
     const [optionsTabs, setOptionsTabs] = useState([
@@ -36,7 +34,6 @@ const Profile = () => {
     setValue,
     watch,
     formState: { errors },
-    clearErrors
   } = useForm({
     mode:'onChange',
     defaultValues:{}

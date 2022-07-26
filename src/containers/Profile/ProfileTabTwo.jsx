@@ -1,7 +1,5 @@
 import {
   Box,
-  Button,
-  Divider,
   Flex,
   List,
   ListItem,
@@ -12,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import userService from '../../services/userService';
 import { fetchUserById } from '../../store/slices/userSlice';
 import RestaurantDefault from '../../shared/img/restaurantDefault.jpg';
+import MenuDefault from '../../shared/img/menuDefault.jpeg';
 import localService from '../../services/localService';
 import { useNavigate, NavLink } from 'react-router-dom';
 import LocalForm from '../../components/LocalForm/LocalForm';
@@ -65,10 +64,11 @@ const ProfileTabTwo = () => {
   }, []);
 
   const [files, setFiles] = useState([]);
+  const [menu, setMenu] = useState([]);
 
   const handleSave = async () => {
     localData.image = files[0] || RestaurantDefault;
-    localData.menu = files[0] || RestaurantDefault;
+    localData.menu = menu[0] || MenuDefault;
 
     const formData = new FormData();
     for (const name in localData) {
@@ -122,8 +122,18 @@ const ProfileTabTwo = () => {
             {userLocals.length &&
               userLocals.map((local, index) => (
                 <ListItem as={NavLink} to={`/detail/${local._id}`} key={index}>
-                  <Flex alignItems="baseline" gap="1rem">
-                    <Text color="brand.primary" fontSize="24px">
+                  <Flex
+                    alignItems="baseline"
+                    gap="1rem"
+                    shadow="md"
+                    borderWidth="1px"
+                    bgColor="white"
+                    p={5}
+                    flexWrap="wrap"
+                    borderRadius="1rem"
+                    mb={5}
+                  >
+                    <Text color="brand.primary" fontSize="24px" w="200px" flexShrink="0">
                       {local.name}
                     </Text>
                     <Text>{local.address}</Text>
@@ -143,6 +153,8 @@ const ProfileTabTwo = () => {
             setShowMap={setShowMap}
             files={files}
             setFiles={setFiles}
+            menu={menu}
+            setMenu={setMenu}
             handleSave={handleSave}
           />
         </Flex>

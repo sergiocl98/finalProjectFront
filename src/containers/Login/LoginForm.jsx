@@ -52,7 +52,7 @@ const LoginForm = () => {
           );
           return
         }
-        const {token, expires_in, roles, email} = response?.data?.data;
+        const {token, expires_in, email} = response?.data?.data;
 
         const expirationTime = new Date(
           new Date().getTime() + expires_in * 1000
@@ -83,7 +83,7 @@ const LoginForm = () => {
             );
             return
           }
-          const {token, expires_in, roles, email} = response?.data?.data;
+          const {token, expires_in, email} = response?.data?.data;
 
           const expirationTime = new Date(
             new Date().getTime() + expires_in * 1000
@@ -104,16 +104,6 @@ const LoginForm = () => {
     }
   }; 
 
-  /* const handleLogin = (e) => {
-    e.preventDefault();
-    login(
-    'Agent',
-    '1234',
-    null,
-    ['ADMIN']
-    );
-    navigation('/home');
-  }; */
   const { 
     control,
     getValues,

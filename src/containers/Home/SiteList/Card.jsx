@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   Flex,
-  Heading,
   HStack,
   Image,
   SimpleGrid,
@@ -10,8 +9,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { MapTrifold } from 'phosphor-react';
-import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
 import RestaurantDefault from '../../../shared/img/restaurantDefault.jpg';
 
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -95,29 +93,22 @@ const Card = ({
           </Box>
 
           {!isSearch && (
-            <Box>
-              <Text mb="2rem" mt="1rem">
-                {siteData?.properties.available
-                  ? `We still have some free tables`
-                  : 'Sorry, there are no tables available'}
-              </Text>
-              <Flex justifyContent={'space-between'}>
-                <Button
-                  as={NavLink}
-                  to={`/detail/${siteData?.properties._id}`}
-                  variant="secondary2"
-                >
-                  More Info
-                </Button>
-                <Button
-                  onClick={handleBooking}
-                  variant="primary"
-                  isDisabled={!siteData?.properties.available}
-                >
-                  Book a table
-                </Button>
-              </Flex>
-            </Box>
+            <Flex mt="1rem" justifyContent={'space-between'}>
+              <Button
+                as={NavLink}
+                to={`/detail/${siteData?.properties._id}`}
+                variant="secondary2"
+              >
+                More Info
+              </Button>
+              <Button
+                onClick={handleBooking}
+                variant="primary"
+                isDisabled={!siteData?.properties.available}
+              >
+                Book a table
+              </Button>
+            </Flex>
           )}
         </Box>
         <Box>

@@ -4,8 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   Select,
   Button,
-  Box,
-  Flex,
   Heading,
   Text,
   GridItem,
@@ -25,7 +23,7 @@ const generateOptions = people => {
   let opts = [];
   for (let i = 1; i < 13; i++) {
     opts.push(
-      <option key={i} value={i} selected={i == people ? 'selected' : ''}>
+      <option key={i} value={i} selected={i === people ? 'selected' : ''}>
         {i}
       </option>
     );
@@ -80,14 +78,13 @@ const BookingCreation = () => {
         base: `"titulo"
               "fecha"
               "gente"
-              "mesa"
               "enviar"`,
-        md: `"titulo titulo titulo"
-            "fecha gente mesa"
-            "enviar enviar enviar"`,
+        md: `"titulo titulo"
+            "fecha gente"
+            "enviar enviar"`,
       }}
-      templateRows={{ base: '1fr 1fr 1fr 1fr 1fr', md: '1fr 1fr auto' }}
-      templateColumns={{ base: '1fr', md: '1fr 1fr 1fr' }}
+      templateRows={{ base: '1fr 1fr 1fr 1fr', md: '1fr auto' }}
+      templateColumns={{ base: '1fr', md: '1fr 1fr' }}
       gap="1rem"
       bgColor="white"
       mt="1rem"
@@ -109,10 +106,6 @@ const BookingCreation = () => {
       <GridItem area="gente">
         <Text>How many people?</Text>
         <Select onChange={handlePeopleChange}>{generateOptions(people)}</Select>
-      </GridItem>
-      <GridItem area="mesa">
-        <Text>Which table?</Text>
-        <Select onChange={handlePeopleChange} disabled={true}></Select>
       </GridItem>
       <GridItem area="enviar" justifySelf="center">
         <Button onClick={handleSubmit} disabled={bookings.length === 0}>

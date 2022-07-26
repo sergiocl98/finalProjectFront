@@ -22,7 +22,8 @@ import React, { useEffect } from 'react';
 import Marker from '../../containers/Home/Marker';
 import GoogleMapReact from 'google-map-react';
 import RestaurantDefault from '../../shared/img/restaurantDefault.jpg';
-import { useDropzone } from 'react-dropzone';
+import MenuDefault from '../../shared/img/menuDefault.jpeg';
+import Dropzone, { useDropzone } from 'react-dropzone';
 import { useFieldArray, useForm, useWatch } from 'react-hook-form';
 import NumberController from '../../components/Form/NumberController';
 import { MinusCircle, PlusCircle } from 'phosphor-react';
@@ -75,6 +76,8 @@ const LocalForm = ({
   setShowMap,
   files,
   setFiles,
+  menu,
+  setMenu,
   isEdit=false,
   handleSave
 }) => {
@@ -327,7 +330,32 @@ const LocalForm = ({
           />
         </FormControl>
       </HStack>
-      {!isEdit && <Text fontSize='18px' color='black' fontWeight='400' mt='30px' mb='20px'>
+      <Text fontSize='16px' color='#1a202c' fontWeight='400' mt='30px' mb='20px'>
+               Menu
+              </Text>
+      <HStack spacing="20px" mb="30px">
+        <Image
+          alt={'menu foto'}
+          src={menu[0]?.preview || MenuDefault}
+          w="200px"
+          h="200px"
+        />
+       <Dropzone  onDrop={(acceptedFiles) => {
+                  setMenu(acceptedFiles.map(file => Object.assign(file, {
+                      preview: URL.createObjectURL(file)
+                  })));
+               }} name="menu" multiple={false}>
+               {({getRootProps, getInputProps}) => (
+                   <div {...getRootProps({className: 'dropzone'})}>
+                       <input {...getInputProps()} />
+                       <p>
+                            Drop menu image here, or click to select file
+                       </p>
+                   </div>
+               )}
+        </Dropzone>
+      </HStack>
+      {!isEdit && <Text fontSize='16px' color='#1a202c' fontWeight='400' mt='30px' mb='20px'>
                Tables
               </Text>}
 

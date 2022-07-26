@@ -31,7 +31,7 @@ class BookingService {
 
   getAvailability = (booking, date, people) => {
     if (date === '') return true;
-    const peopleFilter = booking.people == people;
+    const peopleFilter = booking.people === people;
     if (!peopleFilter) return false;
     
     const res = booking.lastBook.map(b => {

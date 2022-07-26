@@ -38,7 +38,7 @@ const SiteList = () => {
 
   return (
     <>
-      <Box>
+      <Box h={{base:"full", md:"calc(100% - 200px)"}}>
         <Text fontSize="26px" fontWeight="700">
           Near Locals
         </Text>

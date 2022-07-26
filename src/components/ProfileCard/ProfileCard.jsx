@@ -1,5 +1,5 @@
-import { Box, Icon, Text , Flex, Image} from '@chakra-ui/react'
-import { Briefcase, EnvelopeSimple, GameController, MapPinLine } from 'phosphor-react';
+import { Box, Text , Flex, Image} from '@chakra-ui/react'
+import { Briefcase, EnvelopeSimple, MapPinLine } from 'phosphor-react';
 import React from 'react';
 
 const ProfileCard = ({

@@ -2,7 +2,6 @@ import {
   Box,
   Popover,
   PopoverArrow,
-  PopoverBody,
   PopoverCloseButton,
   PopoverContent,
   PopoverHeader,
@@ -37,9 +36,9 @@ const renderIcon = (icon, name, available) => {
         left="50%"
         top="50%"
         transform="translate(-50%, -100%)"
-        opacity={available ? '1' : '.5'}
+        opacity={available? "1": "0.5"}
       >
-        <MapPin size={48} color="#ff0000" weight="fill" />
+        <MapPin size={48} color={available ? "#8BC34A" : "#E62A10"} weight="fill" />
       </Box>
     ),
     cluster: (
