@@ -153,7 +153,7 @@ const Detail = () => {
           borderRadius={10}
           position="relative"
         >
-          {siteData.user && user.userId && !isEdit && (
+          {siteData.user === user.userId && !isEdit && (
             <Button
               position="absolute"
               right="1rem"
