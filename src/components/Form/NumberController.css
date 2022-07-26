@@ -1,0 +1,62 @@
+.number-input {
+  font-size: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  height: 2.5rem;
+  width: 100%;
+  border-radius: 0.375rem;
+  border: 1px solid #e2e8f0;
+}
+
+.number-input:disabled {
+  color: #A0AEC0;
+}
+
+.white{
+  background-color: white;
+}
+
+.number-input:hover {
+  border-color: #CBD5E0;
+}
+
+.number-input:focus {
+  z-index: 1;
+  border-color: #F26E02;
+  box-shadow: 0 0 0 1px #F26E02;
+}
+
+.number-input:focus-visible {
+  z-index: 1;
+  border-color: #F26E02!important;
+  box-shadow: 0 0 0 1px #F26E02!important;
+  outline: none;
+}
+
+.no-valid{
+  font-size: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  height: 2.5rem;
+  width: 100%;
+  border-radius: 0.375rem;
+  border: 2px solid red;
+}
+
+.no-valid:focus-visible {
+  border-width: 1px;
+  z-index: 1;
+  border-color: #F26E02!important;
+  box-shadow: 0 0 0 1px #F26E02!important;
+  outline: none;
+}
+
+.read-only{
+  font-size: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  height: 2.5rem;
+  width: 100%;
+  border-radius: 0.375rem;
+  background-color: #E8F0FE;
+}
