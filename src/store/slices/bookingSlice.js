@@ -12,7 +12,7 @@ const getHalfHourTime = () => {
 
 const initialState = {
   date: getHalfHourTime(),
-  people: 0,
+  people: 2,
 };
 
 export const bookingSlice = createSlice({
