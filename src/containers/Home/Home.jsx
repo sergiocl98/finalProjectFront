@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { Box, Grid, GridItem } from '@chakra-ui/react';
+import { Box, Center, Grid, GridItem, Image } from '@chakra-ui/react';
 
 import GoogleMap from './GoogleMap';
 import HeaderPage from '../../components/HeaderPage/HeaderPage';
@@ -11,6 +11,7 @@ import { setMapView, setSites } from '../../store/slices/mapsSlice';
 import DateFilter from './DateFilter/DateFilter';
 
 import Logo from '../../shared/img/login_logo.png';
+import BannerHome from '../../shared/img/bannerHome2.png';
 
 const getLocals = async dispatcherFunction => {
   const res = await localService.getLocals();
@@ -84,7 +85,12 @@ const Home = () => {
             <SiteList gridRow="1/2" />
           </>
         ) : (
-          <Box w="full" h="full" bgColor="brand.primary" bgImage={Logo} bgPos="center" bgRepeat="no-repeat" bgSize="200px" borderRadius="2rem"></Box>
+          <Box w="auto" h="100%" bgImage={BannerHome} bgPos="center" bgSize={'cover'} bgRepeat="no-repeat" borderRadius="1rem">
+            <Center w={'100%'} h='30%'>
+              <Image src={Logo} alt="Logo" w={'300px'} h='300px' mt='50px'/> 
+            </Center>
+            
+          </Box>
         )}
       </GridItem>
     </Grid>
