@@ -96,7 +96,6 @@ const Marker = ({ id, name, lat, lng, icon, available = true }) => {
             <PopoverArrow />
             <PopoverCloseButton />
             <PopoverHeader>{name}</PopoverHeader>
-            {/* <PopoverBody>Are you sure you want to have that milkshake?</PopoverBody> */}
           </PopoverContent>
         )}
       </Popover>
