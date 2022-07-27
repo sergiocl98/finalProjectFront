@@ -334,7 +334,7 @@ const LocalForm = ({
       <Text fontSize='16px' color='#1a202c' fontWeight='400' mt='30px' mb='20px'>
                Menu
               </Text>
-      <HStack spacing="20px" mb="30px">
+      <Stack direction={['column', 'row']} spacing="20px" mb="30px">
         <Image
           alt={'menu foto'}
           src={menu[0]?.preview || MenuDefault}
@@ -355,7 +355,7 @@ const LocalForm = ({
                    </div>
                )}
         </Dropzone>
-      </HStack>
+      </Stack>
       {!isEdit && <Text fontSize='16px' color='#1a202c' fontWeight='400' mt='30px' mb='20px'>
                Tables
               </Text>}
