@@ -18,7 +18,7 @@ const ProfileTabOne = ({
     const userDetail = useSelector(SELECT_USER_DETAIL);
     const [history, setHistory] = useState([]);
     const [files, setFiles] = useState([]);
-    const [greaterThan598] = useMediaQuery('(min-width: 598px)');
+    const [greaterThan880] = useMediaQuery('(min-width: 880px)');
 
     useEffect(() => {
         if(localUser){
@@ -175,7 +175,7 @@ const ProfileTabOne = ({
           },
         } }
       >
-        <Flex w='50%' m='0 auto' flexDirection='column' mt='70px'>
+        <Flex w={{base: '70%' , md: '50%'}} m='0 auto' flexDirection='column' mt='70px'>
           <Flex mb='10px'>
             <Text fontSize='20px' color='brand.primary' fontWeight='700' mr='10px'>
               01
@@ -244,7 +244,7 @@ const ProfileTabOne = ({
                     <Text fontSize='14px' color='brand.gray1' fontWeight='700'> History </Text>
                       <Box mt='70px'>
                         <TableSimple
-                          columns={ greaterThan598 ? columns : columnsMobile}
+                          columns={ greaterThan880 ? columns : columnsMobile}
                           data={ history }
                           isSorty
                           variant='list'

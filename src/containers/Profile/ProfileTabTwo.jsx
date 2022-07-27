@@ -104,7 +104,7 @@ const ProfileTabTwo = () => {
           },
         }}
       >
-        <Flex w="50%" m="0 auto" flexDirection="column" mt="70px">
+        <Flex w={{base: '70%' , md: '50%'}} m="0 auto" flexDirection="column" mt="70px">
           <Flex mb="10px">
             <Text
               fontSize="20px"

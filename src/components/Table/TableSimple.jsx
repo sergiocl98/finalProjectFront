@@ -11,7 +11,7 @@ const TableSimple = ({
   rowProps = () => {},
   ...props
 }) => {
-  const [greaterThan598] = useMediaQuery('(min-width: 598px)');
+  const [greaterThan880] = useMediaQuery('(min-width: 880px)');
 
   const {
     getTableProps,
@@ -109,7 +109,7 @@ const TableSimple = ({
         </Flex>
 
         <Flex alignItems="center">
-          { greaterThan598 && <Text flexShrink="0" mr={8}>
+          { greaterThan880 && <Text flexShrink="0" mr={8}>
             Page{" "}
             <Text fontWeight="bold" as="span">
               {pageIndex + 1}
@@ -119,7 +119,7 @@ const TableSimple = ({
               {pageOptions.length}
             </Text>
           </Text>}
-          {greaterThan598 && <Text flexShrink="0">Go to page:</Text>}
+          {greaterThan880 && <Text flexShrink="0">Go to page:</Text>}
           <NumberInput
             ml={2}
             mr={8}
@@ -138,7 +138,7 @@ const TableSimple = ({
               <NumberDecrementStepper />
             </NumberInputStepper>
           </NumberInput>
-          {greaterThan598 && <Select
+          {greaterThan880 && <Select
             w={32}
             value={pageSize}
             onChange={(e) => {

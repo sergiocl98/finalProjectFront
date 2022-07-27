@@ -1,10 +1,11 @@
 import React from 'react';
 import logoImg from './../../../shared/img/login_logo.png';
-import { Box, Grid,  Link, Text} from '@chakra-ui/react';
+import { Box, Grid,  Link, Text, useMediaQuery} from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
 const TopbarSidebarButton = () => {
   const navigate = useNavigate();
+  const [greaterThan1200] = useMediaQuery('(min-width: 1200px)');
   const handleLogo = () => {
     navigate('/home');
   };
@@ -15,7 +16,7 @@ const TopbarSidebarButton = () => {
       <Text fontSize='18px' color='brand.gray2' alignSelf='center' display={{base:"none", lg:"inline-block"}}>
         { 'Dining Room Booking' }
       </Text>
-      <Box ml='25px' display={{base:"none", lg:"inline-block"}}>
+      <Box ml='25px' display={ greaterThan1200 ? 'inline-block' : 'none'}>
         <Box border='1px solid #F26E02' borderRadius='4px' minH='23px' w='max-content' p='2px 8px'>
           <Text fontSize='12px' color='brand.primary'>
             {'Final project'}
