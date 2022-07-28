@@ -20,12 +20,6 @@ const Login = () => {
           <Box m='20% auto 0 auto' p='10px' w={ { sm:'100%', md: '50%', lg: '50%', xl: '50%' } } position='relative'>
             <Image src={ login_logo_white } verticalAlign='middle' borderStyle='none' />
           </Box>
-          <Box m='auto' p='10px'>
-            <Box mb='30px'>
-              <Center m='auto' as='h3' fontSize='32' fontWeight='400' color='#fff'>{"Dining Room"}</Center>
-              <Center m='auto' as='h3' fontSize='18' fontWeight='400' color='#fff'>{"Book"}</Center>
-            </Box>
-          </Box>
         </Box>
 
         <LoginForm />

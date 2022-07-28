@@ -25,6 +25,8 @@ const renderIcon = (icon, name, available) => {
         position="absolute"
         left="50%"
         top="50%"
+        right="0"
+        bottom="0"
         transform="translate(-50%, -100%)"
       >
         <Person size={48} color="#ffc800" weight="fill" />
@@ -35,6 +37,7 @@ const renderIcon = (icon, name, available) => {
         position="absolute"
         left="50%"
         top="50%"
+        bottom="0"
         transform="translate(-50%, -100%)"
         opacity={available? "1": "0.5"}
       >
@@ -46,6 +49,7 @@ const renderIcon = (icon, name, available) => {
         position="absolute"
         left="50%"
         top="50%"
+        bottom="18%"
         transform="translate(-50%, -100%)"
       >
         <Tag size="lg" colorScheme="red" borderRadius="full">
@@ -84,10 +88,11 @@ const Marker = ({ id, name, lat, lng, icon, available = true }) => {
       zIndex={'10'}
       cursor="pointer"
       transform="translateX(-50%) translateY(-50%)"
-      w="100px"
-      h="100px"
+      w="50px"
+      h="50px"
+      borderRadius="full"
     >
-      <Popover>
+      <Popover w='100%' h='100%'>
         <PopoverTrigger transform="translate(-50%, -50%)">
           {renderIcon(icon, name, available)}
         </PopoverTrigger>

@@ -141,9 +141,9 @@ const LoginForm = () => {
   
 
   return (
-    <Box data-testid='log-in-form' w={ { sm:'100%', md: '50%', xl: '50%' } }>
+    <Box data-testid='log-in-form' w={ { sm:'100%', md: '50%', xl: '50%' }} >
       <Flex h='100%' direction='column' justifyContent='center'>
-        <Box ml='auto' mr='auto' h='254px'>
+        <Box marginX={{base: '20px', md: 'auto'}}>
           <Box mb='30px'>
             <Heading as='h3' mb='10px' fontSize='20' fontWeight='700' color='#696C78'>{"Sign in"}</Heading>
             <Heading data-testid='text_greeting' as='h3' fontSize='28' fontWeight='700'>{"Welcome to"}</Heading>
@@ -151,7 +151,7 @@ const LoginForm = () => {
             <Heading as='h4' p='10px 0 0 0' fontSize='18' fontWeight='500'color='#999999' lineHeight='16px'>{"Your portal to reserve a place in a restaurant"}</Heading>
           </Box>
 
-          <Box mt='50px'>
+          <Box mt='50px' marginX={{base: '20px', md: 'auto'}}>
             <form onSubmit={ (e) => handleLogin(e) }>
               <Box w='100%'>
                 <InputController 
@@ -224,15 +224,15 @@ const LoginForm = () => {
                   } }
                 />}
                 <FormControl>
-                  <Button  bgColor='brand.primary' w='370px' type='submit' isLoading={ isLoading } isDisabled={ isButtonDisabled }>{isSignup ? "Sign Up" : "Enter"}</Button> 
+                  <Button  bgColor='brand.primary' w={{base: 'full', md: '370px'}} type='submit' isLoading={ isLoading } isDisabled={ isButtonDisabled }>{isSignup ? "Sign Up" : "Enter"}</Button> 
                 </FormControl>
                 { isSignup ? <Text display='flex' justifyContent='flex-end' fontSize='14' fontWeight='500' color='brand.gray1' mr='10px'>
                      Already have an account?
-                    <Text fontSize='14' fontWeight='500' color='brand.primary' textDecoration='underline' ml='4px' onClick={() => handleIsSigningUp()}>Sign in</Text> 
+                    <Text as='span' fontSize='14' fontWeight='500' color='brand.primary' textDecoration='underline' ml='4px' onClick={() => handleIsSigningUp()}>Sign in</Text> 
                 </Text> :
                 <Text display='flex' justifyContent='flex-end' fontSize='14' fontWeight='500' color='brand.gray1' mr='10px'>
                     Don't have an account yet?
-                    <Text fontSize='14' fontWeight='500' color='brand.primary' textDecoration='underline' ml='4px' onClick={() => handleIsSigningUp()}>Sign up</Text>
+                    <Text as='span' fontSize='14' fontWeight='500' color='brand.primary' textDecoration='underline' ml='4px' onClick={() => handleIsSigningUp()}>Sign up</Text>
                 </Text>
                 }
                 <Flex position='absolute' bottom='20px' right='20px' color='#5e5e5e' fontSize='12px' alignItems='center'>
