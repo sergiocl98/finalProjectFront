@@ -1,5 +1,32 @@
-import { ArrowUpDownIcon, ChevronDownIcon, ChevronUpIcon, ArrowLeftIcon , ChevronLeftIcon, ChevronRightIcon, ArrowRightIcon} from '@chakra-ui/icons';
-import { Box, Flex, IconButton, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Select, Table, Tbody, Td, Text, Th, Thead, Tooltip, Tr, useMediaQuery } from '@chakra-ui/react';
+import {
+  ArrowUpDownIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
+  ArrowLeftIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ArrowRightIcon,
+} from '@chakra-ui/icons';
+import {
+  Box,
+  Flex,
+  IconButton,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  Select,
+  Table,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Thead,
+  Tooltip,
+  Tr,
+  useMediaQuery,
+} from '@chakra-ui/react';
 import React from 'react';
 import { useTable, useSortBy, usePagination } from 'react-table';
 
@@ -40,65 +67,74 @@ const TableSimple = ({
 
   return (
     <>
-    <Table 
-      variant={ variant } 
-      color='#686868'
-      width='100%'
-      { ...props }
-      { ...getTableProps() } 
-    >
-      <Thead>
-        { headerGroups.map( headerGroup => (
-          <Tr { ...headerGroup.getHeaderGroupProps() }>
-            { headerGroup.headers.map( column => (
-              <Th { ...column.getHeaderProps(isSorty && column.getSortByToggleProps()) }>
-                <Flex justifyContent='space-between' alignItems='center'>
-                  {column.render('Header')}
-                  {isSorty && !column.disableSortBy && <Box>
-                    { column.isSorted
-                      ? column.isSortedDesc
-                        ? <ChevronDownIcon w={ 4 } h={ 4 } color='brand.gray2'/>
-                        : <ChevronUpIcon w={ 4 } h={ 4 } color='brand.gray2'/>
-                      : <ArrowUpDownIcon w={ 3 } h={ 3 } color='brand.gray3'/>
-                    }
-                  </Box>}
-                </Flex>
-              </Th>
-              )) 
-            }
-          </Tr>
-          )) 
-        }
-      </Thead>
-      <Tbody { ...getTableBodyProps() }>
-        { page.map((row, index) => {
-          prepareRow(row);
-          return (
-            <Tr key={ index } { ...row.getRowProps(rowProps(row)) } >
-              { row.cells.map(cell => {
-                return (
-                  <Td { ...cell.getCellProps() } { ...cell.column.props }>
-                    {cell.render('Cell')}
-                  </Td>
-                );
-                }) 
-              }
+      <Table
+        variant={variant}
+        color="#686868"
+        width="100%"
+        {...props}
+        {...getTableProps()}
+      >
+        <Thead>
+          {headerGroups.map(headerGroup => (
+            <Tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map(column => (
+                <Th
+                  p={0}
+                  {...column.getHeaderProps(
+                    isSorty && column.getSortByToggleProps()
+                  )}
+                >
+                  <Flex justifyContent="center" alignItems="center">
+                    {column.render('Header')}
+                    {isSorty && !column.disableSortBy && (
+                      <Box>
+                        {column.isSorted ? (
+                          column.isSortedDesc ? (
+                            <ChevronDownIcon w={4} h={4} color="brand.gray2" />
+                          ) : (
+                            <ChevronUpIcon w={4} h={4} color="brand.gray2" />
+                          )
+                        ) : (
+                          <ArrowUpDownIcon w={3} h={3} color="brand.gray3" />
+                        )}
+                      </Box>
+                    )}
+                  </Flex>
+                </Th>
+              ))}
             </Tr>
-          );
-        }) }
-      </Tbody>
-      { props.children }
-    </Table>
-    <Flex justifyContent="space-between" m={4} alignItems="center">
+          ))}
+        </Thead>
+        <Tbody {...getTableBodyProps()}>
+          {page.map((row, index) => {
+            prepareRow(row);
+            return (
+              <Tr key={index} {...row.getRowProps(rowProps(row))}>
+                {row.cells.map(cell => {
+                  return (
+                    <Td p={"5px 0px "} {...cell.getCellProps()} {...cell.column.props}>
+                      <Flex justifyContent={'center'} alignItems={'center'}>
+                        {cell.render('Cell')}
+                      </Flex>
+                    </Td>
+                  );
+                })}
+              </Tr>
+            );
+          })}
+        </Tbody>
+        {props.children}
+      </Table>
+      <Flex justifyContent="space-between" m={4} alignItems="center">
         <Flex>
-          <Tooltip label="First Page">
+          {/* <Tooltip label="First Page">
             <IconButton
               onClick={() => gotoPage(0)}
               isDisabled={!canPreviousPage}
               icon={<ArrowLeftIcon h={3} w={3} />}
               mr={4}
             />
-          </Tooltip>
+          </Tooltip> */}
           <Tooltip label="Previous Page">
             <IconButton
               onClick={previousPage}
@@ -109,16 +145,18 @@ const TableSimple = ({
         </Flex>
 
         <Flex alignItems="center">
-          { greaterThan880 && <Text flexShrink="0" mr={8}>
-            Page{" "}
-            <Text fontWeight="bold" as="span">
-              {pageIndex + 1}
-            </Text>{" "}
-            of{" "}
-            <Text fontWeight="bold" as="span">
-              {pageOptions.length}
+          {greaterThan880 && (
+            <Text flexShrink="0" mr={8}>
+              Page{' '}
+              <Text fontWeight="bold" as="span">
+                {pageIndex + 1}
+              </Text>{' '}
+              of{' '}
+              <Text fontWeight="bold" as="span">
+                {pageOptions.length}
+              </Text>
             </Text>
-          </Text>}
+          )}
           {greaterThan880 && <Text flexShrink="0">Go to page:</Text>}
           <NumberInput
             ml={2}
@@ -126,7 +164,7 @@ const TableSimple = ({
             w={28}
             min={1}
             max={pageOptions.length}
-            onChange={(value) => {
+            onChange={value => {
               const page = value ? value - 1 : 0;
               gotoPage(page);
             }}
@@ -138,7 +176,7 @@ const TableSimple = ({
               <NumberDecrementStepper />
             </NumberInputStepper>
           </NumberInput>
-          {greaterThan880 && <Select
+          {/* {greaterThan880 && <Select
             w={32}
             value={pageSize}
             onChange={(e) => {
@@ -150,7 +188,7 @@ const TableSimple = ({
                 Show {pageSize}
               </option>
             ))}
-          </Select>}
+          </Select>} */}
         </Flex>
 
         <Flex>
@@ -161,17 +199,17 @@ const TableSimple = ({
               icon={<ChevronRightIcon h={6} w={6} />}
             />
           </Tooltip>
-          <Tooltip label="Last Page">
+          {/* <Tooltip label="Last Page">
             <IconButton
               onClick={() => gotoPage(pageCount - 1)}
               isDisabled={!canNextPage}
               icon={<ArrowRightIcon h={3} w={3} />}
               ml={4}
             />
-          </Tooltip>
+          </Tooltip> */}
         </Flex>
       </Flex>
-      </>
+    </>
   );
 };
 
