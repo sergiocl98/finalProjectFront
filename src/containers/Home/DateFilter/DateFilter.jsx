@@ -20,7 +20,6 @@ const generateOptions = () => {
 
 const DateFilter = () => {
   const { date, people } = useSelector(state => state.booking);
-  console.log(people);
   const dispatch = useDispatch();
 
   const handleDateChange = v => {

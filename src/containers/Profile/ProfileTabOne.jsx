@@ -39,7 +39,6 @@ const ProfileTabOne = ({ control, getValues, setValue }) => {
 
   useEffect(() => {
     if (userDetail && userDetail.bookings) {
-      console.log(userDetail.bookings);
       setValue('name', userDetail.name);
       setValue('email', userDetail.email);
       calculateHistory(userDetail.bookings);
@@ -48,7 +47,6 @@ const ProfileTabOne = ({ control, getValues, setValue }) => {
 
   const calculateHistory = history => {
     let historyArray = [];
-    console.log(history)
     history.forEach(book => {
       try{
         historyArray.push({
@@ -121,7 +119,6 @@ const ProfileTabOne = ({ control, getValues, setValue }) => {
   };
 
   const renderCellName = row => {
-    console.log(row);
     return (
       <Flex align="center">
         <Text>{row.original.local?.name}</Text>
