@@ -42,8 +42,6 @@ const WrapperRoutesLayout = () => {
           {/* Ho route */}
           <Route path="/home" element={<Home />} />
 
-          {/* Loans routes */}
-          {/* <Route path='/loans' element={ <RoleRoute component={ <Loans /> } roles={ [] } /> } /> */}
           <Route
             path="/profile"
             element={<RoleRoute component={<Profile />} roles={[]} />}

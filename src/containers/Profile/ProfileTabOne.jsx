@@ -118,7 +118,7 @@ const ProfileTabOne = ({ control, getValues, setValue }) => {
     return result;
   };
 
-  const renderCellName = row => {
+  const renderCellName = (row) => {
     return (
       <Flex align="center">
         <Text>{row.original.local?.name}</Text>

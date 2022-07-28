@@ -20,7 +20,6 @@ class AuthService {
              password: password,
             }).then(response => {
                 if (response.data) {
-                    console.log('Response en auth',response);
                     return response;
                 }
         });
@@ -33,7 +32,6 @@ class AuthService {
              name: name
             }).then(response => {
                 if (response.data) {
-                    console.log('Response en auth',response);
                     return response;
                 }
         });

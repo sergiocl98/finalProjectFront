@@ -7,10 +7,8 @@ const HeaderPage = ({
   title, 
   description, 
   hasGoBack,
-  hasLoanList,
   urlBack
 }) => {
-  // const {t} = useTranslation('global');
   const navigate = useNavigate();
   const handleGo = (url) => {
     navigate(url);

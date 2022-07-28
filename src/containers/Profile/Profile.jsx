@@ -40,7 +40,7 @@ const Profile = () => {
   });
 
   return (
-    <Box data-testid='container_loans_form' h='calc(100vh - 130px)'>
+    <Box h='calc(100vh - 130px)'>
       <Fade in={ true } style={ { height:'100%'} }>
         <HeaderPage
           title={ "My profile" } 
