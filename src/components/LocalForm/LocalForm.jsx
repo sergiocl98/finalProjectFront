@@ -31,38 +31,7 @@ import NumberController from '../../components/Form/NumberController';
 import { MinusCircle, PlusCircle } from 'phosphor-react';
 import localService from '../../services/localService';
 import { useNavigate } from 'react-router-dom';
-
-// Google maps API KEY
-const apikey = process.env.REACT_APP_API_KEY || '';
-
-const mapStyles = {
-  styles: [
-    {
-      featureType: 'poi',
-      stylers: [
-        {
-          visibility: 'off',
-        },
-      ],
-    },
-    {
-      featureType: 'administrative',
-      stylers: [
-        {
-          visibility: 'off',
-        },
-      ],
-    },
-    {
-      featureType: 'transit',
-      stylers: [
-        {
-          visibility: 'off',
-        },
-      ],
-    },
-  ],
-};
+import { mapStyles, apikey } from '../../utils/constants';
 
 const BOOKINGS_DEFAULT = [
   {

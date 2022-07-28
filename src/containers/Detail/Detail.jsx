@@ -266,7 +266,7 @@ const Detail = () => {
           <ModalHeader>Menu</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Image alt={'menu'} src={siteData?.menu} objectFit={'cover'} />
+            <Image alt={'menu'} src={siteData?.menu || MenuDefault} objectFit={'cover'} />
           </ModalBody>
           <ModalFooter>
             <Button onClick={onClose}>Close</Button>
