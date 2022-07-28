@@ -21,7 +21,7 @@ import ProfileCard from "../../components/ProfileCard/ProfileCard"
         objectFit="cover"
         boxShadow="lg"
       >
-        <Heading as="h2" color="white">
+        <Heading as="h2" color="white" textAlign={"center"}>
           Reserve, Quick and Easy!
         </Heading>
       </Flex>
