@@ -37,14 +37,6 @@ const getSiteData = async id => {
   return res;
 };
 
-const handleGetDirections = siteData => {
-  //link para visitar ese sitio en google maps
-  window.open(
-    `https://www.google.com/maps/dir//${siteData.coords.lat},${siteData.coords.lng}/?travelmode=walking`,
-    '_blank'
-  );
-};
-
 const Feature = ({ text, icon, iconBg }) => {
   return (
     <Stack direction={'row'} align={'center'}>
@@ -184,7 +176,7 @@ const Detail = () => {
                   ))}
                 </HStack>
                 <Heading>{siteData?.name}</Heading>
-                <Flex onClick={() => handleGetDirections(siteData)}>
+                <Flex onClick={() => localService.getLocalGoogleMapsURL(siteData._id)}>
                   <Text color={'gray.500'} fontSize={'lg'} mr="4px">
                     {siteData?.address}
                   </Text>
@@ -218,13 +210,13 @@ const Detail = () => {
                     onClick={onOpen}
                     isDisabled={siteData?.menu === undefined}
                   >
-                    Open Menu
+                    Menu
                   </Button>
                   <Button
                     variant="primary"
                     onClick={() => handleGo(`/book/${idLocal}`)}
                   >
-                    Book a table
+                    Book
                   </Button>
                 </HStack>
               </Stack>

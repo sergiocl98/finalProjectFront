@@ -77,7 +77,7 @@ const Card = ({
               alignItems="center"
               onClick={() =>
                 localService.getLocalGoogleMapsURL(
-                  siteData.geometry.coordinates
+                  siteData.properties._id
                 )
               }
               whiteSpace={'wrap'}

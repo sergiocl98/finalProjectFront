@@ -54,14 +54,13 @@ const BookingConfirmation = () => {
             base: `"titulo"
               "fecha"
               "gente"
-              "mesa"
               "directions"`,
-            md: `"titulo titulo titulo"
-            "fecha gente mesa"
-            "directions directions directions"`,
+            md: `"titulo titulo"
+            "fecha gente"
+            "directions directions"`,
           }}
-          templateRows={{ base: '1fr 1fr 1fr 1fr 1fr', md: '1fr 1fr auto' }}
-          templateColumns={{ base: '1fr', md: '1fr 1fr 1fr' }}
+          templateRows={{ base: '1fr 1fr 1fr 1fr', md: '1fr 1fr auto' }}
+          templateColumns={{ base: '1fr', md: '1fr 1fr' }}
           gap="1rem"
           bgColor="white"
           mt="1rem"
@@ -82,14 +81,10 @@ const BookingConfirmation = () => {
               <UsersThree size={32} /> {bookingData?.people} people
             </Flex>
           </GridItem>
-          <GridItem area="mesa">
-            <Text>table type</Text>
-          </GridItem>
           <GridItem area="directions" justifySelf="center">
             <Button
               onClick={() => {
-                const { lat, lng } = bookingData?.local.coords;
-                localService.getLocalGoogleMapsURL([lng, lat]);
+                localService.getLocalGoogleMapsURL(bookingData.local);
               }}
             >
               How to get there

@@ -5,7 +5,7 @@ import { setDate, setPeople } from '../../../store/slices/bookingSlice';
 import CustomDatePicker from '../../../components/DatePicker/CustomDatePicker';
 import { UsersThree } from 'phosphor-react';
 
-const generateOptions = people => {
+const generateOptions = () => {
   let opts = [];
   for (let i = 1; i < 13; i++) {
     opts.push(
@@ -49,7 +49,7 @@ const DateFilter = () => {
           defaultValue={people}
           focusBorderColor="brand.primary"
         >
-          {generateOptions(people)}
+          {generateOptions()}
         </Select>
       </Flex>
     </Flex>
