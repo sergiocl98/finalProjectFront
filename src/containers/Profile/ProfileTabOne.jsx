@@ -151,17 +151,11 @@ const ProfileTabOne = ({ control, getValues, setValue }) => {
       Cell: ({ cell: { value } }) => (value ? value : '-'),
     },
     {
-      Header: 'Date Start',
+      Header: 'Date',
       accessor: 'dateStart',
       Cell: ({ cell: { value } }) =>
         value ? formatDate(new Date(value)) : '-',
-    },
-    {
-      Header: 'Date End',
-      accessor: 'dateEnd',
-      Cell: ({ cell: { value } }) =>
-        value ? formatDate(new Date(value)) : '-',
-    },
+    }
   ]);
 
   const columnsMobile = useMemo(() => [
@@ -176,7 +170,7 @@ const ProfileTabOne = ({ control, getValues, setValue }) => {
       Cell: ({ cell: { value } }) => (value ? value : '-'),
     },
     {
-      Header: 'Date Start',
+      Header: 'Date',
       accessor: 'dateStart',
       Cell: ({ cell: { value } }) => (value ? formatDate(value) : '-'),
     },

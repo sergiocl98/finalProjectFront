@@ -50,5 +50,11 @@ class LocalService {
       );
     });
   };
+
+  deleteLocal = local => {
+    return restService.delete(`locales/${local}`).then(res => {
+      if (res.data) return res.data;
+    });
+  };
 }
 export default new LocalService();
