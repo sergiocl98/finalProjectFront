@@ -106,7 +106,7 @@ const Card = ({
                 variant="primary"
                 isDisabled={!siteData?.properties.available}
               >
-                Book a table
+                Book
               </Button>
             </Flex>
           )}
