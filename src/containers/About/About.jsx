@@ -1,5 +1,5 @@
-import { Box, Center, Flex, Heading, HStack, Text, Stack } from '@chakra-ui/react';
-import { Bird, Camera, Flask, GameController} from 'phosphor-react';
+import { Box, Center, Flex, Heading, Text } from '@chakra-ui/react';
+import { Camera, Flask, GameController} from 'phosphor-react';
 import React from 'react';
 import GuillermoPicture from '../../shared/img/Guillermo2.jpg';
 import SergioPicture from '../../shared/img/Sergio.jpg';

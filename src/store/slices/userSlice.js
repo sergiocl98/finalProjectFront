@@ -23,8 +23,6 @@ export const fetchUserById = createAsyncThunk(
 export const putUserById = createAsyncThunk(
   'user/putUserById', 
   async ({id,user}, { rejectWithValue }) => {
-    console.log('ID',id);
-    console.log('USER',user);
     try {
       const response = await userService.editUserById({id: id,user: user});
       return response;
@@ -67,7 +65,6 @@ export const userSlice = createSlice({
       state.loading = true;
     },
     [putUserById.fulfilled]: (state, { payload }) => {
-      console.log(payload);
       state.status = 'succeeded';
       state.userDetail = payload;
       state.error = payload?.error;

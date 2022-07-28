@@ -110,9 +110,6 @@ const LocalForm = ({
     setLocalData({...localData, bookings: getValues('bookings')});
   }, [watching]);
 
-  console.log(localData)
-
-  
 
   const { getRootProps, getInputProps } = useDropzone({
     maxFiles: 1,
@@ -158,7 +155,6 @@ const LocalForm = ({
   };
 
   const onCircleInteraction = (childKey, childProps, mouse) => {
-    // function is just a stub to test callbacks
     setMapData({
       ...mapData,
       draggable: false,
@@ -166,12 +162,9 @@ const LocalForm = ({
       lng: mouse.lng,
     });
 
-    console.log('onCircleInteraction called with', childKey, childProps, mouse);
   };
   const onCircleInteraction3 = (childKey, childProps, mouse) => {
     setMapData({ ...mapData, draggable: true });
-    // function is just a stub to test callbacks
-    console.log('onCircleInteraction called with', childKey, childProps, mouse);
   };
 
   const handleOnChange = ({ center, zoom }) => {
