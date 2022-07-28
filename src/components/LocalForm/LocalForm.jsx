@@ -110,7 +110,6 @@ const LocalForm = ({
     setLocalData({...localData, bookings: getValues('bookings')});
   }, [watching]);
 
-
   const { getRootProps, getInputProps } = useDropzone({
     maxFiles: 1,
     accept: {
@@ -394,8 +393,6 @@ const LocalForm = ({
             onChildMouseMove={(childKey, childProps, mouse) =>
               onCircleInteraction(childKey, childProps, mouse)
             }
-            onChildClick={() => console.log('child click')}
-            onClick={e => console.log('mapClick', e)}
           >
             <Marker
               key="local"

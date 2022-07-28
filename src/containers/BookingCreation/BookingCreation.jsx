@@ -13,17 +13,18 @@ import { setDate, setPeople } from '../../store/slices/bookingSlice';
 import localService from '../../services/localService';
 import CustomDatePicker from '../../components/DatePicker/CustomDatePicker';
 import bookingService from '../../services/bookingService';
+import { UsersThree } from 'phosphor-react';
 
 const getSiteData = async (id, setSiteData) => {
   const res = await localService.getLocalById(id);
   setSiteData(res);
 };
 
-const generateOptions = people => {
+const generateOptions = () => {
   let opts = [];
   for (let i = 1; i < 13; i++) {
     opts.push(
-      <option key={i} value={i} selected={i === people ? 'selected' : ''}>
+      <option key={i} value={i}>
         {i}
       </option>
     );
@@ -53,7 +54,7 @@ const BookingCreation = () => {
   };
 
   const handleSubmit = async () => {
-    const res = await bookingService.createBooking(bookings, date);
+    const res = await bookingService.createBooking(local, bookings, date);
     if (res) {
       navigate(`/confirmation/${res._id}`);
     }
@@ -105,7 +106,17 @@ const BookingCreation = () => {
       </GridItem>
       <GridItem area="gente">
         <Text>How many people?</Text>
-        <Select onChange={handlePeopleChange}>{generateOptions(people)}</Select>
+
+        <Select
+          variant="outline"
+          bgColor={'white'}
+          icon={<UsersThree size={32} weight="thin" />}
+          onChange={handlePeopleChange}
+          defaultValue={people}
+          focusBorderColor="brand.primary"
+        >
+          {generateOptions()}
+        </Select>
       </GridItem>
       <GridItem area="enviar" justifySelf="center">
         <Button onClick={handleSubmit} disabled={bookings.length === 0}>

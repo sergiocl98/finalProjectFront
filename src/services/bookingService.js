@@ -2,7 +2,7 @@ import restService from './restService';
 import userService from './userService';
 
 class BookingService {
-  createBooking = (bookings, date) => {
+  createBooking = (local, bookings, date) => {
     const endPoint = `booking/request`;
 
     const user = userService.getUser();
@@ -12,6 +12,7 @@ class BookingService {
 
     return restService
       .patch(endPoint, {
+        local: local,
         user: user.userId,
         bookings,
         lastBook: { start, end },

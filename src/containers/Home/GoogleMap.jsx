@@ -42,7 +42,7 @@ const mapStyles = {
 };
 
 // Google maps API KEY
-const apikey = ''; //process.env.REACT_APP_API_KEY || '';
+const apikey = process.env.REACT_APP_API_KEY || '';
 
 const GoogleMap = () => {
   const dispatch = useDispatch();
