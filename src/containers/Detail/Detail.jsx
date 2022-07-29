@@ -19,6 +19,8 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
+  List,
+  ListItem,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -65,7 +67,6 @@ const Detail = () => {
   const handleGo = url => {
     navigate(url);
   };
-  const idLocal = useParams(id);
 
   const [isEdit, setIsEdit] = useState(false);
 
@@ -176,7 +177,11 @@ const Detail = () => {
                   ))}
                 </HStack>
                 <Heading>{siteData?.name}</Heading>
-                <Flex onClick={() => localService.getLocalGoogleMapsURL(siteData._id)}>
+                <Flex
+                  onClick={() =>
+                    localService.getLocalGoogleMapsURL(siteData._id)
+                  }
+                >
                   <Text color={'gray.500'} fontSize={'lg'} mr="4px">
                     {siteData?.address}
                   </Text>
@@ -214,7 +219,7 @@ const Detail = () => {
                   </Button>
                   <Button
                     variant="primary"
-                    onClick={() => handleGo(`/book/${idLocal}`)}
+                    onClick={() => handleGo(`/book/${id}`)}
                   >
                     Book
                   </Button>
@@ -228,6 +233,53 @@ const Detail = () => {
                   objectFit={'cover'}
                 />
               </Flex>
+              {siteData.user === user.userId && (
+                <Box>
+                  <Heading>Tables</Heading>
+                  {siteData.bookings
+                    .sort((a, b) => a.people - b.people)
+                    .map(b => {
+                      const todayDate = new Date();
+                      const todayString = todayDate.toLocaleDateString('es-ES');
+                      const todayBooks = b.lastBook.filter(lb => {
+                        const qDate = new Date(lb.start);
+                        return (
+                          qDate.toLocaleDateString('es-ES') === todayString
+                        );
+                      });
+                      return (
+                        <Box>
+                          <Text fontSize="18px" fontWeight="700">
+                            Table for {b.people}
+                          </Text>
+                          <List
+                            shadow="md"
+                            borderWidth="1px"
+                            bgColor="white"
+                            p={5}
+                            borderRadius="1rem"
+                            mb={5}
+                          >
+                            {todayBooks.length === 0 ? (
+                              <ListItem ml="10px">Free today</ListItem>
+                            ) : (
+                              <>
+                                {todayBooks.map(tb => {
+                                  const date = new Date(tb.start);
+                                  return (
+                                    <ListItem ml="10px">
+                                      {date.toLocaleString('es-ES')}
+                                    </ListItem>
+                                  );
+                                })}
+                              </>
+                            )}
+                          </List>
+                        </Box>
+                      );
+                    })}
+                </Box>
+              )}
             </SimpleGrid>
           ) : (
             <Box>
@@ -266,7 +318,11 @@ const Detail = () => {
           <ModalHeader>Menu</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Image alt={'menu'} src={siteData?.menu || MenuDefault} objectFit={'cover'} />
+            <Image
+              alt={'menu'}
+              src={siteData?.menu || MenuDefault}
+              objectFit={'cover'}
+            />
           </ModalBody>
           <ModalFooter>
             <Button onClick={onClose}>Close</Button>

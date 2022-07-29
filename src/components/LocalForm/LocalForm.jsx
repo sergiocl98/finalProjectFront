@@ -157,7 +157,6 @@ const LocalForm = ({
   };
 
   const handleDelete = async () => {
-    console.log(localData)
     await localService.deleteLocal(localData._id)
     navigate("/home")
 
