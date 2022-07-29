@@ -25,6 +25,7 @@ export const mapStyles = {
         ],
       },
     ],
+    gestureHandling:"greedy"
   };
 
 // Google maps API KEY
